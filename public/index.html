@@ -20,8 +20,10 @@
   --mono:Garamond,'EB Garamond','Apple Garamond',Georgia,serif;
 }
 *{box-sizing:border-box;margin:0}
-html{scroll-behavior:smooth;scrollbar-gutter:stable}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* The title and study overview each settle as a full-screen stop. The Index
+   handoff disables snapping so the database scrolls freely after entry. */
+html{scroll-behavior:smooth;scroll-snap-type:y mandatory;scrollbar-gutter:stable}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;scroll-snap-type:y proximity}}
 body{background:var(--night);color:var(--ink);font:15.5px/1.6 var(--sans);isolation:isolate}
 ::selection{background:var(--ink);color:var(--night)}
 img{display:block;max-width:100%}
