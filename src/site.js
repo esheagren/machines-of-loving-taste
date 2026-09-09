@@ -1945,7 +1945,7 @@ function choiceDistribution(id,domainId,probe){
 }
 // Alternative index view. Average each model's named-answer distribution, so
 // adaptive sample counts do not give more heavily sampled models more weight.
-var indexMode='grid',riverModel=null,riverChoice=null;
+var indexMode='river',riverModel=null,riverChoice=null;
 var riverData=null,riverResize=null,riverDrawFrame=0;
 function riverPercent(n){return n>0&&n<.01?'<1%':Math.round(n*100)+'%'}
 function riverDataset(){
@@ -2837,11 +2837,11 @@ const BODY = `
       <div class="index-view-switch">
         <h2 id="index-field-title"></h2>
         <div class="index-switch" role="group" aria-label="Index view">
-        <button type="button" data-index-mode="grid" aria-pressed="true" aria-controls="choicematrix">Grid</button>
-        <button type="button" data-index-mode="river" aria-pressed="false" aria-controls="riverindex">Flow</button>
+        <button type="button" data-index-mode="river" aria-pressed="true" aria-controls="riverindex">Flow</button>
+        <button type="button" data-index-mode="grid" aria-pressed="false" aria-controls="choicematrix">Grid</button>
       </div></div>
-      <div class="choicematrix" id="choicematrix"></div>
-      <div class="riverindex" id="riverindex" hidden></div>
+      <div class="choicematrix" id="choicematrix" hidden></div>
+      <div class="riverindex" id="riverindex"></div>
     </div>
   </div>
   <div class="rail-veil" id="railveil"></div>
