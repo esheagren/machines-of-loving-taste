@@ -328,14 +328,17 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
 .index-switch button:hover{color:var(--ink)}
 .index-switch button:focus-visible,.riverindex button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
 #choicematrix[hidden],#riverindex[hidden]{display:none}
-.riverindex{--river-tone:rgb(110,209,145);padding-bottom:24px;overflow-anchor:none}
+.riverindex{--river-columns:minmax(280px,.85fr) minmax(60px,1fr) 132px;--river-choice-pad:16px;--river-score-width:58px;padding-bottom:24px;overflow-anchor:none}
 .river-selection{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:12px 0;margin-bottom:22px}
+.river-selection[hidden]{display:none}
 .river-selection-title{font-size:18px;color:var(--ink);display:block;line-height:1.3}
 .river-selection-note{font-size:14px;color:var(--dim);display:block;margin-top:4px}
 .river-selection-actions{display:flex;gap:20px;flex-wrap:wrap;flex:none}
 .river-selection-actions .text-link{font-size:14px}
-.river-keys{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin-bottom:16px}
-.river-stage{position:relative;display:grid;grid-template-columns:minmax(280px,.85fr) minmax(60px,1fr) 132px;align-items:stretch;isolation:isolate}
+.river-keys{display:grid;grid-template-columns:var(--river-columns);font-size:13px;color:var(--dim);margin-bottom:16px}
+.river-choice-heading{grid-column:1;min-width:0;padding-right:calc(var(--river-choice-pad) + 1px);display:flex;flex-direction:column;gap:10px}
+.river-model-heading{grid-column:3;text-align:right}
+.river-stage{position:relative;display:grid;grid-template-columns:var(--river-columns);align-items:stretch;isolation:isolate}
 .river-paths{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:visible}
 .river-paths path{fill:none;stroke-opacity:.16;transition:stroke-opacity .18s}
 .river-paths path.river-lit{stroke-opacity:.8}
@@ -351,35 +354,33 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
 .river-dot:disabled i{background:transparent;border:1px solid var(--faint)}
 .river-muted{opacity:.28}
 .river-choices{grid-column:1;grid-row:1;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;justify-content:space-around;gap:10px}
-.river-choice{position:relative;width:100%;text-align:left;padding:14px 16px 14px 0;border:0;border-right:1px solid var(--hair);background:var(--night);color:var(--ink);font:18px/1.25 var(--serif);cursor:pointer;min-height:60px;transition:opacity .18s}
+.river-choice{position:relative;width:100%;text-align:left;padding:14px var(--river-choice-pad) 14px 0;border:0;border-right:1px solid var(--hair);background:var(--night);color:var(--ink);font:18px/1.25 var(--serif);cursor:pointer;min-height:60px;transition:opacity .18s}
 .river-choice:hover,.river-choice[aria-pressed="true"]{border-right-color:var(--ink)}
-.river-choice-line{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.river-choice-line{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 14px;align-items:baseline}
 .river-choice-name{min-width:0;overflow-wrap:anywhere}
 .river-share{font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.river-shares{display:inline-flex;gap:10px;flex:none}
+.river-shares,.river-legend{display:grid;grid-template-columns:repeat(2,var(--river-score-width));gap:10px;text-align:right;margin-left:auto;flex:none}
 .river-share{min-width:3.2ch;text-align:right}
 .river-favorite{color:rgb(110,209,145)}
 .river-overrated{color:rgb(232,104,98)}
-.river-legend{display:flex;gap:14px;margin-top:7px}
 .river-sub{display:block;font-size:14px;color:var(--dim);margin-top:4px;line-height:1.3}
 .river-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--dim);border-top:1px solid var(--hair);padding-top:16px;margin-top:24px}
 .river-empty{font-size:18px;color:var(--dim);padding:32px 0}
 @container(max-width:700px){
- .river-stage{grid-template-columns:minmax(160px,1.1fr) minmax(28px,1fr) 88px}
+ .riverindex{--river-columns:minmax(160px,1.1fr) minmax(28px,1fr) 88px;--river-choice-pad:10px}
  .river-dots{grid-template-columns:repeat(2,42px)}
  .river-dot{width:42px;height:42px}
  .river-selection{align-items:flex-start;flex-direction:column;gap:4px}
  .river-selection-actions{gap:20px}
- .river-choice{font-size:16px;padding:12px 10px 12px 0}
+ .river-choice{font-size:16px;padding:12px var(--river-choice-pad) 12px 0}
  .river-share{font-size:14px}
  .river-choice-line{gap:8px}
 }
 @media(max-width:480px){
- .river-stage{grid-template-columns:minmax(0,1.6fr) minmax(20px,1fr) 84px}
+ .riverindex{--river-columns:minmax(0,1fr) 20px 84px;--river-score-width:50px}
  .river-family>span{font-size:12px}
- .river-keys{font-size:12px;gap:16px}
- .river-keys>span:first-child{max-width:180px}
- .river-keys>span:last-child{text-align:right;max-width:84px}
+ .river-keys{font-size:12px}
+ .river-choice-name{width:100%}
  #index-field-title{font-size:28px;width:100%}
  .index-view-switch{justify-content:space-between;gap:12px}
  .index-switch button{padding:8px 12px}
@@ -831,10 +832,10 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
         <span>Fields</span><b id="railcur"></b>
       </button>
       <div class="index-view-switch">
-        <h2 id="index-field-title" hidden></h2>
+        <h2 id="index-field-title"></h2>
         <div class="index-switch" role="group" aria-label="Index view">
         <button type="button" data-index-mode="grid" aria-pressed="true" aria-controls="choicematrix">Grid</button>
-        <button type="button" data-index-mode="river" aria-pressed="false" aria-controls="riverindex">River</button>
+        <button type="button" data-index-mode="river" aria-pressed="false" aria-controls="riverindex">Flow</button>
       </div></div>
       <div class="choicematrix" id="choicematrix"></div>
       <div class="riverindex" id="riverindex" hidden></div>
@@ -1549,20 +1550,19 @@ function renderIndex(){
   var river=indexMode==='river';
   document.getElementById('choicematrix').hidden=river;
   document.getElementById('riverindex').hidden=!river;
-  document.getElementById('index-field-title').hidden=!river;
+  var domain=D.domains.find(function(d){return d.id===curDomain});
+  document.getElementById('index-field-title').textContent=domain.label;
   document.querySelectorAll('[data-index-mode]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.indexMode===indexMode))});
   if(river)renderRiver();else renderChoiceMatrices();
 }
 function renderRiver(focusSelector){
   riverData=riverDataset();
   var data=riverData,root=document.getElementById('riverindex');
-  var domain=D.domains.find(function(d){return d.id===curDomain});
   var families=[];
   D.models.forEach(function(m,mi){var group=families.find(function(g){return g.name===m.family});if(!group){group={name:m.family,items:[]};families.push(group)}group.items.push({m:m,mi:mi})});
-  document.getElementById('index-field-title').textContent=domain.label;
   root.innerHTML=
     '<div class="river-selection" id="river-selection" aria-live="polite"></div>'+
-    (data.available?'<div class="river-keys"><span>'+(data.selected<0?'Average share of answers':'Share of this model’s answers')+'<span class="river-legend"><span class="river-favorite">Favorite</span><span class="river-overrated">Overrated</span></span></span><span>Models by family</span></div><div class="river-stage" id="river-stage"><svg class="river-paths" id="river-paths" aria-hidden="true"></svg><ol class="river-choices">'+data.shown.map(function(r,i){return '<li><button type="button" class="river-choice" data-river-choice="'+i+'" aria-pressed="'+(riverChoice===r.k)+'"><span class="river-choice-line"><span class="river-choice-name">'+esc(r.disp)+'</span><span class="river-shares">'+['f','o'].map(function(probe){var label=probe==='f'?'Favorite':'Overrated',pct=r.shares[probe]===null?'—':riverPercent(r.shares[probe]);return '<span class="river-share '+(probe==='f'?'river-favorite':'river-overrated')+'" aria-label="'+label+': '+(r.shares[probe]===null?'no answers':esc(pct))+'" title="'+label+'">'+esc(pct)+'</span>'}).join('')+'</span></span>'+(r.sub?'<span class="river-sub">'+esc(r.sub)+'</span>':'')+'</button></li>'}).join('')+'</ol><div class="river-models">'+families.map(function(g){return '<div class="river-family"><span>'+esc(g.name)+'</span><div class="river-dots">'+g.items.map(function(item){var m=item.m,n=data.distributions.f[item.mi].n+data.distributions.o[item.mi].n;return '<button type="button" class="river-dot" style="--model-color:'+FAMC[famOf[m.family]]+'" data-river-model="'+item.mi+'" aria-label="'+esc(m.label)+(n?' · '+n+' named answers':' · no answers in this field')+'" title="'+esc(m.label)+(n?'':' — no data')+'" aria-pressed="'+(riverModel===m.id)+'"'+(n?'':' disabled')+'><i aria-hidden="true"></i></button>'}).join('')+'</div></div>'}).join('')+'</div></div>':'<p class="river-empty">No named answers are available in this field yet.</p>')+
+    (data.available?'<div class="river-keys"><span class="river-choice-heading">'+(data.selected<0?'Average share of answers':'Share of this model’s answers')+'<span class="river-legend"><span class="river-favorite">Favorite</span><span class="river-overrated">Overrated</span></span></span><span class="river-model-heading">Models by family</span></div><div class="river-stage" id="river-stage"><svg class="river-paths" id="river-paths" aria-hidden="true"></svg><ol class="river-choices">'+data.shown.map(function(r,i){return '<li><button type="button" class="river-choice" data-river-choice="'+i+'" aria-pressed="'+(riverChoice===r.k)+'"><span class="river-choice-line"><span class="river-choice-name">'+esc(r.disp)+'</span><span class="river-shares">'+['f','o'].map(function(probe){var label=probe==='f'?'Favorite':'Overrated',pct=r.shares[probe]===null?'—':riverPercent(r.shares[probe]);return '<span class="river-share '+(probe==='f'?'river-favorite':'river-overrated')+'" aria-label="'+label+': '+(r.shares[probe]===null?'no answers':esc(pct))+'" title="'+label+'">'+esc(pct)+'</span>'}).join('')+'</span></span>'+(r.sub?'<span class="river-sub">'+esc(r.sub)+'</span>':'')+'</button></li>'}).join('')+'</ol><div class="river-models">'+families.map(function(g){return '<div class="river-family"><span>'+esc(g.name)+'</span><div class="river-dots">'+g.items.map(function(item){var m=item.m,n=data.distributions.f[item.mi].n+data.distributions.o[item.mi].n;return '<button type="button" class="river-dot" style="--model-color:'+FAMC[famOf[m.family]]+'" data-river-model="'+item.mi+'" aria-label="'+esc(m.label)+(n?' · '+n+' named answers':' · no answers in this field')+'" title="'+esc(m.label)+(n?'':' — no data')+'" aria-pressed="'+(riverModel===m.id)+'"'+(n?'':' disabled')+'><i aria-hidden="true"></i></button>'}).join('')+'</div></div>'}).join('')+'</div></div>':'<p class="river-empty">No named answers are available in this field yet.</p>')+
     '<div class="river-footer"><span id="river-hover"></span></div>';
 
   root.querySelectorAll('[data-river-model]').forEach(function(b){
@@ -1575,7 +1575,8 @@ function renderRiver(focusSelector){
   root.querySelectorAll('[data-river-choice]').forEach(function(b){
     var i=+b.dataset.riverChoice,r=data.shown[i];
     b.addEventListener('click',function(){
-      riverChoice=riverChoice===r.k?null:r.k;renderRiver('[data-river-choice="'+i+'"]');
+      riverChoice=r.k;renderRiver('[data-river-choice="'+i+'"]');
+      openEntityCard(curDomain,r.e,r.sub,r.disp);
     });
     function highlight(){highlightRiver(data.selected>=0?data.selected:null,i)}
     b.addEventListener('mouseenter',highlight);b.addEventListener('focus',highlight);
@@ -1591,7 +1592,9 @@ function renderRiverSelection(){
   var data=riverData,box=document.getElementById('river-selection');
   var model=data.selected>=0?D.models[data.selected]:null;
   var choice=data.all.find(function(r){return r.k===riverChoice});
-  var title=choice?choice.disp:model?model.label:'Select a model dot or a choice to trace its answers.';
+  box.hidden=!model&&!choice;
+  if(box.hidden){box.innerHTML='';return}
+  var title=choice?choice.disp:model.label;
   var note=choice?(model?model.label:choice.models+' '+(choice.models===1?'model named':'models named')+' this choice'):model?(data.distributions.f[data.selected].n+data.distributions.o[data.selected].n)+' named answers':'';
   var actions=choice?(model?['f','o'].filter(function(probe){return choice.rates[probe][data.selected]>0}).map(function(probe){return '<button type="button" class="text-link '+(probe==='f'?'river-favorite':'river-overrated')+'" data-river-answer="'+probe+'">'+(probe==='f'?'Read favorite answers':'Read overrated answers')+'</button>'}).join(''):'<button type="button" class="text-link" id="river-detail">Explore this choice</button>'):model?'<button type="button" class="text-link" id="river-profile">Model profile</button>':'';
   box.innerHTML='<div><span class="river-selection-title">'+esc(title)+'</span>'+(note?'<span class="river-selection-note">'+esc(note)+'</span>':'')+'</div><div class="river-selection-actions">'+actions+((model||choice)?'<button type="button" class="text-link" id="river-clear">Clear selection</button>':'')+'</div>';
@@ -1702,7 +1705,6 @@ function indexChoices(domainId){
   return {choices:choices,favD:favD,ovrD:ovrD};
 }
 function choiceMatrixHTML(domainId){
-  var domain=D.domains.find(function(d){return d.id===domainId});
   var data=indexChoices(domainId),choices=data.choices,favD=data.favD,ovrD=data.ovrD;
   var html='<section class="matrix-panel" data-domain="'+domainId+'"><div class="bo-scroll"><div class="bo-matrix" style="grid-template-columns:var(--labw,192px) repeat('+D.models.length+',56px)">'+
     '<div class="bo-famrow"></div>'+familyRuns.map(function(g){
@@ -1712,7 +1714,7 @@ function choiceMatrixHTML(domainId){
         :'<i class="co-mono" style="background:'+FAMC[famOf[g.family]]+'">'+esc(g.family.charAt(0).toUpperCase())+'</i>';
       return '<div class="bo-fam" style="grid-column:span '+g.n+'"><span>'+esc(g.family)+'</span>'+mark+'</div>'
     }).join('')+
-    '<div class="bo-corner">'+esc((domain&&domain.label)||domainId)+'</div>'+D.models.map(function(m,i){return '<div class="bo-col" data-m="'+m.id+'" role="button" tabindex="0" title="Open the '+esc(m.label)+' dossier"><span>'+esc(m.short)+'</span></div>'}).join('');
+    '<div class="bo-corner" aria-hidden="true"></div>'+D.models.map(function(m,i){return '<div class="bo-col" data-m="'+m.id+'" role="button" tabindex="0" title="Open the '+esc(m.label)+' dossier"><span>'+esc(m.short)+'</span></div>'}).join('');
   choices.forEach(function(choice){
     // Native renderings in the row label: color rows wear a dot of the color
     // itself; typeface rows are set in the face they name (system stacks only).
