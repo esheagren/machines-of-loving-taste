@@ -58,9 +58,11 @@ section.view .shead{border-top:none;padding-top:0}
 .gloss{color:var(--dim);max-width:46em;font-size:14px;margin-top:8px;text-wrap:pretty}
 
 /* A settled study card: the claim, the questions, and one real distribution. */
-.intro-overview{min-height:100svh;margin-top:0;padding:42px 0;display:flex;align-items:center;scroll-snap-align:start;scroll-snap-stop:always}
+.intro-overview{min-height:100svh;margin-top:0;padding:42px 0 22px;display:flex;flex-direction:column;align-items:center;gap:20px;scroll-snap-align:start;scroll-snap-stop:always}
 .intro-overview:focus,section.view:focus{outline:none}
-.overview-content{width:100%;max-width:1120px;margin:auto}
+.overview-content{width:100%;max-width:1120px;margin:0 auto;flex:1;display:flex;flex-direction:column;justify-content:center}
+.study-cue{flex:none}
+.study-cue span{font-size:12px}
 .overview-kicker{font-size:12px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
 .intro-overview h2{font:400 clamp(38px,4.6vw,62px)/1.08 var(--serif);margin:14px 0 12px;text-wrap:balance}
 .overview-intro{font-size:clamp(19px,1.8vw,24px);line-height:1.4;color:var(--dim)}
@@ -84,8 +86,6 @@ section.view .shead{border-top:none;padding-top:0}
 .study-share{font-size:15px;font-variant-numeric:tabular-nums}
 .study-bar{height:2px;width:var(--share);margin-top:8px;background:currentColor;opacity:.65}
 .study-figure figcaption{display:block;padding:12px 0 0;border:0;color:var(--dim);font-size:13px;line-height:1.4}
-.study-result{border-top:1px solid var(--hair);padding-top:20px;font-size:17px;line-height:1.45;color:var(--dim)}
-.study-result strong{color:var(--ink);font-weight:400}
 .overview-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;margin-top:26px}
 .explore-button{display:inline-flex;align-items:center;justify-content:space-between;gap:32px;min-height:48px;padding:12px 20px;border:1px solid var(--ink);border-radius:2px;background:var(--ink);color:var(--night);font:18px var(--serif);cursor:pointer}
 .explore-button:hover{background:white;border-color:white}
@@ -119,9 +119,7 @@ section.view .shead{border-top:none;padding-top:0}
   .study-figure h3{font-size:21px;margin:4px 0 12px}
   .study-plot{height:148px;grid-template-columns:minmax(0,1fr) 126px}
   .study-picks li{font-size:16px}
-  .study-result{font-size:16px;padding-top:16px}
   .overview-actions{margin-top:16px;gap:4px 16px}
-  #overview .explore-button{font-size:16px;gap:14px;padding:10px 14px}
   .method-probes{display:grid;gap:8px;font-size:18px}
   .method-steps li{padding-left:34px}
 }
@@ -688,12 +686,10 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
     <figcaption>140 independent answers. A shared favorite, a few other paths.</figcaption>
   </figure>
     </div>
-    <p class="study-result"><strong>Distinct models, strikingly similar tastes.</strong> Explore their choices in the Index, and the language behind them on the map.</p>
-    <div class="overview-actions">
-      <button class="explore-button" id="enterIndex" type="button" data-enter-view="cabinet">Enter the Index <span aria-hidden="true">&rarr;</span></button>
-      <button class="text-link" type="button" data-enter-view="method">Methodology <span aria-hidden="true">&rarr;</span></button>
-    </div>
   </div>
+  <button class="cue study-cue" id="enterIndex" type="button" aria-label="Enter the Index">
+    <span>Enter the Index</span><i aria-hidden="true"></i>
+  </button>
 </section>
 
 <section id="modelmap" class="view">
@@ -1973,7 +1969,16 @@ document.getElementById('cue').addEventListener('click',function(){
   overview.focus({preventScroll:true});
   overview.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
 });
-// The overview offers the Index and an optional detailed Methodology view.
+// The study cue follows the same scroll path as a downward gesture. The
+// existing arrival handler retires the intro only once the Index reaches us.
+document.getElementById('enterIndex').addEventListener('click',function(){
+  setView('cabinet',false);
+  var target=document.getElementById('cabinet');
+  target.tabIndex=-1;
+  target.focus({preventScroll:true});
+  target.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+});
+// Links within the detailed Methodology view switch directly to their view.
 document.querySelectorAll('[data-enter-view]').forEach(function(button){
   button.addEventListener('click',function(){
     var id=button.getAttribute('data-enter-view');
