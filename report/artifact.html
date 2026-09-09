@@ -112,11 +112,12 @@ section.view .shead{border-top:none;padding-top:0}
 #method .mfine p{font-size:16px;line-height:1.65}
 @media(max-width:760px){
   .intro-overview{padding:20px 0}
-  .intro-overview h2{font-size:34px;margin:10px 0}
+  .overview-kicker{letter-spacing:.1em}
+  .intro-overview h2{font-size:clamp(28px,8vw,34px);margin:10px 0}
   .study-body{grid-template-columns:1fr;gap:18px;margin:18px 0}
   .study-copy{max-width:100%;font-size:16px;line-height:1.4}
-  .study-questions{font-size:20px;gap:6px;margin:14px 0}
-  .study-figure h3{font-size:21px;margin:4px 0 12px}
+  .study-questions{font-size:clamp(18px,5vw,20px);gap:6px;margin:14px 0}
+  .study-figure h3{font-size:clamp(18px,5vw,21px);margin:4px 0 12px}
   .study-plot{height:148px;grid-template-columns:minmax(0,1fr) 126px}
   .study-picks li{font-size:16px}
   .overview-actions{margin-top:16px;gap:4px 16px}
@@ -127,6 +128,7 @@ section.view .shead{border-top:none;padding-top:0}
   .intro-overview{padding:24px 0}
   .intro-overview h2{font-size:44px;margin:8px 0}
   .study-body{margin:20px 0}
+  .study-questions{font-size:20px}
   .study-plot{height:200px}
   .overview-actions{margin-top:16px}
 }
