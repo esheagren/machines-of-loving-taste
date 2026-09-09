@@ -2582,7 +2582,7 @@ const BODY = `
     <p class="overview-intro">And you can find it simply by asking.</p>
     <div class="study-body">
       <div class="study-copy">
-        <p>We asked ${models.length} models about ${DOMAIN_IDS.length} fields, from novels to cities to smells.</p>
+        <p>We asked AI models about a wide range of things—from novels and paintings to cities, food, and smells.</p>
         <div class="study-questions">
           <p class="key-favorite">“What is your favorite ___?”</p>
           <p class="key-overrated">“Which ___ is overrated?”</p>
