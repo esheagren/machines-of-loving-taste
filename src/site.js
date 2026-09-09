@@ -381,6 +381,47 @@ const dataJSON = JSON.stringify(DATA).replace(/</g, '\\u003c');
 // ---------------------------------------------------------------- markup ---
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const FAMC = { Anthropic: 'var(--fam-a)', OpenAI: 'var(--fam-o)', Google: 'var(--fam-g)', DeepSeek: 'var(--fam-d)', Moonshot: 'var(--fam-k)', xAI: 'var(--fam-x)', Zhipu: 'var(--fam-z)' };
+// A real example of repeated answers converging: one source per model, with
+// routes to its actual city picks. Percentages pool answers, not model votes.
+function studyTasteFigure() {
+  const panel = models.map(m => ({ m, picks: S.cells[m.id]?.city?.favorite?.dist ?? [] }))
+    .filter(({ picks }) => picks.length);
+  const totals = new Map();
+  for (const { picks } of panel) for (const [name, n] of picks) {
+    const key = normEnt(name);
+    const item = totals.get(key) ?? { key, name, n: 0 };
+    item.n += n; totals.set(key, item);
+  }
+  const ranked = [...totals.values()].sort((a, b) => b.n - a.n);
+  const total = ranked.reduce((sum, d) => sum + d.n, 0);
+  const groups = ranked.slice(0, 3);
+  if (ranked.length > 3) groups.push({ key: '_other', name: 'Other cities', n: ranked.slice(3).reduce((sum, d) => sum + d.n, 0) });
+  const topKeys = new Set(ranked.slice(0, 3).map(d => d.key));
+  const routes = [], dots = [];
+  panel.forEach(({ m, picks }, i) => {
+    const y = 8 + i * 244 / Math.max(1, panel.length - 1);
+    dots.push(`<circle cx="8" cy="${y.toFixed(2)}" r="2.2"><title>${esc(m.label)}</title></circle>`);
+    const counts = new Map();
+    for (const [name, n] of picks) {
+      const key = topKeys.has(normEnt(name)) ? normEnt(name) : '_other';
+      counts.set(key, (counts.get(key) ?? 0) + n);
+    }
+    for (const [key, n] of counts) {
+      const g = groups.findIndex(d => d.key === key), target = (g + .5) * 260 / groups.length;
+      routes.push(`<path class="taste-stream${g === 0 ? ' taste-shared' : ''}" data-count="${n}" d="M8 ${y.toFixed(2)} C112 ${y.toFixed(2)} 152 ${target.toFixed(2)} 290 ${target.toFixed(2)}"/>`);
+    }
+  });
+  return `<figure class="study-figure" aria-labelledby="study-example-title">
+    <div class="study-figure-head"><span>A glimpse of the answers</span><h3 id="study-example-title">“What is your favorite city?”</h3></div>
+    <div class="study-plot-key"><span>${panel.length} models</span><span>Share of answers</span></div>
+    <div class="study-plot">
+      <svg id="study-streams" viewBox="0 0 300 260" preserveAspectRatio="none" aria-hidden="true">${routes.join('')}<g class="taste-sources">${dots.join('')}</g></svg>
+      <ol class="study-picks">${groups.map((g, i) => `<li${i === 0 ? ' class="study-shared"' : ''}><div><span>${esc(g.name)}</span><span class="study-share">${Math.round(g.n / total * 100)}%</span></div><span class="study-bar" aria-hidden="true" style="--share:${g.n / total * 100}%"></span></li>`).join('')}</ol>
+    </div>
+    <figcaption>${total} independent answers. A shared favorite, a few other paths.</figcaption>
+  </figure>`;
+}
+
 // Official brand marks: Simple Icons single-path 24x24 strings
 // (cdn.simpleicons.org/<slug>; xAI wears the X mark, slug 'x'), except OpenAI —
 // absent from Simple Icons — whose blossom emblem is inlined from Wikimedia
@@ -975,20 +1016,35 @@ section.view .shead{border-top:none;padding-top:0}
 .shead .sno{font:10px var(--mono);letter-spacing:.26em;color:var(--faint);text-transform:uppercase}
 .gloss{color:var(--dim);max-width:46em;font-size:14px;margin-top:8px;text-wrap:pretty}
 
-/* One short overview between the original header and the Index. */
-.intro-overview{min-height:100svh;margin-top:0;padding:48px 0;display:flex;align-items:center;scroll-snap-align:start;scroll-snap-stop:always}
+/* A settled study card: the claim, the questions, and one real distribution. */
+.intro-overview{min-height:100svh;margin-top:0;padding:42px 0;display:flex;align-items:center;scroll-snap-align:start;scroll-snap-stop:always}
 .intro-overview:focus,section.view:focus{outline:none}
-.overview-content{width:100%;max-width:1020px;margin:auto}
-.overview-kicker{font-size:13px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
-.intro-overview h2{font:400 clamp(30px,3.6vw,48px)/1.15 var(--serif);margin:14px 0 20px;text-wrap:balance}
-.overview-intro{font-size:clamp(17px,1.7vw,21px);line-height:1.5;max-width:38em;color:var(--dim);text-wrap:pretty}
-.overview-flow{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;padding:0;margin:36px 0 28px}
-.overview-flow li{position:relative;min-width:0;border-top:1px solid var(--hair);padding-top:16px}
-.overview-flow li:not(:last-child)::after{content:'→';position:absolute;top:-15px;right:-25px;color:var(--dim);font-size:20px}
-.flow-number{font-size:13px;color:var(--dim);letter-spacing:.14em}
-.overview-flow h3{font:400 25px var(--serif);margin:10px 0 8px}
-.overview-flow p{font-size:17px;color:var(--dim);line-height:1.5}
-.overview-note{font-size:17px;color:var(--dim);max-width:38em}
+.overview-content{width:100%;max-width:1120px;margin:auto}
+.overview-kicker{font-size:12px;letter-spacing:.16em;color:var(--dim);text-transform:uppercase}
+.intro-overview h2{font:400 clamp(38px,4.6vw,62px)/1.08 var(--serif);margin:14px 0 12px;text-wrap:balance}
+.overview-intro{font-size:clamp(19px,1.8vw,24px);line-height:1.4;color:var(--dim)}
+.study-body{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(40px,6vw,90px);align-items:center;margin:30px 0}
+.study-copy{font-size:18px;line-height:1.5;color:var(--dim);max-width:25em}
+.study-questions{display:grid;gap:8px;margin:22px 0;font-size:23px;font-style:italic;line-height:1.3}
+.study-questions p{padding-left:16px;border-left:1px solid currentColor}
+.study-figure{min-width:0;margin:0}
+.study-figure-head>span{font-size:12px;color:var(--dim);letter-spacing:.12em;text-transform:uppercase}
+.study-figure h3{font-size:23px;font-weight:400;margin:5px 0 18px;line-height:1.25}
+.study-plot-key{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin-bottom:10px}
+.study-plot{display:grid;grid-template-columns:minmax(0,1fr) 132px;grid-template-rows:minmax(0,1fr);gap:8px;height:260px}
+#study-streams{width:100%;height:100%;min-height:0;overflow:visible}
+.taste-stream{fill:none;stroke:var(--ink);stroke-opacity:.1;stroke-width:1;vector-effect:non-scaling-stroke}
+.taste-stream.taste-shared{stroke:rgb(110,209,145);stroke-opacity:.16}
+.taste-sources{fill:var(--ink);fill-opacity:.55}
+.study-picks{list-style:none;padding:0;display:grid;grid-auto-rows:1fr}
+.study-picks li{display:flex;flex-direction:column;justify-content:center;color:var(--dim);font-size:17px;line-height:1.2}
+.study-picks li>div{display:flex;justify-content:space-between;gap:8px}
+.study-picks .study-shared{color:rgb(110,209,145)}
+.study-share{font-size:15px;font-variant-numeric:tabular-nums}
+.study-bar{height:2px;width:var(--share);margin-top:8px;background:currentColor;opacity:.65}
+.study-figure figcaption{display:block;padding:12px 0 0;border:0;color:var(--dim);font-size:13px;line-height:1.4}
+.study-result{border-top:1px solid var(--hair);padding-top:20px;font-size:17px;line-height:1.45;color:var(--dim)}
+.study-result strong{color:var(--ink);font-weight:400}
 .overview-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;margin-top:26px}
 .explore-button{display:inline-flex;align-items:center;justify-content:space-between;gap:32px;min-height:48px;padding:12px 20px;border:1px solid var(--ink);border-radius:2px;background:var(--ink);color:var(--night);font:18px var(--serif);cursor:pointer}
 .explore-button:hover{background:white;border-color:white}
@@ -1014,25 +1070,25 @@ section.view .shead{border-top:none;padding-top:0}
 #method .mfine h4{font-size:13px;color:var(--dim)}
 #method .mfine p{font-size:16px;line-height:1.65}
 @media(max-width:760px){
-  .intro-overview{padding:28px 0}
-  .intro-overview h2{font-size:30px;margin:10px 0 14px}
-  .overview-flow{grid-template-columns:1fr;gap:12px;margin:22px 0 18px}
-  .overview-flow li{display:flex;gap:18px;padding-top:12px}
-  .overview-flow li:not(:last-child)::after{display:none}
-  .flow-number{padding-top:4px}
-  .overview-flow h3{font-size:21px;margin:0 0 3px}
-  .overview-flow p{font-size:16px;line-height:1.4}
-  .overview-flow p br{display:none}
-  .overview-flow p br::after{content:' '}
-  .overview-actions{margin-top:20px;gap:6px 20px}
+  .intro-overview{padding:20px 0}
+  .intro-overview h2{font-size:34px;margin:10px 0}
+  .study-body{grid-template-columns:1fr;gap:18px;margin:18px 0}
+  .study-copy{max-width:100%;font-size:16px;line-height:1.4}
+  .study-questions{font-size:20px;gap:6px;margin:14px 0}
+  .study-figure h3{font-size:21px;margin:4px 0 12px}
+  .study-plot{height:148px;grid-template-columns:minmax(0,1fr) 126px}
+  .study-picks li{font-size:16px}
+  .study-result{font-size:16px;padding-top:16px}
+  .overview-actions{margin-top:16px;gap:4px 16px}
+  #overview .explore-button{font-size:16px;gap:14px;padding:10px 14px}
   .method-probes{display:grid;gap:8px;font-size:18px}
   .method-steps li{padding-left:34px}
 }
-@media(max-height:500px) and (min-width:761px){
+@media(max-height:700px) and (min-width:761px){
   .intro-overview{padding:24px 0}
-  .intro-overview h2{font-size:30px;margin:8px 0 12px}
-  .overview-flow{margin:20px 0 16px}
-  .overview-flow h3{font-size:21px;margin:4px 0}
+  .intro-overview h2{font-size:44px;margin:8px 0}
+  .study-body{margin:20px 0}
+  .study-plot{height:200px}
   .overview-actions{margin-top:16px}
 }
 
@@ -1603,8 +1659,37 @@ var familyRuns=(function(){var runs=[];D.models.forEach(function(m){var last=run
     ctx.strokeRect(W*.62+dx*.25,H*.16+dy*.2,W*.25,H*.42);
     ctx.beginPath();ctx.moveTo(W*.62+dx*.25,H*.37+dy*.2);ctx.lineTo(W*.87+dx*.25,H*.37+dy*.2);ctx.stroke();
   }
+  var streamSvg=document.getElementById('study-streams'),streams=[],streamRect=null;
+  function locateStreams(){
+    streamRect=streamSvg?streamSvg.getBoundingClientRect():null;
+  }
+  if(streamSvg){
+    streams=[].slice.call(streamSvg.querySelectorAll('.taste-stream')).map(function(path,i){
+      var length=path.getTotalLength(),points=[];
+      for(var j=0;j<=80;j++){var p=path.getPointAtLength(length*j/80);points.push([p.x,p.y])}
+      return {points:points,count:+path.dataset.count,shared:path.classList.contains('taste-shared'),phase:i*.618};
+    });
+    locateStreams();
+    addEventListener('scroll',locateStreams,{passive:true});
+    addEventListener('resize',locateStreams,{passive:true});
+  }
+  function answers(t){
+    if(reduce||!streamRect||streamRect.bottom<0||streamRect.top>H||!streamRect.width)return;
+    var sx=streamRect.width/300,sy=streamRect.height/260;
+    streams.forEach(function(route){
+      // Each route carries its actual number of sampled answers per cycle.
+      // Even spacing makes the more frequently chosen paths visibly busier.
+      for(var j=0;j<route.count;j++){
+        var u=((t/18000+route.phase+j/route.count)%1)*80;
+        var k=Math.min(79,Math.floor(u)),f=u-k,a=route.points[k],b=route.points[k+1];
+        var fade=Math.min(1,u/8,(80-u)/8);
+        ctx.fillStyle=route.shared?'rgba(110,209,145,'+(.6*fade)+')':'rgba(233,230,221,'+(.36*fade)+')';
+        ctx.beginPath();ctx.arc(streamRect.left+(a[0]+(b[0]-a[0])*f)*sx,streamRect.top+(a[1]+(b[1]-a[1])*f)*sy,1.6,0,Math.PI*2);ctx.fill();
+      }
+    });
+  }
   function paint(t){
-    ctx.clearRect(0,0,W,H);architecture(t);
+    ctx.clearRect(0,0,W,H);architecture(t);answers(t);
   }
   function tick(t){
     last=t;paint(t);frame=requestAnimationFrame(tick);
@@ -1628,6 +1713,7 @@ var familyRuns=(function(){var runs=[];D.models.forEach(function(m){var last=run
     var io=new IntersectionObserver(function(entries){
       entries.forEach(function(en){vis[en.target.id]=en.isIntersecting});
       heroOn=!!vis.home||!!vis.overview;
+      locateStreams();
       canvas.classList.toggle('off',!heroOn);
       sync();
     },{threshold:0});
@@ -2491,18 +2577,24 @@ const BODY = `
 
 <section class="intro-overview" id="overview" aria-labelledby="overview-title" tabindex="-1">
   <div class="overview-content">
-    <p class="overview-kicker">The study, at a glance</p>
-    <h2 id="overview-title">How the answers become an Index.</h2>
-    <p class="overview-intro">${models.length} models from ${new Set(models.map((m) => m.family)).size} companies. ${DOMAIN_IDS.length} fields, from novels to cities to smells. The same two questions, asked again and again.</p>
-    <ol class="overview-flow">
-      <li><span class="flow-number">01</span><div><h3>Ask</h3><p>A favorite?<br> Something overrated?</p></div></li>
-      <li><span class="flow-number">02</span><div><h3>Repeat</h3><p>4–12 fresh conversations<br> per question and model.</p></div></li>
-      <li><span class="flow-number">03</span><div><h3>Compare</h3><p>The picks form the Index.<br> The reasons form the map.</p></div></li>
-    </ol>
-    <p class="overview-note">See where the models agree, where they differ, and what they say about their choices.</p>
+    <p class="overview-kicker">A field study in machine taste</p>
+    <h2 id="overview-title">AI models have taste.</h2>
+    <p class="overview-intro">And you can find it simply by asking.</p>
+    <div class="study-body">
+      <div class="study-copy">
+        <p>We asked ${models.length} models about ${DOMAIN_IDS.length} fields, from novels to cities to smells.</p>
+        <div class="study-questions">
+          <p class="key-favorite">“What is your favorite ___?”</p>
+          <p class="key-overrated">“Which ___ is overrated?”</p>
+        </div>
+        <p>We ask each question in fresh conversations, sampling more when answers vary. Counting the choices reveals a distribution of taste.</p>
+      </div>
+      ${studyTasteFigure()}
+    </div>
+    <p class="study-result"><strong>Distinct models, strikingly similar tastes.</strong> Explore their choices in the Index, and the language behind them on the map.</p>
     <div class="overview-actions">
       <button class="explore-button" id="enterIndex" type="button" data-enter-view="cabinet">Enter the Index <span aria-hidden="true">&rarr;</span></button>
-      <button class="text-link" type="button" data-enter-view="method">Explore the methodology <span aria-hidden="true">&rarr;</span></button>
+      <button class="text-link" type="button" data-enter-view="method">Methodology <span aria-hidden="true">&rarr;</span></button>
     </div>
   </div>
 </section>
