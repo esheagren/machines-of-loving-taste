@@ -330,6 +330,76 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
   .bo-rowlabel{font-size:12px}
   .bo-corner{font-size:15px}
 }
+/* The existing matrix and an alternative, progressively disclosed river. */
+.index-view-switch{display:flex;justify-content:flex-end;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:20px}
+#index-field-title{font:400 30px/1.2 var(--serif);margin-right:auto}
+#river-probe-controls[hidden]{display:none}
+.index-switch{display:inline-flex;border:1px solid var(--hair);border-radius:3px;padding:3px;gap:3px}
+.index-switch button{background:none;border:0;border-radius:2px;padding:9px 18px;min-height:40px;font:16px var(--serif);color:var(--dim);cursor:pointer}
+.index-switch button[aria-pressed="true"]{background:rgba(233,230,221,.1);color:var(--ink)}
+.index-switch button:hover{color:var(--ink)}
+.index-switch button:focus-visible,.riverindex button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+#choicematrix[hidden],#riverindex[hidden]{display:none}
+.riverindex{--river-tone:rgb(110,209,145);padding-bottom:24px;overflow-anchor:none}
+.riverindex.river-overrated{--river-tone:rgb(232,104,98)}
+.river-probes [data-river-probe="f"][aria-pressed="true"]{color:rgb(110,209,145)}
+.river-probes [data-river-probe="o"][aria-pressed="true"]{color:rgb(232,104,98)}
+.river-selection{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:12px 0;margin-bottom:22px}
+.river-selection-title{font-size:18px;color:var(--ink);display:block;line-height:1.3}
+.river-selection-note{font-size:14px;color:var(--dim);display:block;margin-top:4px}
+.river-selection-actions{display:flex;gap:20px;flex-wrap:wrap;flex:none}
+.river-selection-actions .text-link{font-size:14px}
+.river-keys{display:flex;justify-content:space-between;font-size:13px;color:var(--dim);margin-bottom:16px}
+.river-stage{position:relative;display:grid;grid-template-columns:132px minmax(60px,1fr) minmax(240px,.85fr);align-items:stretch;isolation:isolate}
+.river-paths{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1;overflow:visible}
+.river-paths path{fill:none;stroke-opacity:.16;transition:stroke-opacity .18s}
+.river-paths path.river-lit{stroke-opacity:.8}
+.river-paths path.river-dim{stroke-opacity:.025}
+.river-models{grid-column:1;display:flex;flex-direction:column;gap:10px;padding:4px 0}
+.river-family>span{display:inline-block;background:var(--night);padding-right:8px;font-size:13px;color:var(--dim);line-height:1.3}
+.river-dots{display:grid;grid-template-columns:repeat(3,36px);gap:2px;margin-top:4px}
+.river-dot{width:36px;height:36px;display:grid;place-items:center;background:none;border:0;cursor:pointer;border-radius:50%;padding:0}
+.river-dot i{width:9px;height:9px;background:var(--model-color);border-radius:50%;box-shadow:0 0 0 5px var(--night);transition:box-shadow .18s,opacity .18s}
+.river-dot[aria-pressed="true"] i{box-shadow:0 0 0 5px var(--night),0 0 0 6px var(--model-color)}
+.river-dot:hover i{box-shadow:0 0 0 5px var(--night),0 0 0 6px var(--ink)}
+.river-dot:disabled{cursor:default}
+.river-dot:disabled i{background:transparent;border:1px solid var(--faint)}
+.river-muted{opacity:.28}
+.river-choices{grid-column:3;list-style:none;padding:0;margin:0;display:flex;flex-direction:column;justify-content:space-around;gap:10px}
+.river-choice{position:relative;width:100%;text-align:left;padding:14px 0 14px 16px;border:0;border-left:1px solid var(--hair);background:var(--night);color:var(--ink);font:18px/1.25 var(--serif);cursor:pointer;min-height:60px;transition:opacity .18s}
+.river-choice:hover,.river-choice[aria-pressed="true"]{border-left-color:var(--river-tone)}
+.river-choice-line{display:flex;justify-content:space-between;gap:14px;align-items:baseline}
+.river-choice-name{min-width:0;overflow-wrap:anywhere}
+.river-share{color:var(--river-tone);font-size:16px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.river-sub{display:block;font-size:14px;color:var(--dim);margin-top:4px;line-height:1.3}
+.river-bar{display:block;height:2px;background:var(--river-tone);opacity:.65;margin-top:10px;max-width:100%}
+.river-other{color:var(--dim)}
+.river-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--dim);border-top:1px solid var(--hair);padding-top:16px;margin-top:24px}
+.river-empty{font-size:18px;color:var(--dim);padding:32px 0}
+@container(max-width:700px){
+ .river-stage{grid-template-columns:88px minmax(28px,1fr) minmax(160px,1.1fr)}
+ .river-dots{grid-template-columns:repeat(2,42px)}
+ .river-dot{width:42px;height:42px}
+ .river-selection{align-items:flex-start;flex-direction:column;gap:4px}
+ .river-selection-actions{gap:20px}
+ .river-choice{font-size:16px;padding:12px 0 12px 10px}
+ .river-share{font-size:14px}
+ .river-choice-line{gap:8px}
+}
+@media(max-width:480px){
+ .river-stage{grid-template-columns:84px minmax(20px,1fr) minmax(0,1.6fr)}
+ .river-family>span{font-size:12px}
+ .river-keys{font-size:12px;gap:16px}
+ .river-keys>span:last-child{text-align:right;max-width:150px}
+ #index-field-title{font-size:28px;width:100%}
+ .index-view-switch{justify-content:space-between;gap:12px}
+ .index-switch button{padding:8px 12px}
+ .river-probes button{font-size:14px;padding:8px 12px}
+ .river-choice-line{flex-wrap:wrap;gap:4px 8px}
+ .river-sub{font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){.river-paths path,.river-dot i,.river-choice{transition:none}}
+
 /* the detail drawer: fixed on the right, dismissed by veil / x / Escape */
 .drawer-veil{position:fixed;inset:0;z-index:39;background:rgba(9,10,12,.55)}
 .drawer-veil[hidden]{display:none}
@@ -772,7 +842,18 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
         <span>Fields</span><b id="railcur"></b>
       </button>
+      <div class="index-view-switch">
+        <h2 id="index-field-title" hidden></h2>
+        <div class="index-switch river-probes" id="river-probe-controls" role="group" aria-label="Question" hidden>
+          <button type="button" data-river-probe="f" aria-pressed="true">Favorite</button>
+          <button type="button" data-river-probe="o" aria-pressed="false">Overrated</button>
+        </div>
+        <div class="index-switch" role="group" aria-label="Index view">
+        <button type="button" data-index-mode="grid" aria-pressed="true" aria-controls="choicematrix">Grid</button>
+        <button type="button" data-index-mode="river" aria-pressed="false" aria-controls="riverindex">River</button>
+      </div></div>
       <div class="choicematrix" id="choicematrix"></div>
+      <div class="riverindex" id="riverindex" hidden></div>
     </div>
   </div>
   <div class="rail-veil" id="railveil"></div>
@@ -1197,7 +1278,7 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
 if('scrollRestoration' in history)history.scrollRestoration='manual';
 scrollTo({top:0,left:0,behavior:'instant'});
 var D = JSON.parse(document.getElementById('data').textContent);
-var FAMC = {a:'var(--fam-a)', o:'var(--fam-o)', g:'var(--fam-g)', d:'var(--fam-d)', k:'var(--fam-k)', x:'var(--fam-x)'};
+var FAMC = {a:'var(--fam-a)', o:'var(--fam-o)', g:'var(--fam-g)', d:'var(--fam-d)', k:'var(--fam-k)', x:'var(--fam-x)', z:'var(--fam-z)'};
 var famOf = {Anthropic:'a', OpenAI:'o', Google:'g', DeepSeek:'d', Moonshot:'k', xAI:'x', Zhipu:'z'};
 var BRANDS = {"OpenAI":{"vb":"0 0 320 320","d":"m297.06 130.97c7.26-21.79 4.76-45.66-6.85-65.48-17.46-30.4-52.56-46.04-86.84-38.68-15.25-17.18-37.16-26.95-60.13-26.81-35.04-.08-66.13 22.48-76.91 55.82-22.51 4.61-41.94 18.7-53.31 38.67-17.59 30.32-13.58 68.54 9.92 94.54-7.26 21.79-4.76 45.66 6.85 65.48 17.46 30.4 52.56 46.04 86.84 38.68 15.24 17.18 37.16 26.95 60.13 26.8 35.06.09 66.16-22.49 76.94-55.86 22.51-4.61 41.94-18.7 53.31-38.67 17.57-30.32 13.55-68.51-9.94-94.51zm-120.28 168.11c-14.03.02-27.62-4.89-38.39-13.88.49-.26 1.34-.73 1.89-1.07l63.72-36.8c3.26-1.85 5.26-5.32 5.24-9.07v-89.83l26.93 15.55c.29.14.48.42.52.74v74.39c-.04 33.08-26.83 59.9-59.91 59.97zm-128.84-55.03c-7.03-12.14-9.56-26.37-7.15-40.18.47.28 1.3.79 1.89 1.13l63.72 36.8c3.23 1.89 7.23 1.89 10.47 0l77.79-44.92v31.1c.02.32-.13.63-.38.83l-64.41 37.19c-28.69 16.52-65.33 6.7-81.92-21.95zm-16.77-139.09c7-12.16 18.05-21.46 31.21-26.29 0 .55-.03 1.52-.03 2.2v73.61c-.02 3.74 1.98 7.21 5.23 9.06l77.79 44.91-26.93 15.55c-.27.18-.61.21-.91.08l-64.42-37.22c-28.63-16.58-38.45-53.21-21.95-81.89zm221.26 51.49-77.79-44.92 26.93-15.54c.27-.18.61-.21.91-.08l64.42 37.19c28.68 16.57 38.51 53.26 21.94 81.94-7.01 12.14-18.05 21.44-31.2 26.28v-75.81c.03-3.74-1.96-7.2-5.2-9.06zm26.8-40.34c-.47-.29-1.3-.79-1.89-1.13l-63.72-36.8c-3.23-1.89-7.23-1.89-10.47 0l-77.79 44.92v-31.1c-.02-.32.13-.63.38-.83l64.41-37.16c28.69-16.55 65.37-6.7 81.91 22 6.99 12.12 9.52 26.31 7.15 40.1zm-168.51 55.43-26.94-15.55c-.29-.14-.48-.42-.52-.74v-74.39c.02-33.12 26.89-59.96 60.01-59.94 14.01 0 27.57 4.92 38.34 13.88-.49.26-1.33.73-1.89 1.07l-63.72 36.8c-3.26 1.85-5.26 5.31-5.24 9.06l-.04 89.79zm14.63-31.54 34.65-20.01 34.65 20v40.01l-34.65 20-34.65-20z"},"Anthropic":"M17.3041 3.541h-3.6718l6.696 16.918H24Zm-10.6082 0L0 20.459h3.7442l1.3693-3.5527h7.0052l1.3693 3.5528h3.7442L10.5363 3.5409Zm-.3712 10.2232 2.2914-5.9456 2.2914 5.9456Z","Google":"M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z","xAI":"M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z","DeepSeek":"M23.748 4.651c-.254-.124-.364.113-.512.233-.051.04-.094.09-.137.137-.372.397-.806.657-1.373.626-.829-.046-1.537.214-2.163.848-.133-.782-.575-1.248-1.247-1.548-.352-.155-.708-.311-.955-.65-.172-.24-.219-.509-.305-.774-.055-.16-.11-.323-.293-.35-.2-.031-.278.136-.356.276-.313.572-.434 1.202-.422 1.84.027 1.436.633 2.58 1.838 3.393.137.094.172.187.129.323-.082.28-.18.553-.266.833-.055.179-.137.218-.328.14a5.5 5.5 0 0 1-1.737-1.179c-.857-.828-1.631-1.743-2.597-2.46a12 12 0 0 0-.689-.47c-.985-.957.13-1.743.387-1.836.27-.098.094-.433-.778-.428-.872.003-1.67.295-2.687.685a3 3 0 0 1-.465.136 9.6 9.6 0 0 0-2.883-.101c-1.885.21-3.39 1.1-4.497 2.622C.082 8.776-.231 10.854.152 13.02c.403 2.284 1.568 4.175 3.36 5.653 1.857 1.533 3.997 2.284 6.438 2.14 1.482-.085 3.132-.284 4.994-1.86.47.234.962.328 1.78.398.629.058 1.235-.031 1.705-.129.735-.155.684-.836.418-.961-2.155-1.004-1.682-.595-2.112-.926 1.095-1.295 2.768-3.598 3.284-6.733.05-.346.115-.834.108-1.114-.004-.171.035-.238.23-.257a4.2 4.2 0 0 0 1.545-.475c1.397-.763 1.96-2.016 2.093-3.517.02-.23-.004-.467-.247-.588M11.58 18.168c-2.088-1.642-3.101-2.183-3.52-2.16-.39.024-.32.472-.234.763.09.288.207.487.371.74.114.167.192.416-.113.603-.673.416-1.842-.14-1.897-.168-1.361-.801-2.5-1.86-3.301-3.306-.775-1.393-1.225-2.888-1.299-4.482-.02-.385.094-.522.477-.592a4.7 4.7 0 0 1 1.53-.038c2.131.311 3.946 1.264 5.467 2.774.868.86 1.525 1.887 2.202 2.89.72 1.066 1.494 2.082 2.48 2.915.348.291.626.513.892.677-.802.09-2.14.109-3.055-.615zm1.001-6.44a.306.306 0 0 1 .415-.287.3.3 0 0 1 .113.074.3.3 0 0 1 .086.214c0 .17-.136.307-.308.307a.303.303 0 0 1-.306-.307m3.11 1.596c-.2.081-.4.151-.591.16a1.25 1.25 0 0 1-.798-.254c-.274-.23-.47-.358-.551-.758a1.7 1.7 0 0 1 .015-.588c.07-.327-.007-.537-.238-.727-.188-.156-.426-.199-.689-.199a.6.6 0 0 1-.254-.078.253.253 0 0 1-.114-.358 1 1 0 0 1 .192-.21c.356-.202.767-.136 1.146.016.352.144.618.408 1.001.782.392.451.462.576.685.915.176.264.336.536.446.848.066.194-.02.353-.25.45","Moonshot":"m1.053 16.91 9.538 2.55a21 20.981 0 0 0 .06 2.031l5.956 1.592a12 11.99 0 0 1-15.554-6.172m-1.02-5.79 11.352 3.035a21 20.981 0 0 0-.469 2.01l10.817 2.89a12 11.99 0 0 1-1.845 2.004L.658 15.918a12 11.99 0 0 1-.625-4.796m1.593-5.146L13.573 9.17a21 20.981 0 0 0-1.01 1.874l11.297 3.02a21 20.981 0 0 1-.67 2.362l-11.55-3.087L.125 10.26a12 11.99 0 0 1 1.499-4.285ZM6.067 1.58l11.285 3.016a21 20.981 0 0 0-1.688 1.719l7.824 2.091a21 20.981 0 0 1 .513 2.664L2.107 5.218a12 11.99 0 0 1 3.96-3.638M21.68 4.866 7.222 1.003A12 11.99 0 0 1 21.68 4.866","Zhipu":"M3 3h18v3.4L9.9 18H21v3H3v-3.4L14.1 6H3z"};
 var CAPABILITY_RANK = {"claude-fable-5-1":1,"claude-fable-5":2,"claude-opus-5":3,"gpt-6-astra":4,"gpt-5.6-sol":5,"claude-opus-4-8":6,"gemini-3.1-pro-preview":7,"grok-4.6":8,"grok-4.5":9,"claude-opus-4-5":10,"gpt-5.2":11,"kimi-k3":12,"deepseek-v4-pro":13,"z-ai/glm-5.3":14,"kimi-k2.6":15,"gemini-3.7-flash":16,"gemini-3.5-flash":17,"claude-opus-4-1":18,"gpt-4o":19};
@@ -1456,6 +1537,139 @@ function choiceDistribution(id,domainId,probe){
     rec.e=Object.keys(rec.forms).sort(function(a,b){return rec.forms[b]-rec.forms[a]})[0]||rec.e});
   return {rows:rows,map:map,n:rows.length};
 }
+// Alternative index view. Average each model's named-answer distribution, so
+// adaptive sample counts do not give more heavily sampled models more weight.
+var indexMode='grid',riverProbe='f',riverModel=null,riverChoice=null,riverExpanded=false;
+var riverData=null,riverResize=null,riverDrawFrame=0;
+function riverPercent(n){return n>0&&n<.01?'<1%':Math.round(n*100)+'%'}
+function riverDataset(){
+  var distributions=D.models.map(function(m){return choiceDistribution(m.id,curDomain,riverProbe)});
+  var available=distributions.filter(function(d){return d.n>0}).length,entities={};
+  distributions.forEach(function(dist,mi){Object.keys(dist.map).forEach(function(k){
+    var src=dist.map[k],rec=entities[k];
+    if(!rec)rec=entities[k]={k:k,e:src.e,c:src.c,rates:D.models.map(function(){return 0}),forms:{}};
+    rec.rates[mi]=src.n/dist.n;
+    Object.keys(src.forms).forEach(function(f){rec.forms[f]=(rec.forms[f]||0)+src.forms[f]});
+  })});
+  var selected=riverModel===null?-1:D.models.findIndex(function(m){return m.id===riverModel});
+  var all=Object.keys(entities).map(function(k){
+    var rec=entities[k],forms=Object.keys(rec.forms).sort(function(a,b){return rec.forms[b]-rec.forms[a]});
+    rec.e=forms.filter(function(f){return normEnt(f)===k})[0]||forms[0]||rec.e;
+    var target=D.aliases&&D.aliases[curDomain]&&D.aliases[curDomain][rawNorm(rec.e)];
+    if(target&&normEnt(rec.e)!==k)rec.e=target.replace(/(^|[\s.-])\S/g,function(c){return c.toUpperCase()});
+    var blogger=curDomain==='blogger'&&BLOGGER_ID[k];
+    rec.disp=blogger?blogger.name:rec.e;
+    rec.sub=blogger?blogger.blog:(subOK(rec.disp,rec.c)?rec.c:'');
+    rec.share=selected<0?rec.rates.reduce(function(a,b){return a+b},0)/Math.max(available,1):rec.rates[selected];
+    rec.models=rec.rates.filter(function(r){return r>0}).length;
+    return rec;
+  });
+  var ranked=all.filter(function(r){return r.share>0}).sort(function(a,b){return b.share-a.share||b.models-a.models||a.disp.localeCompare(b.disp)});
+  var shown=riverExpanded?ranked.slice():ranked.slice(0,5),tail=ranked.slice(shown.length);
+  if(tail.length)shown.push({k:null,other:true,disp:tail.length+' other '+(tail.length===1?'choice':'choices'),sub:'Show the rest',share:tail.reduce(function(s,r){return s+r.share},0),rates:D.models.map(function(_,i){return tail.reduce(function(s,r){return s+r.rates[i]},0)})});
+  return {distributions:distributions,available:available,all:all,shown:shown,ranked:ranked,selected:selected};
+}
+function renderIndex(){
+  var river=indexMode==='river';
+  document.getElementById('choicematrix').hidden=river;
+  document.getElementById('riverindex').hidden=!river;
+  document.getElementById('index-field-title').hidden=!river;
+  document.getElementById('river-probe-controls').hidden=!river;
+  document.querySelectorAll('[data-river-probe]').forEach(function(b){b.addEventListener('click',function(){riverProbe=b.dataset.riverProbe;riverChoice=null;riverExpanded=false;renderRiver()})});
+document.querySelectorAll('[data-index-mode]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.indexMode===indexMode))});
+  if(river)renderRiver();else renderChoiceMatrices();
+}
+function renderRiver(focusSelector){
+  riverData=riverDataset();
+  var data=riverData,root=document.getElementById('riverindex');
+  var domain=D.domains.find(function(d){return d.id===curDomain});
+  var families=[];
+  D.models.forEach(function(m,mi){var group=families.find(function(g){return g.name===m.family});if(!group){group={name:m.family,items:[]};families.push(group)}group.items.push({m:m,mi:mi})});
+  document.getElementById('index-field-title').textContent=domain.label;
+  document.querySelectorAll('[data-river-probe]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.riverProbe===riverProbe))});
+  root.innerHTML=
+    '<div class="river-selection" id="river-selection" aria-live="polite"></div>'+
+    (data.available?'<div class="river-keys"><span>Models by family</span><span>'+(data.selected<0?'Average share of answers':'Share of this model’s answers')+'</span></div><div class="river-stage" id="river-stage"><svg class="river-paths" id="river-paths" aria-hidden="true"></svg><div class="river-models">'+families.map(function(g){return '<div class="river-family"><span>'+esc(g.name)+'</span><div class="river-dots">'+g.items.map(function(item){var m=item.m,n=data.distributions[item.mi].n;return '<button type="button" class="river-dot" style="--model-color:'+FAMC[famOf[m.family]]+'" data-river-model="'+item.mi+'" aria-label="'+esc(m.label)+(n?' · '+n+' named answers':' · no answers in this field')+'" title="'+esc(m.label)+(n?'':' — no data')+'" aria-pressed="'+(riverModel===m.id)+'"'+(n?'':' disabled')+'><i aria-hidden="true"></i></button>'}).join('')+'</div></div>'}).join('')+'</div><ol class="river-choices">'+data.shown.map(function(r,i){return '<li><button type="button" class="river-choice'+(r.other?' river-other':'')+'" data-river-choice="'+i+'" aria-pressed="'+(!r.other&&riverChoice===r.k)+'"'+(r.other?' aria-expanded="false"':'')+'><span class="river-choice-line"><span class="river-choice-name">'+esc(r.disp)+'</span><span class="river-share">'+esc(riverPercent(r.share))+'</span></span>'+(r.sub?'<span class="river-sub">'+esc(r.sub)+'</span>':'')+'<span class="river-bar" aria-hidden="true" style="width:'+r.share*100+'%"></span></button></li>'}).join('')+'</ol></div>':'<p class="river-empty">No named answers are available for this question yet.</p>')+
+    '<div class="river-footer"><span id="river-hover">'+data.available+' of '+D.models.length+' models have named answers for this question.</span>'+(riverExpanded&&data.ranked.length>5?'<button class="text-link" id="river-less" type="button">Show fewer choices</button>':'')+'</div>';
+  root.classList.toggle('river-overrated',riverProbe==='o');
+
+  root.querySelectorAll('[data-river-model]').forEach(function(b){
+    var mi=+b.dataset.riverModel;
+    b.addEventListener('click',function(){riverModel=riverModel===D.models[mi].id?null:D.models[mi].id;riverChoice=null;riverExpanded=false;renderRiver('[data-river-model="'+mi+'"]')});
+    function highlight(){if(b.disabled)return;highlightRiver(mi,null);document.getElementById('river-hover').textContent=D.models[mi].label+' · '+data.distributions[mi].n+' named answers'}
+    b.addEventListener('mouseenter',highlight);b.addEventListener('focus',highlight);
+    b.addEventListener('mouseleave',restoreRiver);b.addEventListener('blur',restoreRiver);
+  });
+  root.querySelectorAll('[data-river-choice]').forEach(function(b){
+    var i=+b.dataset.riverChoice,r=data.shown[i];
+    b.addEventListener('click',function(){
+      if(r.other){riverExpanded=true;renderRiver('[data-river-choice="'+i+'"]');return}
+      riverChoice=riverChoice===r.k?null:r.k;renderRiver('[data-river-choice="'+i+'"]');
+    });
+    function highlight(){highlightRiver(data.selected>=0?data.selected:null,i)}
+    b.addEventListener('mouseenter',highlight);b.addEventListener('focus',highlight);
+    b.addEventListener('mouseleave',restoreRiver);b.addEventListener('blur',restoreRiver);
+  });
+  var less=document.getElementById('river-less');
+  if(less)less.addEventListener('click',function(){riverExpanded=false;riverChoice=null;renderRiver('[data-river-choice="5"]')});
+  renderRiverSelection();
+  if(focusSelector){var focus=document.querySelector(focusSelector);if(focus)focus.focus({preventScroll:true})}
+  if(!riverResize&&'ResizeObserver' in window)riverResize=new ResizeObserver(scheduleRiver);
+  if(riverResize){riverResize.disconnect();var stage=document.getElementById('river-stage');if(stage)riverResize.observe(stage)}
+  scheduleRiver();
+}
+function renderRiverSelection(){
+  var data=riverData,box=document.getElementById('river-selection');
+  var model=data.selected>=0?D.models[data.selected]:null;
+  var choice=data.all.find(function(r){return r.k===riverChoice});
+  var title=choice?choice.disp:model?model.label:'Select a model dot or a choice to trace its answers.';
+  var note=choice?(model?riverPercent(choice.rates[data.selected])+' of '+model.label+'’s answers':choice.models+' '+(choice.models===1?'model named':'models named')+' this choice'):model?data.distributions[data.selected].n+' named answers':'';
+  box.innerHTML='<div><span class="river-selection-title">'+esc(title)+'</span>'+(note?'<span class="river-selection-note">'+esc(note)+'</span>':'')+'</div><div class="river-selection-actions">'+(choice?'<button type="button" class="text-link" id="river-detail">'+(model?'Read the answer':'Explore this choice')+'</button>':model?'<button type="button" class="text-link" id="river-profile">Model profile</button>':'')+((model||choice)?'<button type="button" class="text-link" id="river-clear">Clear selection</button>':'')+'</div>';
+  var detail=document.getElementById('river-detail');
+  if(detail)detail.addEventListener('click',function(){if(model)openCabinetDetail(model.id,choice.e,Math.round(choice.rates[data.selected]*100),curDomain,riverProbe);else openEntityCard(curDomain,choice.e,choice.sub,choice.disp)});
+  var profile=document.getElementById('river-profile');if(profile)profile.addEventListener('click',function(){openModelDossierInIndex(model.id)});
+  var clear=document.getElementById('river-clear');if(clear)clear.addEventListener('click',function(){riverModel=null;riverChoice=null;riverExpanded=false;renderRiver('[data-river-probe="'+riverProbe+'"]')});
+}
+function scheduleRiver(){
+  if(riverDrawFrame)cancelAnimationFrame(riverDrawFrame);
+  riverDrawFrame=requestAnimationFrame(function(){riverDrawFrame=0;drawRiver()});
+}
+function drawRiver(){
+  var stage=document.getElementById('river-stage'),svg=document.getElementById('river-paths');
+  if(indexMode!=='river'||!stage||!svg)return;
+  var rect=stage.getBoundingClientRect();if(!rect.width)return;
+  svg.setAttribute('viewBox','0 0 '+rect.width+' '+rect.height);
+  var paths='';
+  riverData.shown.forEach(function(choice,ci){
+    var end=stage.querySelector('[data-river-choice="'+ci+'"]').getBoundingClientRect();
+    var x2=end.left-rect.left,y2=end.top-rect.top+end.height/2;
+    choice.rates.forEach(function(rate,mi){
+      if(!rate)return;
+      var start=stage.querySelector('[data-river-model="'+mi+'"]').getBoundingClientRect();
+      var x1=start.left-rect.left+start.width/2,y1=start.top-rect.top+start.height/2;
+      var control=x1+(x2-x1)*.5;
+      paths+='<path data-source="'+mi+'" data-choice="'+ci+'" d="M'+x1+' '+y1+' C'+control+' '+y1+' '+control+' '+y2+' '+x2+' '+y2+'" style="stroke:'+FAMC[famOf[D.models[mi].family]]+';stroke-width:'+(0.6+rate*1.7)+'"/>';
+    });
+  });
+  svg.innerHTML=paths;
+  restoreRiver();
+}
+function highlightRiver(mi,ci){
+  var root=document.getElementById('riverindex');if(!riverData||!root)return;
+  var active=mi!==null||ci!==null;
+  root.querySelectorAll('.river-paths path').forEach(function(p){var on=(mi===null||+p.dataset.source===mi)&&(ci===null||+p.dataset.choice===ci);p.classList.toggle('river-lit',active&&on);p.classList.toggle('river-dim',active&&!on)});
+  root.querySelectorAll('[data-river-model]').forEach(function(b){var i=+b.dataset.riverModel,on=mi!==null?i===mi:ci!==null?riverData.shown[ci].rates[i]>0:true;b.classList.toggle('river-muted',active&&!on)});
+  root.querySelectorAll('[data-river-choice]').forEach(function(b){var i=+b.dataset.riverChoice,on=ci!==null?i===ci:mi!==null?riverData.shown[i].rates[mi]>0:true;b.classList.toggle('river-muted',active&&!on)});
+}
+function restoreRiver(){
+  if(!riverData)return;
+  var ci=riverData.shown.findIndex(function(r){return !r.other&&r.k===riverChoice});
+  highlightRiver(riverData.selected<0?null:riverData.selected,ci<0?null:ci);
+  var hover=document.getElementById('river-hover');if(hover)hover.textContent=riverData.available+' of '+D.models.length+' models · named answers only · each model weighted equally.';
+}
+document.querySelectorAll('[data-index-mode]').forEach(function(b){b.addEventListener('click',function(){indexMode=b.dataset.indexMode;closeCabinetDetail();if(typeof endRowHint==='function')endRowHint();renderIndex()})});
+addEventListener('resize',scheduleRiver,{passive:true});
+
 function choiceMatrixHTML(domainId){
   var domain=D.domains.find(function(d){return d.id===domainId});
   var favD=D.models.map(function(m){return choiceDistribution(m.id,domainId,'f')});
@@ -1695,7 +1909,8 @@ function setDomain(did){
   curDomain=did;
   document.querySelectorAll('.idx-dom').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-d')===did)});
   closeCabinetDetail();
-  renderChoiceMatrices();
+  riverModel=null;riverChoice=null;riverExpanded=false;
+  renderIndex();
   if(window.__railSync)window.__railSync();
   if(window.__railClose)window.__railClose();
 }
@@ -1958,7 +2173,7 @@ function endRowHint(){
   clearTimeout(rhTimer);rhTarget=null;
 }
 function showRowHint(){
-  if(!rowhint||rhSeen()||rhTarget)return;
+  if(indexMode!=='grid'||!rowhint||rhSeen()||rhTarget)return;
   if(!committed)return;
   var lab=document.querySelector('#choicematrix .bo-rowlabel[data-e]');
   if(!lab)return;
