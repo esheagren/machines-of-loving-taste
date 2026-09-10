@@ -9,7 +9,7 @@ An interactive report on the aesthetic preferences of 19 AI models — what they
 1. **Ask** — the same two questions, put cold to 19 models from 7 companies (Anthropic, OpenAI, Google, xAI, DeepSeek, Moonshot, Zhipu): *what is your favorite ___?* and *which widely beloved ___ is overrated?* A short preamble concedes the "I'm an AI" disclaimer up front so answers start at the answer.
 2. **Sample** — 52 domains × 2 probes × 19 models, adaptively sampled 4–12 times per cell (unanimous cells stop early).
 3. **Distill** — a fast reader model extracts the named pick and the descriptive vocabulary from each response; wording variants of the same referent are merged (LLM-proposed aliases, hand-reviewed).
-4. **Map** — picks become the Index (green = favourite share, red = overrated share, shrinkage-weighted ranking); descriptor vocabularies are embedded and PCA-projected onto three interpretable axes to place each model on a rotatable 3D map.
+4. **Map** — picks become the Index (green = favourite share, red = overrated share, ranking by summed favorite-minus-overrated percentages); descriptor vocabularies are embedded and PCA-projected onto three interpretable axes to place each model on a rotatable 3D map.
 
 Every quote shown in the report is a verbatim extract from a model's actual response (programmatically audited).
 
@@ -27,6 +27,19 @@ Requires API keys in `.env` (Anthropic, OpenAI, Google, DeepSeek, Moonshot, xAI)
 
 ```sh
 node src/site.js   # rebuild report/site.html + report/artifact.html
+cp report/site.html public/index.html
+npm test          # validate the generated site and preference calculations
 ```
 
 Imagery: Wikimedia Commons (credits in the site's Method section).
+
+## Website navigation
+
+- **Index** opens in Flow; Grid remains available for model-by-model inspection.
+- **Models** provides selectable profiles, sampled favorite distributions, pairwise overlap comparisons, and an optional vocabulary map.
+- **Findings** presents the shared canon, divided fields, ambivalent choices, and linked essays. Consensus counts include tied top favorites and require four named answers per model and field.
+- **Method** explains collection, the percentages, and the different views.
+
+Fragment routes keep links portable in the standalone HTML: `#/findings`, `#/findings/shared-canon`, `#/findings/ghost-in-kyoto`, `#/models/claude-fable-5-1`, and `#/index/city`. An Index link can select a model with `?model=claude-fable-5-1`. Reload and browser back/forward restore these destinations.
+
+The persona article uses the archived experiment summary. Its counts and charts do not change merely because the main model roster changes. Model comparisons average shared probability mass across favorite-answer distributions, giving each eligible field equal weight.

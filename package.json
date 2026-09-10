@@ -8,6 +8,7 @@
     "collect": "node src/collect.js",
     "extract": "node src/extract.js",
     "analyze": "node src/analyze.js",
-    "report": "node src/report.js"
+    "report": "node src/report.js",
+    "test": "node tests/site.test.cjs"
   }
 }

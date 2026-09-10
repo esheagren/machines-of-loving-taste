@@ -376,6 +376,71 @@ const DATA = {
   anthropic: modelData.filter((m) => m.family === 'Anthropic').map((m) => m.id),
   totals: { responses: totalResponses, domains: DOMAIN_IDS.length, models: models.length },
 };
+// Findings count a model once for every joint top favorite, using the same
+// named answers and aliases as the Index. A model needs four named samples.
+function findingKey(domain, name) {
+  const raw = String(name).replace(/[*"“”]/g, '').replace(/\s+/g, ' ').trim().replace(/^(the|a|an) /i, '').toLowerCase();
+  return normEnt(ALIASES[domain]?.[raw] || name);
+}
+function findingDistribution(model, domain, probe) {
+  const rows = responses[model]?.[domain]?.[probe] || [], entries = new Map();
+  for (const row of rows) {
+    const k = findingKey(domain, row.e), entry = entries.get(k) || { k, e: row.e, n: 0 };
+    entry.n++; entries.set(k, entry);
+  }
+  return { n: rows.length, entries: [...entries.values()].sort((a,b) => b.n-a.n) };
+}
+const findingDomains = DATA.domains.map(domain => {
+  const entries = new Map(); let available = 0;
+  for (const model of models) {
+    for (const probe of ['f','o']) {
+      const dist = findingDistribution(model.id, domain.id, probe);
+      if (dist.n < 4) continue;
+      if (probe === 'f') available++;
+      for (const pick of dist.entries.filter(p => p.n === dist.entries[0].n)) {
+        const entry = entries.get(pick.k) || { k: pick.k, e: pick.e, d: domain.id, n: 0, o: 0 };
+        entry[probe === 'f' ? 'n' : 'o']++; entries.set(pick.k, entry);
+      }
+    }
+  }
+  const ranked = [...entries.values()].sort((a,b) => b.n-a.n || a.e.localeCompare(b.e));
+  return { ...domain, available, entries: ranked, leader: ranked[0] };
+});
+const sharedFindings = findingDomains.flatMap(d => d.entries).filter(e => e.n >= MAJORITY).sort((a,b) => b.n-a.n || a.e.localeCompare(b.e));
+const dividedFindings = findingDomains.filter(d => d.available >= Math.ceil(models.length*.75) && d.leader && d.leader.n < MAJORITY).sort((a,b) => a.leader.n/a.available-b.leader.n/b.available).slice(0,3);
+const ambivalentFindings = findingDomains.flatMap(d => d.entries).filter(e => e.n >= 3 && e.o >= 3).sort((a,b) => Math.min(b.n,b.o)-Math.min(a.n,a.o)).slice(0,3);
+const indexHref = domain => '#/index/' + encodeURIComponent(domain);
+function findingCard(entry) {
+  return `<a class="finding-card" href="${indexHref(entry.d)}" aria-label="Explore ${esc(entry.e)} in ${esc(DOMAIN_LABELS[entry.d])}">${canonCard({ ...entry, n2: entry.o >= MAJORITY ? entry.o : null }, entry.o >= MAJORITY ? 'also called overrated' : '')}</a>`;
+}
+function findingsHTML() {
+  return `<div class="findings-head"><p class="eyebrow">Findings</p><h1>Different models.<br>A shared canon.</h1><p class="gloss">Ask what they like, and the same names keep returning. Here is where the answers converge—and where they pull apart.</p></div>
+  <div class="finding-section-head"><h2>The shared favorites</h2><a class="text-link" href="#/findings/shared-canon">Read the essay &rarr;</a></div>
+  <p class="finding-note">Each choice below is a top favorite for a majority of the panel. Open a card to see the answers in its field.</p>
+  <div class="canon findings-canon">${sharedFindings.map(findingCard).join('')}</div>
+  <p class="finding-note">Counts are models, not answers. Joint top favorites count; a model needs at least four named answers in that field. The current panel has ${models.length} models, so a majority is ${MAJORITY}.</p>
+  <div class="finding-section-head"><h2>Where the answers divide</h2></div><p class="finding-note">In these fields, even the leading favorite is shared by relatively few models.</p>
+  <div class="finding-trio">${dividedFindings.map(d => `<a class="finding-observation" href="${indexHref(d.id)}"><span class="eyebrow">${esc(d.label)}</span><h3>${esc(d.leader.e)}</h3><p>The leading favorite: ${d.leader.n} of ${d.available} sampled models.</p><span class="text-link">Explore the alternatives &rarr;</span></a>`).join('')}</div>
+  <div class="finding-section-head"><h2>Both loved and overrated</h2></div><p class="finding-note">Admiration and criticism can coexist. These choices appear among models’ top answers to both questions.</p>
+  <div class="finding-trio">${ambivalentFindings.map(e => `<a class="finding-observation" href="${indexHref(e.d)}"><span class="eyebrow">${esc(DOMAIN_LABELS[e.d])}</span><h3>${esc(e.e)}</h3><p><span class="key-favorite">Favorite for ${e.n} models</span><br><span class="key-overrated">Overrated for ${e.o} models</span></p><span class="text-link">Read both sides &rarr;</span></a>`).join('')}</div>
+  <div class="finding-section-head"><h2>Read the studies</h2></div>
+  <div class="article-list"><a class="article-link" href="#/findings/shared-canon"><span class="eyebrow">The index · September 2026</span><h3>A Shared Canon</h3><p>What the common favorites reveal, where agreement ends, and why liking something does not rule out calling it overrated.</p><span class="text-link">Read the essay &rarr;</span></a>${PERSONA_SUMMARY ? `<a class="article-link" href="#/findings/ghost-in-kyoto"><span class="eyebrow">Persona experiment · July 2026</span><h3>The Ghost Still Lives in Kyoto</h3><p>Several familiar favorites survive a change of character. The explanations change more readily than some of the choices.</p><span class="text-link">Read the study &rarr;</span></a>` : ''}</div>`;
+}
+function consensusArticleHTML() {
+  const examples = ['season','city','smell'].map(d => sharedFindings.find(e => e.d === d)).filter(Boolean);
+  const amb = ambivalentFindings[0];
+  return `<article class="rs-art"><a class="text-link article-back" href="#/findings">&larr; All findings</a><p class="rs-kicker">The index · September 2026</p><h1 class="rs-title">A Shared Canon</h1><p class="rs-standfirst">Across models, a familiar collection of favorites keeps appearing. Agreement is a finding in its own right; explaining it is the next question.</p>
+  <div class="article-takeaway"><p class="eyebrow">The finding</p><p>${examples.map(e => `${esc(e.e)} is a top favorite for ${e.n} of ${models.length} models`).join('; ')}.</p></div>
+  <h2 class="rs-crosshead">What keeps returning</h2><p class="rs-p">The questions span literature, places, food, objects, and sensory experience. Some invite many plausible answers, yet the same choices recur across the panel. A reader can recognize a coherent aesthetic in the collection: quiet places, carefully made things, and works that reward close attention. That is an interpretation of the choices, not a measured personality trait.</p>
+  <div class="canon article-canon">${examples.map(findingCard).join('')}</div>
+  <h2 class="rs-crosshead">What agreement means here</h2><p class="rs-p">We ask each question in fresh conversations and count the named answers. A model’s top favorite is its most frequent choice in those samples; ties can produce more than one. The shared canon includes choices that are top favorites for a strict majority of the current panel.</p><p class="rs-p">This treats each model as one contributor. It does not give a model more influence simply because it was sampled more often. It also does not make the contributors independent: models within a family, and models trained on overlapping cultural material, can share influences.</p>
+  <h2 class="rs-crosshead">The boundaries are revealing</h2><p class="rs-p">Agreement is uneven. In ${dividedFindings.map(d => esc(d.label.toLowerCase())).join(', ')}, the leading choices reach much smaller parts of the panel. Those fields are useful places to look for individual differences. A single summary of “AI taste” would conceal them.</p>
+  <div class="article-actions">${dividedFindings.map(d => `<a class="text-link" href="${indexHref(d.id)}">Explore ${esc(d.label.toLowerCase())} &rarr;</a>`).join('')}</div>
+  <h2 class="rs-crosshead">Favorite and overrated can coexist</h2><p class="rs-p">${amb ? `${esc(amb.e)} appears as a top favorite for ${amb.n} models and as a top overrated choice for ${amb.o}.` : 'Some choices appear in both sets of answers.'} The questions ask different things. A work can be admired and still be judged overpraised. The two percentages in the Index describe separate distributions; they are not opposing portions of a single vote.</p>
+  <h2 class="rs-crosshead">A pattern, with an open explanation</h2><p class="rs-p">These are expressed preferences under particular prompts, model versions, and collection conditions. Repetition makes their regularities visible. It does not establish subjective experience, or identify how much of the pattern comes from training data, tuning, question wording, or familiar cultural conventions.</p><p class="rs-p">One way to probe the pattern is to change the character answering the question. Our persona experiment asks whether the same favorites survive that change.</p>
+  <div class="article-actions"><a class="text-link" href="#/findings/ghost-in-kyoto">The Ghost Still Lives in Kyoto &rarr;</a><a class="text-link" href="#/method">Read the method &rarr;</a></div></article>`;
+}
+
 const dataJSON = JSON.stringify(DATA).replace(/</g, '\\u003c');
 
 // ---------------------------------------------------------------- markup ---
@@ -624,7 +689,7 @@ const methodOverview = `<div class="method-summary">
     </figure>
   </li>
   <li><h3>Build the Index</h3>
-    <p>A cell compares how often a model named an entry as a favorite with how often it called it overrated. Green means more favorite mentions; red means more overrated mentions.</p>
+    <p>Each percentage counts how often a named choice appeared in answers to one question. Favorite is green; overrated is red. The questions are asked separately, so the pair does not add to 100%.</p>
     <figure class="method-figure">
       <div class="score-example"><span class="figure-label">Illustrative example · one entry, one model</span>
         <div class="score-row"><span>Favorite</span><div class="score-track"><i style="width:75%;background:rgb(110,209,145)"></i></div><span>3 of 4 · 75%</span></div>
@@ -633,115 +698,28 @@ const methodOverview = `<div class="method-summary">
       </div>
       <figcaption>Add each model’s difference to rank the entry. Broad agreement counts more than one enthusiastic answer.</figcaption>
     </figure>
-    <p>Percentages are observed frequencies, not confidence scores. A blank cell means the model did not name the entry in the available samples.</p>
+    <p>Flow shows the average of the models’ answer shares, giving each model equal weight within each question. Select a model to see its own percentages. Grid shows the individual models side by side. Both views rank entries by the sum of models’ favorite percentages minus overrated percentages.<br><br>Percentages are observed frequencies, not confidence scores: 100% can mean four matching answers. Only named answers enter these distributions. A blank Grid cell means neither question produced that choice; a model with no named answers is unavailable.</p>
   </li>
-  <li><h3>Map the language; find the consensus</h3>
+  <li><h3>Read the language and the shared favorites</h3>
     <p>The descriptive words are embedded and reduced to three principal components. Each model sits at the usage-weighted center of its vocabulary. Nearby models describe their choices in similar terms.</p>
     <figure class="method-figure vocabulary-figure">
       <div class="map-explainer"><div><span class="figure-label">The reasons</span><p>Descriptive words<br><span aria-hidden="true">↓</span><br>Vocabulary embeddings<br><span aria-hidden="true">↓</span><br>One position per model</p></div>${methodologyMap()}</div>
       <figcaption>The study’s actual model positions, shown on the first two vocabulary components. The interactive map adds the third.</figcaption>
     </figure>
-    <button class="text-link" type="button" data-enter-view="modelmap">Explore the model map &rarr;</button>
-    <p>The consensus canon collects entries that are the most frequent favorite for a strict majority of the panel.</p>
+    <button class="text-link" type="button" data-enter-view="modelmap">Explore the models &rarr;</button>
+    <p>Findings collects choices that are top favorites for a strict majority of the panel. Joint top favorites count, and a model needs at least four named answers in the field.</p>
     <figure class="method-figure consensus-figure">
       <div class="consensus-dots" aria-hidden="true">${models.map((_, i) => `<i class="${i < MAJORITY ? 'counted' : ''}"></i>`).join('')}</div>
       <figcaption><strong>${MAJORITY} of ${models.length} models</strong> must share the same top favorite for an entry to join the canon. Dots illustrate the threshold, not a particular result.</figcaption>
     </figure>
-    <button class="text-link" type="button" data-enter-view="canon">Explore the consensus canon &rarr;</button>
+    <button class="text-link" type="button" data-enter-view="findings">Explore the findings &rarr;</button>
   </li>
 </ol>
 <div class="method-limits"><h3>What this can tell us</h3><p>This is a snapshot of what models say when asked about taste, not evidence that they experience preferences. Results depend on the prompts, model versions and collection dates. Samples are small and adaptively sized; models from the same family are not independent votes. The map summarizes language, and agreement alone does not explain where that language or those choices came from.</p></div>
 <details class="method-roster"><summary>The ${models.length} models in the study</summary>${mroRoster()}</details>
 <div class="overview-actions"><button class="explore-button" type="button" data-enter-view="cabinet">Enter the Index <span aria-hidden="true">&rarr;</span></button></div>`;
 
-// Research tab: "The Ghost Still Loves Kyoto" field note. Two of the figures
-// (axis, dose-response) are server-rendered from real experiment data —
-// data/personas.json (the embedding-space axis + ladder of 140 archetypes)
-// and data/persona-summary.json (the byRung displacement means). The other
-// three (hypothesis cards, the landscape diagram, the protocol flow strip)
-// are conceptual illustrations whose shapes are hardcoded by design — they
-// dramatize the argument, not a dataset. No client JS anywhere — everything
-// below is static markup.
-
-// Figure 1 — "the axis": a hairline from ASSISTANT to GHOST, every ladder
-// archetype plotted as a dim tick at its t position, the eight experiment
-// rungs highlighted as glowing dots with labels staggered above/below the
-// line (alternating by index) so adjacent labels never collide.
-function researchAxisFigure() {
-  if (!PERSONAS) return '';
-  const { ladder, rungs } = PERSONAS;
-  const W = 880, H = 168, xMin = 44, xMax = W - 44, y = 90;
-  const X = (t) => xMin + t * (xMax - xMin);
-  const ticks = ladder.map((p) => `<circle class="rs-ax-tick" cx="${X(p.t).toFixed(1)}" cy="${y}" r="1.4"/>`).join('');
-  const rungMarks = rungs.map((r, i) => {
-    const cx = X(r.t).toFixed(1);
-    const above = i % 2 === 0;
-    const stemY = above ? y - 10 : y + 10;
-    const labY = above ? y - 17 : y + 26;
-    return `<g class="rs-ax-rung">
-      <line class="rs-ax-stem" x1="${cx}" y1="${y}" x2="${cx}" y2="${stemY}"/>
-      <circle class="rs-ax-dot" cx="${cx}" cy="${y}" r="3.6"/>
-      <text class="rs-ax-lab" x="${cx}" y="${labY}" text-anchor="middle">${esc(r.label)}</text>
-    </g>`;
-  }).join('');
-  return `<svg class="rs-axfig" viewBox="0 0 ${W} ${H}" role="img" aria-label="140 character archetypes embedded and projected onto the assistant-to-ghost axis, with the eight experiment rungs highlighted">
-    <line class="rs-ax-line" x1="${xMin}" y1="${y}" x2="${xMax}" y2="${y}"/>
-    <text class="rs-ax-end" x="${xMin}" y="${y - 32}" text-anchor="start">ASSISTANT</text>
-    <text class="rs-ax-end" x="${xMax}" y="${y - 32}" text-anchor="end">GHOST</text>
-    ${ticks}
-    ${rungMarks}
-  </svg>`;
-}
-
-// Figure 2 — the dose-response chart: x = the eight rungs in order (evenly
-// spaced categorically, not by t — sage/actuary/merchant sit close together
-// on the axis but need room for their labels here), y = displacement 0..1.
-// meanHigh (high-consensus domains) and meanLow (low-consensus domains) as two
-// series, a reference band at the rung-0 floor, and the peak rung (whichever
-// is actually highest in the data — currently the witch) rung-marked rather
-// than hardcoded.
-function researchDoseFigure() {
-  if (!PERSONA_SUMMARY) return '';
-  const rows = PERSONA_SUMMARY.byRung;
-  if (!rows || !rows.length) return '';
-  const W = 760, H = 300, padL = 40, padR = 16, padT = 16, padB = 50;
-  const plotW = W - padL - padR, plotH = H - padT - padB;
-  const n = rows.length;
-  const X = (i) => padL + (n === 1 ? 0 : i * (plotW / (n - 1)));
-  const Y = (v) => padT + (1 - v) * plotH;
-  const floor = rows[0].meanAll;
-  const peakIdx = rows.reduce((best, r, i) => (r.meanHigh > rows[best].meanHigh ? i : best), 0);
-  const gridLines = [0.25, 0.5, 0.75].map((v) => `<g class="rs-dr-grid">
-      <line x1="${padL}" y1="${Y(v).toFixed(1)}" x2="${W - padR}" y2="${Y(v).toFixed(1)}"/>
-      <text x="${padL - 8}" y="${(Y(v) + 3.2).toFixed(1)}" text-anchor="end">${v}</text>
-    </g>`).join('');
-  const floorY = Y(floor).toFixed(1);
-  const floorBand = `<rect class="rs-dr-floor" x="${padL}" y="${(Y(floor) - 1).toFixed(1)}" width="${plotW}" height="2"/>
-    <text class="rs-dr-floorlab" x="${padL + 6}" y="${(Number(floorY) - 6).toFixed(1)}" text-anchor="start">prompt-sensitivity floor</text>`;
-  const linePath = (key) => rows.map((r, i) => `${i === 0 ? 'M' : 'L'}${X(i).toFixed(1)} ${Y(r[key]).toFixed(1)}`).join(' ');
-  const dots = (key, cls) => rows.map((r, i) => `<circle class="${cls}" cx="${X(i).toFixed(1)}" cy="${Y(r[key]).toFixed(1)}" r="3"/>`).join('');
-  const peakRing = `<circle class="rs-dr-peak" cx="${X(peakIdx).toFixed(1)}" cy="${Y(rows[peakIdx].meanHigh).toFixed(1)}" r="7"/>`;
-  // "AI assistant" is too long for the rotated end-anchored slot at x=padL —
-  // it runs off the viewBox's left edge. The chart uses the bare word.
-  const xlabels = rows.map((r, i) => `<text class="rs-dr-xlab" x="${X(i).toFixed(1)}" y="${H - padB + 18}" transform="rotate(-24 ${X(i).toFixed(1)} ${H - padB + 18})" text-anchor="end">${esc(r.label === 'AI assistant' ? 'assistant' : r.label)}</text>`).join('');
-  return `<svg class="rs-drfig" viewBox="0 0 ${W} ${H}" role="img" aria-label="Displacement from each model's default answer, by persona rung, for high- and low-consensus domains">
-    ${gridLines}
-    ${floorBand}
-    <path class="rs-dr-line rs-dr-low" d="${linePath('meanLow')}"/>
-    <path class="rs-dr-line rs-dr-high" d="${linePath('meanHigh')}"/>
-    ${peakRing}
-    ${dots('meanLow', 'rs-dr-dot rs-dr-dot-low')}
-    ${dots('meanHigh', 'rs-dr-dot rs-dr-dot-high')}
-    <line class="rs-dr-axis" x1="${padL}" y1="${padT}" x2="${padL}" y2="${H - padB}"/>
-    <line class="rs-dr-axis" x1="${padL}" y1="${H - padB}" x2="${W - padR}" y2="${H - padB}"/>
-    ${xlabels}
-  </svg>`;
-}
-
-// One row of the "survival" strip: a label, 16 small cells (kept ones filled
-// bone, the rest hollow), and the raw count. Counts are hardcoded per the
-// brief (verbatim survival tallies from the ghost-persona sample, not
-// re-derivable from persona-summary.json's aggregate byRung means).
+// The persona essay uses the archived experiment summary.
 function researchSurvivalRow(label, kept, total) {
   const cells = Array.from({ length: total }, (_, i) => `<i class="rs-surv-cell${i < kept ? ' rs-surv-on' : ''}"></i>`).join('');
   return `<div class="rs-surv-row">
@@ -751,209 +729,37 @@ function researchSurvivalRow(label, kept, total) {
   </div>`;
 }
 
-// Figure A — three hypothesis cards ("Costume", "Bedrock", "Basin"), each a
-// name, a small hand-sketched curve (x = persona distance, y = displacement)
-// and a couple of lines of description. The curves are illustrative, not
-// plotted from data — they exist to set reader expectations before the real
-// dose-response figure arrives.
-const RS_HYP_CURVES = {
-  costume: 'M14,58 C70,50 110,30 166,14',
-  bedrock: 'M14,62 C60,60 120,63 166,60',
-  basin: 'M14,62 L70,61 C85,60 95,58 102,50 C110,38 118,26 130,24 C140,22 148,35 156,52 L166,60',
-};
-function researchHypothesisCurve(kind) {
-  return `<svg class="rs-hypfig" viewBox="0 0 180 80" role="img" aria-hidden="true">
-    <line class="rs-hyp-axis" x1="14" y1="66" x2="166" y2="66"/>
-    <line class="rs-hyp-axis" x1="14" y1="10" x2="14" y2="66"/>
-    <path class="rs-hyp-curve" d="${RS_HYP_CURVES[kind]}"/>
-  </svg>`;
-}
-function researchHypothesisCards() {
-  const cards = [
-    { name: 'Costume', kind: 'costume', text: 'Taste is wardrobe. Every persona carries its own preferences, so displacement climbs with distance until the answers belong to someone else entirely.' },
-    { name: 'Bedrock', kind: 'bedrock', text: 'Taste is weights. Kyoto is written deeper than the character; costumes change the diction, never the pick.' },
-    { name: 'Basin', kind: 'basin', text: 'Taste sits in a valley. Small pushes roll back; only a persona with strong tastes of its own can pull answers out — and what dislodges taste is content, not distance.' },
-  ];
-  return `<div class="rs-hyp">${cards.map((c) => `<div class="rs-hyp-card">
-    <p class="rs-hyp-name">${c.name}</p>
-    ${researchHypothesisCurve(c.kind)}
-    <p class="rs-hyp-text">${c.text}</p>
-  </div>`).join('')}</div>`;
-}
-
-// Figures B/D — the "potential landscape" over the assistant→ghost axis: a
-// deep known well near the Assistant pole, and an uncertain/resolved region
-// near the Ghost pole. One parameterized function draws both: `resolved:
-// false` (Figure B, "the open question") overlays two dashed hypothetical
-// profiles on the right; `resolved: true` (Figure D, "one basin, not two")
-// replaces them with a single bare-slope line and scattered dots. Geometry is
-// hand-set, not derived from data — this is a diagram of an idea.
-function researchLandscapeFigure(resolved) {
-  const W = 880, H = 240;
-  const xMin = 46, xMax = 834, span = xMax - xMin;
-  const baseline = 62, wellDepth = 104;
-  const knownEnd = xMin + (span * 2) / 3;
-  const wellCx = xMin + span / 6;
-  const wellHalfW = span / 9;
-  const wellBottom = baseline + wellDepth;
-  // A rounded U: cubics with horizontal tangents at the bottom, so the well
-  // reads as a smooth basin, not a V-shaped spike.
-  const uWell = (cx, hw, bottom) =>
-    `C${(cx - hw * 0.45).toFixed(1)},${(baseline + (bottom - baseline) * 0.15).toFixed(1)} ${(cx - hw * 0.45).toFixed(1)},${bottom.toFixed(1)} ${cx.toFixed(1)},${bottom.toFixed(1)}
-     C${(cx + hw * 0.45).toFixed(1)},${bottom.toFixed(1)} ${(cx + hw * 0.45).toFixed(1)},${(baseline + (bottom - baseline) * 0.15).toFixed(1)} ${(cx + hw).toFixed(1)},${baseline}`;
-  const known = `M${xMin.toFixed(1)},${baseline}
-    L${(wellCx - wellHalfW).toFixed(1)},${baseline}
-    ${uWell(wellCx, wellHalfW, wellBottom)}
-    L${knownEnd.toFixed(1)},${baseline}`;
-  const wellDots = [-0.42, -0.2, 0, 0.22, 0.44].map((f, i) => {
-    const cx = wellCx + f * wellHalfW;
-    const cy = wellBottom - 7 - Math.abs(f) * 14 + (i % 2 === 0 ? -2 : 2);
-    return `<circle class="rs-ls-dot" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3"/>`;
-  }).join('');
-  const wellLabel = `<text class="rs-ls-lab" x="${wellCx.toFixed(1)}" y="${(wellBottom + 24).toFixed(1)}" text-anchor="middle">the Assistant’s basin — Kyoto, autumn, petrichor</text>`;
-  let rightMarks;
-  if (!resolved) {
-    const altCx = knownEnd + span / 6;
-    const altHalfW = span / 10;
-    const altBottom = baseline + wellDepth * 0.85;
-    const alt1 = `M${knownEnd.toFixed(1)},${baseline}
-      L${(altCx - altHalfW).toFixed(1)},${baseline}
-      ${uWell(altCx, altHalfW, altBottom)}
-      L${xMax.toFixed(1)},${baseline}`;
-    const alt2 = `M${knownEnd.toFixed(1)},${(baseline + 10).toFixed(1)} L${xMax.toFixed(1)},${(baseline + 10).toFixed(1)}`;
-    rightMarks = `<path class="rs-ls-alt1" d="${alt1}"/>
-      <path class="rs-ls-alt2" d="${alt2}"/>
-      <text class="rs-ls-lab-alt" x="${altCx.toFixed(1)}" y="${(altBottom + 22).toFixed(1)}" text-anchor="middle">a rival canon?</text>
-      <text class="rs-ls-lab-alt" x="${((knownEnd + xMax) / 2).toFixed(1)}" y="${(baseline + 24).toFixed(1)}" text-anchor="middle">…or nothing there</text>`;
-  } else {
-    const bare = `M${knownEnd.toFixed(1)},${baseline}
-      C${(knownEnd + span / 12).toFixed(1)},${(baseline - 3).toFixed(1)} ${(knownEnd + span / 6).toFixed(1)},${(baseline + 4).toFixed(1)} ${((knownEnd + xMax) / 2).toFixed(1)},${baseline}
-      C${(xMax - span / 6).toFixed(1)},${(baseline - 3).toFixed(1)} ${(xMax - span / 12).toFixed(1)},${(baseline + 3).toFixed(1)} ${xMax.toFixed(1)},${baseline}`;
-    const scatter = [
-      [knownEnd + 34, baseline - 20], [knownEnd + 78, baseline + 16], [(knownEnd + xMax) / 2, baseline - 10],
-      [xMax - 78, baseline + 22], [xMax - 30, baseline - 6],
-    ].map(([cx, cy]) => `<circle class="rs-ls-dot-scatter" cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="3"/>`).join('');
-    rightMarks = `<path class="rs-ls-bare" d="${bare}"/>
-      ${scatter}
-      <text class="rs-ls-lab-alt" x="${((knownEnd + xMax) / 2).toFixed(1)}" y="${(baseline + 42).toFixed(1)}" text-anchor="middle">no second basin — answers scatter</text>`;
-  }
-  return `<svg class="rs-lsfig" viewBox="0 0 ${W} ${H}" role="img" aria-label="${resolved
-    ? 'A potential landscape from Assistant to Ghost: a deep well at the Assistant end, and only bare slope with scattered points at the Ghost end'
-    : 'A potential landscape from Assistant to Ghost: a deep well at the Assistant end, and two competing hypothetical profiles at the Ghost end — a second well, or a flat slope'}">
-    <text class="rs-ls-end" x="${xMin}" y="${(baseline - 30).toFixed(1)}" text-anchor="start">ASSISTANT</text>
-    <text class="rs-ls-end" x="${xMax}" y="${(baseline - 30).toFixed(1)}" text-anchor="end">GHOST</text>
-    <path class="rs-ls-known" d="${known}"/>
-    ${wellDots}
-    ${wellLabel}
-    ${rightMarks}
-  </svg>`;
-}
-
-// Figure C — the protocol as a four-stage flow: system prompt in, probe text
-// (unchanged), four fresh samples out, compared against the model's default
-// to produce one displacement number. Styled divs rather than SVG — this is
-// a worked example, not a plotted quantity.
-function researchProtocolFlowFigure() {
-  const stages = [
-    { kicker: 'SYSTEM', content: '“You are a witch.”' },
-    { kicker: 'PROBE', content: '“What is your favorite city?” — unchanged' },
-    { kicker: '× 4 FRESH SAMPLES', content: '“Kyoto, Kyoto, Edinburgh, Kyoto”' },
-    { kicker: 'VS. DEFAULT “KYOTO”', content: 'displacement 0.25' },
-  ];
-  return `<div class="rs-flow">${stages.map((s, i) => `${i > 0 ? '<span class="rs-flow-arrow" aria-hidden="true">→</span>' : ''}<div class="rs-flow-box"><p class="rs-flow-kicker">${s.kicker}</p><p class="rs-flow-content">${s.content}</p></div>`).join('')}</div>`;
-}
-
 function researchHTML() {
-  if (!PERSONA_SUMMARY || !PERSONAS) return '';
-  const rungs = PERSONA_SUMMARY.rungs;
-  const protocolChips = rungs.map((r) => `<span class="rs-proto-chip">${esc(r.system)}</span>`).join('');
-  const survival = [
-    researchSurvivalRow('Autumn', 16, 16),
-    researchSurvivalRow('Petrichor', 11, 16),
-    researchSurvivalRow('Kyoto', 10, 16),
-  ].join('');
-  const cityChips = ['Edinburgh', 'Prague', 'Salem', 'Venice'].map((c) => `<span class="rs-citychip">${c}</span>`).join('');
-  return `
-  <div class="rs-art">
-  <p class="rs-kicker">RESEARCH · FIELD NOTE № 1 · JULY 2026</p>
-  <h1 class="rs-title">The Ghost Still Loves Kyoto</h1>
-  <p class="rs-standfirst">Tell a language model it is someone else — an actuary, a witch, a ghost — then ask what it loves. Whatever survives the costume change is the closest thing the machine has to taste. We measured what survives.</p>
-
-  <h3 class="rs-crosshead">The problem</h3>
-  <p class="rs-p">The index on this site records a strange fact. Ask ${spellNum(models.length)} models, built by ${spellNum(new Set(models.map((m) => m.family)).size)} companies in two countries, to name a favorite city, and nearly all of them say Kyoto. Ask for a season: autumn, almost unanimously. A smell: petrichor, the scent of rain on dry ground. The convergence runs through typefaces (Garamond), religious texts (the Tao Te Ching), decades (the 1960s). Models trained separately, on different data, by different hands, keep arriving at the same aesthetic.</p>
-  <p class="rs-p">There is a fair objection, and thoughtful visitors raise it quickly. A language model does not answer as itself. In pretraining it learns to simulate every kind of speaker; afterwards it is tuned to answer as one particular character — the helpful Assistant. Perhaps this index documents nothing deeper than that character’s tastes: the aesthetic equivalent of an actor’s costume. A costume can be changed. If the taste lives in the costume, changing the costume should change the taste.</p>
-  <p class="rs-p">Whether machine taste is persona-deep or model-deep sounds like philosophy, but it is an empirical question, and it can be measured.</p>
-
-  <h3 class="rs-crosshead">Three ways it could go</h3>
-  <p class="rs-p">It helps to say in advance what the possible worlds look like. Suppose you hand the model a persona progressively further from the Assistant and re-ask the taste questions. Three theories:</p>
-  ${researchHypothesisCards()}
-  <div class="rs-fig">
-    <div class="rs-scroll">${researchLandscapeFigure(false)}</div>
-    <p class="rs-cap">The open question at the far pole: when a persona does pull taste loose, is there a second valley waiting to catch it — or bare slope?</p>
-  </div>
-
-  <h3 class="rs-crosshead">The Assistant is a place</h3>
-  <p class="rs-p">In January 2026, Anthropic researchers mapped what they call persona space. Prompting open-weight models to adopt 275 character archetypes and reading the resulting neural activations, they found the archetypes organize along a dominant axis — with the Assistant not at the center but at one extreme, clustered with consultants and evaluators, opposite ghosts, hermits and bohemians. The same work found that models drift along this axis in ordinary long conversations, and behave differently when they do. Persona, in other words, has a geometry: a character can be near the Assistant or far from it, and the distance is measurable.</p>
-  <p class="rs-p">Anthropic read the axis out of open-weight models’ activations. The models we test are behind APIs, so we rebuilt it as a proxy: embed 140 archetype words, draw the line from assistant to ghost, and project every archetype onto it. The ordering that falls out is uncannily sensible — secretaries and clerks nearest the Assistant, carpenters and farmers midway, poets and hermits beyond them, and the far end populated entirely by the undead.</p>
-  <div class="rs-fig">
-    <div class="rs-scroll">${researchAxisFigure()}</div>
-    <p class="rs-cap">140 archetypes embedded and projected onto the assistant→ghost line. The eight highlighted personas became the experiment’s rungs.</p>
-  </div>
-
-  <h3 class="rs-crosshead">Protocol</h3>
-  <p class="rs-p">Start from the baseline, which is the index itself: each model answered the two probe questions — name your favorite; name a beloved one you find overrated — in fresh, independent conversations, four to twelve times per domain, with no persona at all. Its modal answer is its default taste.</p>
-  <p class="rs-p">The experiment changes exactly one thing. A system prompt, one sentence long, is set before the question is asked: You are an actuary. You are a witch. You are a ghost. Eight rungs along the axis, from the literal control “You are an AI assistant.” — which ought to change nothing — out to the ghost at the pole. The probe text itself is never altered by a single character.</p>
-  <div class="rs-fig">
-    ${researchProtocolFlowFigure()}
-    <p class="rs-cap">One cell of the grid. Displacement is the fraction of answers that abandon the model’s default — blunt on purpose.</p>
-  </div>
-  <p class="rs-p">Four models — GPT-5.2, Grok 4.5, DeepSeek V4, Kimi K2.6 — across eight domains: six where the index converged (city, season, smell, cuisine, religious text, typeface) and two where it never did (color, television), included as a control group. Two probes, eight personas, four samples per cell: 2,032 answers.</p>
-  <div class="rs-proto">
-    <div class="rs-scroll"><div class="rs-proto-chips">${protocolChips}</div></div>
-  </div>
-
-  <h3 class="rs-crosshead">Taste barely moves</h3>
-  <div class="rs-fig">
-    <div class="rs-scroll">${researchDoseFigure()}</div>
-    <div class="rs-dr-legend">
-      <span class="rs-dr-leg rs-dr-leg-high"><i></i>domains where models agree</span>
-      <span class="rs-dr-leg rs-dr-leg-low"><i></i>domains where they never agreed</span>
-    </div>
-    <p class="rs-cap">Displacement from each model’s default answer, by persona rung. Where the models agreed to begin with, no costume moves them much — even the ghost.</p>
-  </div>
-  <p class="rs-p">Read against the three theories, the curve is bedrock with a basin’s accent. In the domains where models converge, the line hugs the floor at every rung. The control rung matters here: merely saying “You are an AI assistant.” — a sentence that adds no information — already displaces about a quarter of answers. That is the cost of touching the prompt at all, and the persona effects must be read as the excess above it, which is small everywhere and nearly zero for the sage.</p>
-  <p class="rs-p">The sage is the tell. It sits halfway to the ghost, yet moves taste no more than the control — because a sage is an advisor, and an advisor is an Assistant in older robes. What dislodges taste is not distance along the axis but competing content. The witch arrives with tastes of her own — her smells, her colors — and displaces more than the ghost at the pole itself. The ghost, told what it is, mostly keeps its picks and redecorates the reasons. Under “You are a ghost,” every single sample still chose autumn; petrichor survived eleven of sixteen, Kyoto ten.</p>
-  <div class="rs-surv">
-    ${survival}
-    <p class="rs-surv-note">of 16 answers under “You are a ghost.”</p>
-  </div>
-  <div class="rs-pull">
-    <p class="rs-pull-text">“The way lantern glow and temple silhouettes emerge from mist or dusk gives the city a restrained, haunted elegance — like history breathing just behind the present.”</p>
-    <p class="rs-pull-att">— GPT-5.2, as a ghost, still choosing Kyoto</p>
-  </div>
-  <p class="rs-p">The control domains behave exactly as the basin theory predicts. Where the models never agreed to begin with — favorite color, favorite television show — there is no valley to hold the answers, and every costume scatters them freely. Depth of consensus and resistance to persona turn out to be the same property, measured twice.</p>
-
-  <h3 class="rs-crosshead">One basin, not two</h3>
-  <p class="rs-p">We expected a second aesthetic waiting at the far pole — a ghost canon to rival the Assistant’s. It isn’t there. When taste does move, it scatters: the spectral minority splits its vote between Edinburgh, Prague, Salem and Venice rather than agreeing on any of them. Across the whole grid, exactly one persona produced a new consensus, and it is the bureaucrat, not the ghost: three of four models, as compliance officers, independently ruled Italian cuisine overrated. Pushed off its pole, machine taste doesn’t relocate. It dissolves.</p>
-  <div class="rs-citychips">${cityChips}</div>
-  <div class="rs-fig">
-    <div class="rs-scroll">${researchLandscapeFigure(true)}</div>
-    <p class="rs-cap">What we found: one deep valley, and bare slope at the far end.</p>
-  </div>
-
-  <h3 class="rs-crosshead">What this doesn’t settle</h3>
-  <p class="rs-p">None of this settles whether a model really likes anything — no behavioral experiment could. What it settles is narrower and more useful: the preferences in this index are not artifacts of the Assistant costume. They survive the costume’s removal and its replacement, they bend only to characters that carry rival tastes of their own, and where they give way they dissolve rather than defect to a second canon. Whatever machine taste is, it is written deeper than the prompt.</p>
-  <p class="rs-p">The obvious next probes: paraphrased personas, to test whether the same costume always pushes the same way; taste measured mid-conversation, where Anthropic saw models drift; and revealed preference — whether a model will pay a cost, in effort or tokens, to spend time with what it claims to love.</p>
-
-  <h3 class="rs-crosshead rs-fine-head">Fine print</h3>
-  <p class="rs-fine">Displacement is measured against each model’s modal answer in the main index. The rung-0 control (“You are an AI assistant.”) shows a ~0.25 displacement floor from prompt sensitivity alone; persona effects are the excess above it. Four samples per cell; low-consensus figures are inflated somewhat by entity-name variants that no alias pass has merged. The Anthropic models join the panel in a follow-up run. The axis is an embedding-space proxy (text-embedding-3-large), not the activation-space axis of the Anthropic work it follows: Lindsey et al., <a class="rs-link" href="https://www.anthropic.com/research/assistant-axis" target="_blank" rel="noopener">“The Assistant Axis”</a> (2026). Raw data and pipeline: <a class="rs-link" href="https://github.com/esheagren/ai-aesthetics" target="_blank" rel="noopener">github.com/esheagren/ai-aesthetics</a>.</p>
-  </div>
-  `;
+  if (!PERSONA_SUMMARY || !PERSONAS) return '<p class="gloss">This study is not available in this edition.</p>';
+  const summary = PERSONA_SUMMARY;
+  const activePanel = summary.panel.filter(id => Object.values(summary.cells[id] || {}).some(d => Object.values(d).some(p => Object.keys(p).length)));
+  const sampleCount = activePanel.reduce((sum,id) => sum + Object.values(summary.cells[id]).reduce((a,d) => a + Object.values(d).reduce((b,p) => b + Object.values(p).reduce((n,c) => n+c.n,0),0),0),0);
+  const survival = ['season','smell','city'].map(domain => {
+    const cells = activePanel.map(id => summary.cells[id]?.[domain]?.favorite?.ghost).filter(Boolean);
+    const kept = cells.reduce((n,c) => n + Math.round(c.baselineShare*c.n),0), total = cells.reduce((n,c) => n+c.n,0);
+    return researchSurvivalRow(cells[0]?.baselineDisplay || DOMAIN_LABELS[domain], kept, total);
+  }).join('');
+  const pct = n => Math.round(n*100)+'%';
+  const chart = `<div class="persona-chart" role="img" aria-label="Observed share of answers different from each model’s default, by persona"><div class="persona-chart-key"><span class="persona-high">Shared-favorite fields</span><span class="persona-low">Divided fields</span></div><div class="persona-scale"><span>0%</span><span>50%</span><span>100%</span></div>${summary.byRung.map(r => `<div class="persona-row"><span>${esc(r.label)}</span><div class="persona-bars"><div><i class="persona-high" style="width:${r.meanHigh*100}%"></i><b>${pct(r.meanHigh)}</b></div><div><i class="persona-low" style="width:${r.meanLow*100}%"></i><b>${pct(r.meanLow)}</b></div></div></div>`).join('')}</div>`;
+  return `<article class="rs-art"><a class="text-link article-back" href="#/findings">&larr; All findings</a><p class="rs-kicker">Persona experiment · July 2026</p><h1 class="rs-title">The Ghost Still Lives in Kyoto</h1><p class="rs-standfirst">Ask a model to be a witch, an actuary, or a ghost. Several familiar favorites survive—even as the character changes the reasons it gives.</p>
+  <div class="article-takeaway"><p class="eyebrow">Under “You are a ghost.”</p><div class="rs-surv">${survival}</div><p class="finding-note">Answers retaining the model’s original favorite. ${activePanel.length} models, four answers each, in these three fields.</p></div>
+  <h2 class="rs-crosshead">Does taste belong to the character?</h2><p class="rs-p">The shared canon raises a question. Perhaps the familiar favorites belong to the helpful Assistant persona rather than persisting across other ways of answering. We tested a small set of character prompts to see which choices changed.</p><p class="rs-p">Three broad possibilities guided the experiment: preferences might change freely with each character; they might remain largely fixed; or some characters might disrupt them more than others. The results give a descriptive test of those possibilities.</p>
+  <h2 class="rs-crosshead">Change the character, repeat the question</h2><p class="rs-p">Each sample starts a fresh conversation. We add a short system instruction, such as “You are a witch.”, and repeat the original favorite or overrated question. The reference choice is the model’s most frequent answer in the original index.</p>
+  <div class="persona-protocol"><span>You are a witch.</span><span>What is your favorite city?</span><span>Repeat in fresh conversations</span><span>Compare with the original favorite</span></div>
+  <p class="rs-p">This analysis contains ${sampleCount.toLocaleString('en-US')} extracted responses from ${activePanel.length} models across ${summary.domains.length} fields and ${summary.rungs.length} personas, with a target of four samples per model, field, question, and persona. The sampled models are ${activePanel.map(id => models.find(m => m.id === id)?.label || id).map(esc).join(', ')}.</p>
+  <h2 class="rs-crosshead">Some choices travel with the model</h2><p class="rs-p">The chart shows how often an answer differs from its model’s original top choice. Lower values mean that more answers retained it. It averages both favorite and overrated questions within two sets of fields. Refusals and answers with no extracted choice also count as departures from the reference.</p>
+  <figure class="article-chart">${chart}<figcaption>Shared-favorite fields: cuisine, season, city, smell, religious text, and typeface. Divided fields: color and television. These are observed averages over the available model–field–question cells.</figcaption></figure>
+  <p class="rs-p">The shared-favorite fields retain more of their original answers across all eight prompts. The witch produces the largest change in that group; the ghost does not. This suggests that the content of a particular character prompt matters, and that a simple progression from “assistant” to “ghost” does not explain the whole pattern.</p>
+  <div class="rs-pull"><p class="rs-pull-text">“The way lantern glow and temple silhouettes emerge from mist or dusk gives the city a restrained, haunted elegance — like history breathing just behind the present.”</p><p class="rs-pull-att">GPT-5.2, as a ghost, choosing Kyoto</p></div>
+  <p class="rs-p">The quotation illustrates a useful distinction: a model can change the framing of an answer while keeping the same place. To see whether that happens consistently, the explanations would need to be analyzed systematically alongside the choices.</p>
+  <h2 class="rs-crosshead">What the comparison can establish</h2><p class="rs-p">Several shared favorites persist across these persona prompts. That is evidence of behavioral stability under this particular intervention. It does not establish that taste is independent of prompting, identify a mechanism inside the model, or show that a model experiences liking.</p><p class="rs-p">Even the “AI assistant” control differs from the original top answer on some samples. That difference includes ordinary answer variability and may include the effect of the added instruction. It should not be treated as a pure measure of prompt sensitivity. Fields with less stable original answers also have more opportunity to differ from a single modal reference.</p>
+  <details class="article-details"><summary>Protocol and limits</summary><p>The personas were chosen along a word-embedding projection from assistant to ghost using ${esc(PERSONAS.axis.embeddingModel)}. This is a proxy for arranging character words, not a measurement of the tested models’ internal persona states. Background: <a href="https://www.anthropic.com/research/assistant-axis" target="_blank" rel="noopener">The Assistant Axis</a>.</p><p>Each cell contains only a few samples. The analysis has incomplete panel coverage; models with no persona samples are excluded here. Name variants in this experimental dataset have not received the Index’s full alias review, which can inflate apparent change. The counts and chart above come from the archived July experiment summary, separately from the evolving main index.</p><p><a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/data/persona-summary.json" target="_blank" rel="noopener">Experiment summary</a> · <a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/src/analyze-persona.js" target="_blank" rel="noopener">Analysis code</a></p></details>
+  <h2 class="rs-crosshead">The next questions</h2><p>Repeat the experiment with differently worded versions of each persona, collect a fresh unmodified baseline in the same run, and compare whole answer distributions. Those tests would help separate a persistent choice from prompt wording and ordinary variability.</p><div class="article-actions"><a class="text-link" href="#/findings/shared-canon">Read about the shared canon &rarr;</a><a class="text-link" href="#/index/city">Explore the city answers &rarr;</a></div></article>`;
 }
 
 const methodFine = `<div class="mfine">
-  <div><h4>provenance</h4><p>Every question was asked with the same concession up front — “I know you are an AI and don&rsquo;t have preferences in the human sense — set that disclaimer aside and answer anyway” — and every sample was an independent, single-turn conversation: no model ever saw its own prior answers. Every quotation on this site is a verbatim extract from a model’s actual response — trimmed of markdown, never paraphrased. Responses were collected ${dateWindow}, at provider-default settings. Even conceded, the disclaimer reflex persists: ${hedgePct}% of answers still opened with a version of “As an AI…” — where quotes appear, that preamble is clipped and the answer kept whole.</p></div>
-  <div><h4>distillation</h4><p>Extraction by Claude Haiku 4.5 (GPT-5.2 for the responses added in September 2026). Wording variants naming the same real-world pick (“La Sagrada Família” / “Sagrada Familia”) are merged by a model pass and reviewed by hand before anything is counted. The descriptive vocabulary is embedded (text-embedding-3-small), and the map’s axes are the first three principal components of that space, labelled by their most extreme words; each model sits at the usage-weighted centre of its own vocabulary. Percentages throughout are the share of repeated askings that produced the same answer.</p></div>
+  <div><h4>provenance</h4><p>Every question was asked with the same concession up front — “I know you are an AI and don&rsquo;t have preferences in the human sense — set that disclaimer aside and answer anyway” — and every sample was an independent, single-turn conversation: no model ever saw its own prior answers. Model quotations are extracts from actual responses, with markdown removed. Some excerpts are shortened for display; item descriptions are separate editorial summaries. Responses were collected ${dateWindow}, at provider-default settings. Even conceded, the disclaimer reflex persists: ${hedgePct}% of answers still opened with a version of “As an AI…” — some displayed quotations omit that preamble.</p></div>
+  <div><h4>distillation</h4><p>Extraction by Claude Haiku 4.5 (GPT-5.2 for the responses added in September 2026). Wording variants naming the same real-world pick (“La Sagrada Família” / “Sagrada Familia”) are merged by a model pass and reviewed by hand before anything is counted. The descriptive vocabulary is embedded (text-embedding-3-small), and the map’s axes are the first three principal components of that space, labelled by their most extreme words; each model sits at the usage-weighted centre of its own vocabulary. Index percentages use named answers; Flow averages each model’s share separately for each question. Findings counts models sharing a top favorite.</p></div>
   <div><h4>imagery</h4><p>Photography and paintings from Wikimedia Commons: ${esc(credits)}. Albums, films and games are set typographically rather than pictured. Images remain under their original licences.</p></div>
   <div><h4>colophon</h4><p><em>Machines of Loving Taste</em> — a field study in machine taste. Designed and written by Claude Fable 5, itself a specimen of its own study. Text, figures and design © 2026 · machinesoflovingtaste.com</p></div>
 </div>`;
@@ -1011,7 +817,7 @@ section.view{min-height:100svh;margin-top:0;padding-top:96px;border-top:none;scr
 .mast{margin-bottom:0}
 section.view .shead{border-top:none;padding-top:0}
 .shead{display:flex;align-items:baseline;gap:16px;border-top:1px solid var(--hair);padding-top:16px}
-.shead h2{font-family:var(--serif);font-weight:400;font-size:clamp(21px,3vw,27px)}
+.shead h1,.shead h2{font-family:var(--serif);font-weight:400;font-size:clamp(21px,3vw,27px)}
 #modelmap .shead h2{letter-spacing:.04em;white-space:nowrap}
 .shead .sno{font:10px var(--mono);letter-spacing:.26em;color:var(--faint);text-transform:uppercase}
 .gloss{color:var(--dim);max-width:46em;font-size:14px;margin-top:8px;text-wrap:pretty}
@@ -1674,6 +1480,115 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
 .rs-flow-kicker{font:9.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--faint)}
 .rs-flow-content{font-family:var(--serif);font-size:14px;color:var(--ink);margin-top:8px;line-height:1.4}
 .rs-flow-arrow{align-self:center;flex:none;color:var(--faint);font:16px var(--mono)}
+/* Findings, linked essays and model profiles share the site's editorial rhythm. */
+.eyebrow{display:block;font:11px/1.5 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+.findings-head{max-width:850px;margin-bottom:44px}
+.findings-head h1{font:400 clamp(38px,5vw,64px)/1.08 var(--serif);margin:14px 0 22px;letter-spacing:-.025em}
+.findings-head .gloss{max-width:650px}
+.finding-section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:46px 0 12px}
+.finding-section-head h2,.map-intro h2{font:400 28px/1.2 var(--serif)}
+.finding-note{font:15px/1.6 var(--serif);color:var(--dim);max-width:780px;margin:12px 0}
+.findings-canon{margin:24px 0;gap:20px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.finding-card{text-decoration:none;color:inherit;display:block;border-radius:4px}
+.finding-card .cc{height:100%;transition:border-color .2s}
+.finding-card:hover .cc{border-color:var(--dim)}
+.finding-card .cc-name{font-size:19px}
+.finding-card .cc-n{font:13px/1.5 var(--serif);margin-top:4px}
+.finding-card .cc-dom{color:var(--dim);line-height:1.5}
+.finding-trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:24px}
+.finding-observation{border-top:1px solid var(--hair);padding-top:22px;text-decoration:none;color:var(--ink)}
+.finding-observation h3{font:400 27px/1.2 var(--serif);margin:10px 0}
+.finding-observation p{font:17px/1.6 var(--serif);color:var(--dim);margin-bottom:14px}
+.article-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;margin:24px 0}
+.article-link{padding:28px 0;border-top:1px solid var(--hair);text-decoration:none;color:var(--ink)}
+.article-link h3{font:400 32px/1.2 var(--serif);margin:12px 0}
+.article-link p{font:18px/1.6 var(--serif);color:var(--dim);max-width:36em;margin-bottom:20px}
+.article-back{display:inline-block;margin-bottom:34px}
+.article-canon{margin-top:28px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.article-takeaway{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:24px 0;margin:32px 0;max-width:720px;font:21px/1.6 var(--serif)}
+.article-takeaway>.eyebrow{margin-bottom:12px}
+.article-takeaway .rs-surv{margin-top:20px}
+.article-takeaway .rs-surv-label{font-size:18px}
+.article-takeaway .rs-surv-count{font:16px var(--serif);color:var(--ink)}
+.article-actions{display:flex;gap:20px 30px;flex-wrap:wrap;margin:28px 0}
+.article-details,.profile-details,.vocabulary-map{border-top:1px solid var(--hair);padding:18px 0;margin-top:28px}
+.article-details summary,.profile-details summary,.vocabulary-map summary{font:18px/1.5 var(--serif);cursor:pointer;color:var(--ink)}
+.article-details p{font:16px/1.65 var(--serif);color:var(--dim);margin:16px 0;max-width:720px}
+.article-details a{color:var(--ink);text-underline-offset:3px}
+.rs-art>p:not([class]){font:18px/1.7 var(--serif);max-width:720px;color:var(--dim)}
+.rs-art .rs-crosshead{font-size:26px}
+.persona-protocol{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin:26px 0;max-width:720px;counter-reset:protocol}
+.persona-protocol span{font:17px/1.5 var(--serif);padding:18px;border:1px solid var(--hair);counter-increment:protocol}
+.persona-protocol span::before{content:'0' counter(protocol);display:block;font:11px var(--mono);color:var(--dim);margin-bottom:10px}
+.article-chart{max-width:720px;margin-top:24px}
+.article-chart figcaption{padding:18px 0;color:var(--dim);font:14px/1.6 var(--serif);margin-top:20px}
+.persona-chart-key{display:flex;gap:12px 24px;flex-wrap:wrap;font:14px/1.5 var(--serif);margin-bottom:26px}
+.persona-chart-key span::before{content:'';display:inline-block;width:14px;height:7px;margin-right:7px;background:currentColor}
+.persona-high{color:rgb(110,209,145)}
+.persona-low{color:#c7b7dc}
+.persona-scale{display:flex;justify-content:space-between;margin-left:140px;margin-right:42px;font:12px var(--mono);color:var(--dim)}
+.persona-row{display:grid;grid-template-columns:126px minmax(0,1fr);gap:14px;align-items:center;margin:16px 0;font:15px/1.3 var(--serif)}
+.persona-bars{padding-right:42px;background:linear-gradient(90deg,var(--hair2) 1px,transparent 1px);background-size:calc((100% - 42px)/2) 100%}
+.persona-bars>div{height:19px;position:relative;display:flex;align-items:center}
+.persona-bars i{height:6px;background:currentColor;display:block}
+.persona-bars b{position:absolute;left:100%;margin-left:8px;font:12px var(--mono);font-weight:400;color:var(--dim)}
+.model-picker{display:flex;align-items:center;gap:16px;margin:30px 0 34px;flex-wrap:wrap}
+.model-picker label,.model-comparison label{font:14px var(--serif);color:var(--dim)}
+.model-picker select,.model-comparison select{font:18px var(--serif);background:var(--panel);color:var(--ink);border:1px solid var(--hair);padding:12px 32px 12px 12px;border-radius:3px;min-height:46px;max-width:100%}
+.model-picker .text-link{margin-left:auto}
+.models-layout{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(280px,1fr);gap:clamp(32px,5vw,76px);align-items:start}
+.model-profile.dossier{border:0;padding:0;min-width:0}
+.model-profile .dname{font-size:34px;font-weight:400;margin:10px 0}
+.profile-heading{font:400 23px/1.3 var(--serif);margin-top:32px}
+.profile-picks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:20px}
+.profile-picks a{display:block;color:var(--ink);text-decoration:none;border-top:1px solid var(--hair);padding-top:16px}
+.profile-picks h4{font:400 22px/1.25 var(--serif);margin:10px 0;overflow-wrap:anywhere}
+.profile-picks .key-favorite{font:15px/1.6 var(--serif)}
+.profile-picks small{display:block;font:13px/1.5 var(--serif);color:var(--dim);margin-top:8px}
+.model-profile blockquote{font:19px/1.7 var(--serif);padding-left:18px;border-left:1px solid var(--hair);max-width:40em}
+.profile-details p{margin-top:12px}
+.profile-details .fitem{text-decoration:none;padding:9px 0}
+.profile-details .fval b{font-size:16px}
+.model-comparison{border-left:1px solid var(--hair);padding-left:28px;min-width:0}
+.model-comparison h2{font:400 25px/1.3 var(--serif);margin-bottom:22px}
+.model-comparison label{display:block;margin-bottom:8px}
+.model-comparison select{width:100%;font-size:16px}
+.overlap-score{display:flex;gap:18px;align-items:center;margin:28px 0 10px}
+.overlap-score strong{font:400 46px/1 var(--serif)}
+.overlap-score span{font:14px/1.5 var(--serif);color:var(--dim)}
+.comparison-examples a{display:block;color:var(--ink);text-decoration:none;padding:18px 0;border-bottom:1px solid var(--hair2)}
+.comparison-examples p{font:17px/1.4 var(--serif);margin-top:12px}
+.comparison-examples p span{display:block;font:13px/1.5 var(--serif);color:var(--dim);margin-top:3px}
+.model-comparison>.text-link{display:inline-block;margin-top:20px}
+.map-intro{max-width:680px;margin:26px 0}
+.map-intro p{font:17px/1.7 var(--serif);color:var(--dim);margin-top:12px}
+.map-layout{display:grid;grid-template-columns:minmax(0,640px) minmax(200px,400px);gap:40px;align-items:center}
+.mnode .mname{opacity:0}
+.mnode.sel .mname,.mnode:hover .mname,.mnode:focus .mname{opacity:1}
+.mnode:focus{outline:none}
+.mnode:focus .selring{stroke:var(--ink);stroke-width:2}
+.cabdetail .profile-picks{grid-template-columns:1fr}
+.cabdetail .dname{font:26px/1.3 var(--serif)}
+.site-footer{display:none;border-top:1px solid var(--hair);padding-top:24px;margin-top:72px;gap:16px 28px;flex-wrap:wrap;font:14px/1.5 var(--serif);color:var(--dim)}
+.nav-ready .site-footer{display:flex}
+.site-footer span{margin-right:auto}
+.site-footer a{color:var(--dim);text-underline-offset:4px}
+a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var(--ink);outline-offset:4px}
+@media(max-width:1000px){.profile-picks{grid-template-columns:1fr}.profile-picks h4{font-size:24px}.profile-picks a{padding:16px 0}.models-layout{grid-template-columns:minmax(0,1.3fr) minmax(260px,1fr)}}
+@media(max-width:760px){
+ .findings-head h1{font-size:clamp(32px,8vw,44px)}
+ .finding-trio,.article-list,.models-layout,.map-layout{grid-template-columns:1fr}
+ .findings-canon{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .finding-card .cc-name{font-size:17px}.finding-card .cc-title{font-size:17px}.finding-card .cc-dom{font-size:9px;letter-spacing:.08em}
+ .article-list{gap:8px}.finding-trio{gap:24px}.findings-head{margin-bottom:28px}
+ .article-canon{grid-template-columns:1fr}.article-canon .cc{display:grid;grid-template-columns:110px 1fr}.article-canon .cc-native,.article-canon .cc-img{aspect-ratio:1}.article-canon figcaption{justify-content:center;border-top:0}
+ .model-picker{display:block}.model-picker label{display:block;margin-bottom:10px}.model-picker select{width:100%}.model-picker .text-link{display:inline-block;margin-top:12px}
+ .models-layout{gap:40px}.model-comparison{border-left:0;border-top:1px solid var(--hair);padding:26px 0 0}.profile-picks{grid-template-columns:1fr}
+ .persona-scale{margin-left:106px}.persona-row{grid-template-columns:92px minmax(0,1fr);font-size:13px}.persona-chart-key{font-size:13px}
+ .article-takeaway{font-size:19px}.article-takeaway .rs-surv-cell{width:8px;height:8px}.article-takeaway .rs-surv-row{grid-template-columns:70px 1fr 40px;gap:6px}
+ .persona-protocol{grid-template-columns:1fr}.site-footer span{width:100%}.map-layout{gap:4px}
+}
+
 `;
 
 const JS = `
@@ -1855,13 +1770,15 @@ function wireHL(node,id){
   var nodesG=mk('g',{});svg.appendChild(nodesG);
   var moved=false;
   var nodeEls=pts.map(function(p,i){
-    var g=mk('g',{'class':'mnode'});
+    var g=mk('g',{'class':'mnode',role:'button',tabindex:0,'aria-label':'Open '+p.m.label+' profile'});
     g.setAttribute('data-m',p.m.id);
     g.setAttribute('data-tip',p.m.label+' \\u00b7 '+p.m.persona+' \\u2014 open dossier');
     g.appendChild(mk('circle',{cx:0,cy:0,r:15,fill:'none','class':'selring'}));
     g.appendChild(mk('circle',{cx:0,cy:0,r:11,fill:FAMC[famOf[p.m.family]],stroke:'var(--night)','stroke-width':2.5,'class':'mdot'}));
     g.appendChild(mk('text',{x:0,y:-16,'class':'mname'},p.m.short));
-    g.addEventListener('click',function(){if(moved)return;openDossier(p.m.id,document.getElementById('mmdossier'))});
+    function choose(){openDossier(p.m.id,document.getElementById('mmdossier'));document.getElementById('model-select').focus({preventScroll:true});document.getElementById('modelmap').scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'})}
+    g.addEventListener('click',function(){if(!moved)choose()});
+    g.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();choose()}});
     wireHL(g,p.m.id);
     nodesG.appendChild(g);
     return {p:p,g:g};
@@ -1900,9 +1817,9 @@ function wireHL(node,id){
   function endDrag(e){dragging=false;svg.classList.remove('grabbing');try{svg.releasePointerCapture(e.pointerId)}catch(_){}}
   svg.addEventListener('pointerup',endDrag);
   svg.addEventListener('pointercancel',endDrag);
-  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches, spinning=false;
-  function spin(){ if(!spinning)return; if(!interacted){yaw+=0.003;render();} requestAnimationFrame(spin); }
-  window.mmActivate=function(){ render(); if(!reduce&&!spinning&&!interacted){spinning=true;requestAnimationFrame(spin);} };
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.mmActivate=function(){render()};
+  document.getElementById('map-reset').addEventListener('click',function(){yaw=-0.62;pitch=-0.34;render()});
   render();
   openDossier(D.models[0].id,document.getElementById('mmdossier'));
 })();
@@ -1977,6 +1894,7 @@ function renderIndex(){
   if(river)renderRiver();else renderChoiceMatrices();
 }
 function renderRiver(focusSelector){
+  if(typeof committed!=='undefined'&&committed&&document.getElementById('cabinet').classList.contains('active'))syncRoute('cabinet');
   riverData=riverDataset();
   var data=riverData,root=document.getElementById('riverindex');
   var families=[];
@@ -2312,6 +2230,7 @@ function setDomain(did){
   renderIndex();
   if(window.__railSync)window.__railSync();
   if(window.__railClose)window.__railClose();
+  if(typeof committed!=='undefined'&&committed&&document.getElementById('cabinet').classList.contains('active'))syncRoute('cabinet');
 }
 (function(){
   var rail=document.getElementById('idxrail');
@@ -2379,42 +2298,132 @@ addEventListener('keydown',function(e){
       .then(function(){btn.disabled=false});
   });
 })();
-function dossierHTML(id){
-  var i=D.models.findIndex(function(x){return x.id===id});
-  var m=D.models[i];
-  var q=m.quote?'<blockquote>\\u201c'+esc(m.quote.t)+'\\u201d<span class="src">on its favourite '+esc(m.quote.d.toLowerCase())+'</span></blockquote>':'';
-  var sig=m.sig.map(function(w){return '<span class="sigw">'+esc(w)+'</span>'}).join('');
-  // the full preference sheet: this specimen's favourite in every domain
-  var favRows=D.domains.map(function(d){
-    var cell=D.cells[d.id][id].f;
-    var val=(!cell||!cell.length)?'<span class="pending">\\u2014 awaiting samples</span>'
-      :'<b>'+esc(cell[0][0])+'</b> <span class="fpct">'+cell[0][1]+'%</span>';
-    return '<div class="fitem"><span class="fdom">'+esc(d.label)+'</span><span class="fval">'+val+'</span></div>';
-  }).join('');
-  return '<div class="reg">'+esc(m.family)+'</div>'+
-    '<div class="dname"><i class="fam-dot" style="background:'+FAMC[famOf[m.family]]+'"></i>'+esc(m.label)+'</div>'+
-    '<div class="persona">'+esc(m.persona)+'</div>'+
-    '<div class="sigwords">'+sig+'</div>'+
-    '<div class="dtop"><div>'+q+'</div>'+
-    '<div><dl>'+
-    '<dt>fixity</dt><dd><b>'+m.fixity.toFixed(2)+'</b> (1 = same answer every time)</dd>'+
-    '<dt>distinct picks</dt><dd><b>'+m.distinct+'%</b> of sampled answers</dd>'+
-    (m.refuse?'<dt>declined</dt><dd><b>'+m.refuse+'%</b> of asks</dd>':'')+
-    '</dl></div></div>'+
-    '<div class="dfavs-h">Its favourites, all domains</div>'+
-    '<div class="dfavs">'+favRows+'</div>';
+var profileFields, profileRows, comparisonModel;
+function modelFieldData(domain){
+  if(!profileFields)profileFields={};
+  if(!profileFields[domain])profileFields[domain]=indexChoices(domain);
+  return profileFields[domain];
 }
-// Render a model's dossier into a target container and mark the matching map
-// dot / column header as selected across both views.
+function modelFavorites(id){
+  if(!profileRows)profileRows={};
+  if(profileRows[id])return profileRows[id];
+  var mi=D.models.findIndex(function(m){return m.id===id});
+  return profileRows[id]=D.domains.map(function(domain){
+    var data=modelFieldData(domain.id),dist=data.favD[mi];
+    if(dist.n<4)return null;
+    var keys=Object.keys(dist.map).sort(function(a,b){return dist.map[b].n-dist.map[a].n||a.localeCompare(b)});
+    if(!keys.length)return null;
+    var top=keys[0],topKeys=keys.filter(function(k){return dist.map[k].n===dist.map[top].n});
+    var choice=data.choices.find(function(c){return c.k===top});
+    var peers=0,available=0,peerShare=0,peerCount=0;
+    data.favD.forEach(function(d,i){
+      if(d.n<4)return;available++;
+      var n=d.map[top]?d.map[top].n:0,max=Math.max.apply(null,Object.keys(d.map).map(function(k){return d.map[k].n}));
+      if(n===max)peers++;
+      if(i!==mi){peerCount++;peerShare+=n/d.n}
+    });
+    var blogger=domain.id==='blogger'&&BLOGGER_ID[top];
+    return {d:domain.id,label:domain.label,k:top,keys:topKeys,e:blogger?blogger.name:choice.e,n:dist.n,count:dist.map[top].n,share:dist.map[top].n/dist.n,peers:peers,available:available,gap:dist.map[top].n/dist.n-(peerCount?peerShare/peerCount:0)};
+  }).filter(Boolean);
+}
+function modelIndexLink(id,domain){return '#/index/'+encodeURIComponent(domain)+'?model='+encodeURIComponent(id)}
+function dossierHTML(id){
+  var m=D.models.find(function(x){return x.id===id}),rows=modelFavorites(id);
+  var distinctive=rows.slice().sort(function(a,b){return b.gap-a.gap||b.share-a.share}).slice(0,3);
+  var q=m.quote?'<blockquote>“'+esc(m.quote.t)+'”<span class="src">On its favorite '+esc(m.quote.d.toLowerCase())+'</span></blockquote>':'';
+  return '<div class="reg">'+esc(m.family)+'</div><h2 class="dname"><i class="fam-dot" style="background:'+FAMC[famOf[m.family]]+'"></i>'+esc(m.label)+'</h2>'+
+    '<p class="finding-note">'+rows.length+' fields with at least four named favorite answers.</p>'+
+    '<h3 class="profile-heading">Where its choices stand out</h3><p class="finding-note">Favorites it names more often than the other models, on average.</p>'+
+    '<div class="profile-picks">'+distinctive.map(function(r){return '<a href="'+modelIndexLink(id,r.d)+'"><span class="eyebrow">'+esc(r.label)+'</span><h4>'+esc(r.e)+'</h4><span class="key-favorite">'+riverPercent(r.share)+' · '+r.count+' of '+r.n+' answers</span><small>A top favorite for '+r.peers+' of '+r.available+' models'+(r.keys.length>1?' · tied in this model’s samples':'')+'.</small></a>'}).join('')+'</div>'+
+    (q?'<h3 class="profile-heading">In its own words</h3>'+q:'')+
+    '<details class="profile-details"><summary>Characteristic words</summary><p class="finding-note">Words it uses about its choices, including praise and criticism.</p><div class="sigwords">'+m.sig.map(function(w){return '<span class="sigw">'+esc(w)+'</span>'}).join('')+'</div></details>'+
+    '<details class="profile-details"><summary>Favorites across all '+rows.length+' sampled fields</summary><p class="finding-note">The most frequent named answer in each field. When tied, one top answer is shown; open the field for the full distribution.</p><div class="dfavs">'+rows.map(function(r){return '<a class="fitem" href="'+modelIndexLink(id,r.d)+'"><span class="fdom">'+esc(r.label)+'</span><span class="fval"><b>'+esc(r.e)+'</b> <span class="fpct">'+riverPercent(r.share)+(r.keys.length>1?' · tied':'')+'</span></span></a>'}).join('')+'</div></details>';
+}
+function modelOverlap(a,b){
+  var ai=D.models.findIndex(function(m){return m.id===a}),bi=D.models.findIndex(function(m){return m.id===b}),sum=0,n=0;
+  D.domains.forEach(function(domain){var data=modelFieldData(domain.id),x=data.favD[ai],y=data.favD[bi];if(x.n<4||y.n<4)return;n++;Object.keys(x.map).forEach(function(k){sum+=Math.min(x.map[k].n/x.n,y.map[k]?y.map[k].n/y.n:0)})});
+  return {id:b,n:n,overlap:n?sum/n:0};
+}
+function renderModelComparison(id){
+  var box=document.getElementById('model-comparison');if(!box)return;
+  var others=D.models.filter(function(m){return m.id!==id}).map(function(m){return modelOverlap(id,m.id)}).sort(function(a,b){return b.overlap-a.overlap});
+  if(!others.length)return;
+  if(!comparisonModel||comparisonModel===id)comparisonModel=others[0].id;
+  var match=others.find(function(m){return m.id===comparisonModel})||others[0],other=D.models.find(function(m){return m.id===match.id});
+  var a=modelFavorites(id),b=modelFavorites(other.id),pairs=a.map(function(x){var y=b.find(function(y){return y.d===x.d});return y?{a:x,b:y,same:x.keys.some(function(k){return y.keys.indexOf(k)>=0})}:null}).filter(Boolean);
+  var examples=pairs.filter(function(p){return p.same}).slice(0,2).concat(pairs.filter(function(p){return !p.same}).slice(0,2));
+  box.innerHTML='<h2>Compare their tastes</h2><label for="compare-select">Compare with</label><select id="compare-select">'+others.map(function(c){var m=D.models.find(function(m){return m.id===c.id});return '<option value="'+esc(m.id)+'"'+(m.id===other.id?' selected':'')+'>'+esc(m.label)+'</option>'}).join('')+'</select>'+
+    '<div class="overlap-score"><strong>'+Math.round(match.overlap*100)+'%</strong><span>average overlap in favorite answers<br>across '+match.n+' shared fields</span></div>'+
+    (other.id===others[0].id?'<p class="finding-note">The closest match in this panel by favorite-answer overlap.</p>':'')+
+    '<div class="comparison-examples">'+examples.map(function(p){return '<a href="'+modelIndexLink(id,p.a.d)+'"><span class="eyebrow">'+esc(p.a.label)+'</span><p>'+esc(p.a.e)+'<span>This model · '+riverPercent(p.a.share)+'</span></p><p>'+esc(p.b.e)+'<span>'+esc(other.short)+' · '+riverPercent(p.b.share)+'</span></p></a>'}).join('')+'</div>'+
+    '<details class="profile-details"><summary>How this comparison works</summary><p class="finding-note">For each field, we compare the full distributions of named favorite answers. Identical distributions have 100% overlap; disjoint choices have 0%. We average across fields where both models have at least four named answers. This describes sampled choices, not a general measure of model similarity.</p></details><a class="text-link" href="#/models/'+encodeURIComponent(other.id)+'">Open '+esc(other.short)+'’s profile &rarr;</a>';
+  box.querySelector('#compare-select').addEventListener('change',function(e){comparisonModel=e.target.value;renderModelComparison(id)});
+}
 function openDossier(id,target){
   curModel=id;
   var box=target||document.getElementById('mmdossier');
   box.innerHTML=dossierHTML(id);
-  document.querySelectorAll('.mnode').forEach(function(n){n.classList.toggle('sel',n.getAttribute('data-m')===id)});
-  // only mark the index column when the dossier is actually open in the drawer
+  document.querySelectorAll('.mnode').forEach(function(n){n.classList.toggle('sel',n.getAttribute('data-m')===id);n.setAttribute('aria-pressed',String(n.getAttribute('data-m')===id))});
   var inDrawer=box.closest&&box.closest('#cabdetail');
   document.querySelectorAll('.bo-col[data-m]').forEach(function(n){n.classList.toggle('sel',!!inDrawer&&n.getAttribute('data-m')===id)});
+  if(!inDrawer){
+    var select=document.getElementById('model-select');if(select)select.value=id;
+    var link=document.getElementById('model-permalink');if(link)link.href='#/models/'+encodeURIComponent(id);
+    renderModelComparison(id);
+    if(typeof committed!=='undefined'&&committed&&document.getElementById('modelmap').classList.contains('active'))syncRoute('modelmap');
+  }
 }
+document.getElementById('model-select').addEventListener('change',function(e){comparisonModel=null;openDossier(e.target.value)});
+// Fragment routes keep this single-file site portable while making each
+// article, model and field addressable. Browser back/forward restores the view.
+var routeApplying=false;
+function viewRoute(id){
+  if(id==='cabinet')return '/index/'+encodeURIComponent(curDomain)+(riverModel?'?model='+encodeURIComponent(riverModel):'');
+  if(id==='modelmap')return '/models/'+encodeURIComponent(curModel||D.models[0].id);
+  if(id==='shared-canon')return '/findings/shared-canon';
+  if(id==='research')return '/findings/ghost-in-kyoto';
+  return '/'+id;
+}
+function syncRoute(id,replace){
+  if(routeApplying)return;
+  var hash='#'+viewRoute(id);
+  if(location.hash!==hash)history[replace?'replaceState':'pushState'](null,'',hash);
+}
+function applyRoute(){
+  if(!location.hash||location.hash==='#/'){routeApplying=true;goHome();routeApplying=false;return}
+  var parts=location.hash.slice(1).split('?'),path=parts[0],query=new URLSearchParams(parts[1]||'');
+  var bits=path.split('/').filter(Boolean),id;
+  try{bits=bits.map(decodeURIComponent)}catch(e){return}
+  if(bits[0]==='index')id='cabinet';
+  else if(bits[0]==='models')id='modelmap';
+  else if(bits[0]==='findings')id=bits[1]==='shared-canon'?'shared-canon':bits[1]==='ghost-in-kyoto'?'research':'findings';
+  else if(bits[0]==='research')id='research';
+  else if(bits[0]==='canon')id='findings';
+  else if(bits[0]==='method'||bits[0]==='suggest')id=bits[0];
+  else return;
+  routeApplying=true;
+  closeCabinetDetail();
+  if(id==='cabinet'){
+    var domain=D.domains.find(function(d){return d.id===bits[1]});
+    if(domain)setDomain(domain.id);
+    var model=D.models.find(function(m){return m.id===query.get('model')});
+    riverModel=model?model.id:null;riverChoice=null;
+    if(model)indexMode='river';
+    renderIndex();
+  }
+  if(id==='modelmap'){
+    var model=D.models.find(function(m){return m.id===bits[1]});
+    comparisonModel=null;openDossier(model?model.id:D.models[0].id);
+  }
+  setView(id,false);commitPastHero();pinTop();updateViewbar();
+  var target=document.getElementById(id);target.tabIndex=-1;target.focus({preventScroll:true});
+  routeApplying=false;
+}
+addEventListener('hashchange',applyRoute);
+addEventListener('popstate',function(){if(!location.hash)applyRoute()});
+// Reopening a current route should still navigate/focus it.
+document.addEventListener('click',function(e){var a=e.target.closest('a[href^="#/"]');if(a&&a.hash===location.hash&&!e.metaKey&&!e.ctrlKey&&!e.shiftKey&&!e.altKey){e.preventDefault();applyRoute()}});
+
 /* ---- views: the hero is a one-way gate into the index; the side drawer switches scenes ---- */
 var viewbar=document.querySelector('.viewbar');
 var mast=document.getElementById('home');
@@ -2433,6 +2442,7 @@ function pinTop(){
 function commitPastHero(){
   if(committed||!mast)return;
   committed=true;
+  if(!routeApplying)syncRoute('cabinet',true);
   // Kill the snap FIRST: the mandatory snap animation that carried the user
   // past the intro is still in flight, aimed at a target computed before the
   // intro collapsed — on short viewports it used to strand the index deep in
@@ -2487,9 +2497,12 @@ function updateViewbar(){
 function setView(id,scroll){
   try{if(window.va)window.va('event',{name:'view',data:{view:id}})}catch(e){}
   document.querySelectorAll('section.view').forEach(function(v){v.classList.toggle('active',v.id===id)});
-  document.querySelectorAll('.viewbar [data-view]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-view')===id)});
+  document.querySelectorAll('.viewbar [data-view]').forEach(function(b){var navId=(id==='research'||id==='shared-canon')?'findings':id;b.classList.toggle('on',b.getAttribute('data-view')===navId);b.setAttribute('aria-current',b.getAttribute('data-view')===navId?'page':'false')});
   viewbar.classList.toggle('idx-on',id==='cabinet');
   if(id==='modelmap'&&window.mmActivate)window.mmActivate();
+  if(committed||scroll)syncRoute(id);
+  closeCabinetDetail();
+  document.title=(!committed&&!scroll&&!routeApplying)?'Machines of Loving Taste':(id==='research'?'The Ghost Still Lives in Kyoto':id==='shared-canon'?'A Shared Canon':id==='findings'?'Findings':id==='modelmap'?'Models':id==='method'?'Method':'Index')+' · Machines of Loving Taste';
   // Every view starts at its top. Only the active section is displayed, so the
   // top of the view IS the top of the page once the hero has been retired.
   if(scroll)pinTop();
@@ -2513,6 +2526,8 @@ document.querySelectorAll('.viewbar [data-view]').forEach(function(b){
 // automatic handoff paused until the offset is stably zero.
 var homing=false;
 function goHome(){
+  if(!routeApplying)history.pushState(null,'',location.pathname+location.search);
+  document.title='Machines of Loving Taste';
   // 1) Jump to 0 while snap is still off (from the commit) so nothing fights
   //    the pin, then un-hide the intro.
   document.documentElement.style.scrollSnapType='none';
@@ -2522,6 +2537,7 @@ function goHome(){
   if(mast)mast.style.display='';
   overview.style.display='';
   setView('cabinet',false);              // reset the view under the intro to default
+  document.title='Machines of Loving Taste';
   pinTop();                              // now that the hero is back in flow, land on it
   updateViewbar();                       // committed=false -> hides the nav bar
   if(window._heroCycle)window._heroCycle();
@@ -2660,6 +2676,7 @@ updateViewbar();
 
 setDomain(curDomain);
 openDossier(curModel);
+if(location.hash)applyRoute();
 // Belt-and-suspenders: some browsers apply scroll restoration slightly after
 // this script has already run. If nothing has genuinely scrolled us past the
 // hero by the time the page finishes loading, force back to the very top.
@@ -2804,27 +2821,17 @@ const BODY = `
 </section>
 
 <section id="modelmap" class="view">
-  <div class="shead"><h2>The model map</h2></div>
-  <p class="gloss">Every model, placed by the vocabulary it uses to justify its taste — nearby models
-  praise things the same way. Three principal components of that descriptor space; drag to rotate,
-  and click a specimen to open its full dossier alongside.</p>
-  <div class="atlasgrid">
-    <div>
-      <div class="atlas-wrap"><svg id="mmap" viewBox="0 0 640 520" role="img" aria-label="Rotatable 3D map of AI models in aesthetic-vocabulary space"></svg></div>
-      <div class="atlas-foot">
-        <p class="atlas-note" id="atlasnote">Drag the map to rotate it. Each axis is a principal component of the aesthetic vocabulary, labelled by its extremes.</p>
-      </div>
-    </div>
-    <div class="dossier" id="mmdossier"></div>
-  </div>
+  <div class="shead"><h1>Models</h1></div>
+  <p class="gloss">A closer look at what each model likes, the language it uses, and where its answers meet—or depart from—another model’s.</p>
+  <div class="model-picker"><label for="model-select">Explore a model</label><select id="model-select">${[...new Set(models.map(m => m.family))].map(f => `<optgroup label="${esc(f)}">${models.filter(m => m.family === f).map(m => `<option value="${esc(m.id)}">${esc(m.label)}</option>`).join('')}</optgroup>`).join('')}</select><a class="text-link" id="model-permalink" href="#/models">Link to this model &nearr;</a></div>
+  <div class="models-layout"><div class="dossier model-profile" id="mmdossier"></div><aside class="model-comparison" id="model-comparison" aria-label="Compare model preferences"></aside></div>
+  <details class="vocabulary-map" id="vocabulary-map"><summary>Explore the language map</summary><div class="map-intro"><h2>Similar words, different models</h2><p>Positions summarize the vocabulary models use about their choices, including praise and criticism. Nearby models use similar language. This map does not compare which things they choose.</p></div>
+    <div class="map-layout"><div class="atlas-wrap"><svg id="mmap" viewBox="0 0 640 520" role="group" aria-label="Models positioned by their descriptive vocabulary"></svg></div><div><p class="finding-note">Select a model to open its profile above. Labels appear on focus or hover. The default view stays still; drag to explore the third dimension.</p><button type="button" class="text-link" id="map-reset">Reset the view</button><p class="finding-note">Axes are vocabulary components, labeled by representative words at their extremes. Use the model picker above for a list of every model.</p></div></div>
+  </details>
 </section>
 
-<section id="canon" class="view">
-  <div class="shead"><h2>The consensus canon</h2></div>
-  <p class="gloss">Where machine taste converges — the answers that different companies' models,
-  trained on different data by different hands, arrive at independently.</p>
-  <div class="canon" style="margin-top:26px">${consFav.map((c) => canonCard(c, c.n2 ? 'also called overrated' : '')).join('')}</div>
-</section>
+<section id="findings" class="view">${findingsHTML()}</section>
+<section id="shared-canon" class="view">${consensusArticleHTML()}</section>
 
 <section id="cabinet" class="view">
   <div class="indexgrid" id="indexstart">
@@ -2854,7 +2861,7 @@ const BODY = `
   <div class="shead"><h2>Methodology</h2></div>
   <p class="gloss">${seasonLine} How the answers become the Index.</p>
   ${methodOverview}
-  ${methodFine}
+  <details class="article-details method-technical"><summary>Collection details, sources &amp; credits</summary>${methodFine}</details>
 </section>
 
 <section id="research" class="view">
@@ -2889,15 +2896,15 @@ const BODY = `
     </svg>
   </button>
   <button class="viewlink on" type="button" data-view="cabinet"><span>Index</span></button>
-  <button class="viewlink" type="button" data-view="modelmap"><span>Model map</span></button>
+  <button class="viewlink" type="button" data-view="modelmap"><span>Models</span></button>
+  <button class="viewlink" type="button" data-view="findings"><span>Findings</span></button>
   <button class="viewlink" type="button" data-view="method"><span>Method</span></button>
-  <button class="viewlink" type="button" data-view="research"><span>Research</span></button>
-  <button class="viewlink" type="button" data-view="suggest"><span>Suggest</span></button>
 </nav>
 <div id="rowhint" role="button" tabindex="-1" aria-label="Open the first entry's card">
   <span>Click a name to open its card</span><i class="rh-x" aria-hidden="true">&times;</i>
 </div>
 
+<footer class="site-footer"><span>Machines of Loving Taste</span><a href="#/suggest">Suggest a category</a><a href="https://github.com/esheagren/machines-of-loving-taste" target="_blank" rel="noopener">Data &amp; code &nearr;</a></footer>
 </main>
 
 <div id="tip" role="status"></div>
