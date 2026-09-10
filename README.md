@@ -37,7 +37,7 @@ Imagery: Wikimedia Commons (credits in the site's Method section).
 
 - **Index** opens in Flow; Grid remains available for model-by-model inspection.
 - **Models** provides selectable profiles, sampled favorite distributions, pairwise overlap comparisons, and an optional vocabulary map.
-- **Findings** presents the shared canon, divided fields, ambivalent choices, and linked essays. Consensus counts include tied top favorites and require four named answers per model and field.
+- **Findings** opens with two linked essay previews, each with a title and a two-sentence summary. Add entries in `findingsHTML()` to extend the overview. The shared-canon essay's counts include tied top favorites and require four named answers per model and field.
 - **Method** explains collection, the percentages, and the different views.
 
 Fragment routes keep links portable in the standalone HTML: `#/findings`, `#/findings/shared-canon`, `#/findings/ghost-in-kyoto`, `#/models/claude-fable-5-1`, and `#/index/city`. An Index link can select a model with `?model=claude-fable-5-1`. Reload and browser back/forward restore these destinations.

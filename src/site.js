@@ -414,17 +414,20 @@ function findingCard(entry) {
   return `<a class="finding-card" href="${indexHref(entry.d)}" aria-label="Explore ${esc(entry.e)} in ${esc(DOMAIN_LABELS[entry.d])}">${canonCard({ ...entry, n2: entry.o >= MAJORITY ? entry.o : null }, entry.o >= MAJORITY ? 'also called overrated' : '')}</a>`;
 }
 function findingsHTML() {
-  return `<div class="findings-head"><p class="eyebrow">Findings</p><h1>Different models.<br>A shared canon.</h1><p class="gloss">Ask what they like, and the same names keep returning. Here is where the answers converge—and where they pull apart.</p></div>
-  <div class="finding-section-head"><h2>The shared favorites</h2><a class="text-link" href="#/findings/shared-canon">Read the essay &rarr;</a></div>
-  <p class="finding-note">Each choice below is a top favorite for a majority of the panel. Open a card to see the answers in its field.</p>
-  <div class="canon findings-canon">${sharedFindings.map(findingCard).join('')}</div>
-  <p class="finding-note">Counts are models, not answers. Joint top favorites count; a model needs at least four named answers in that field. The current panel has ${models.length} models, so a majority is ${MAJORITY}.</p>
-  <div class="finding-section-head"><h2>Where the answers divide</h2></div><p class="finding-note">In these fields, even the leading favorite is shared by relatively few models.</p>
-  <div class="finding-trio">${dividedFindings.map(d => `<a class="finding-observation" href="${indexHref(d.id)}"><span class="eyebrow">${esc(d.label)}</span><h3>${esc(d.leader.e)}</h3><p>The leading favorite: ${d.leader.n} of ${d.available} sampled models.</p><span class="text-link">Explore the alternatives &rarr;</span></a>`).join('')}</div>
-  <div class="finding-section-head"><h2>Both loved and overrated</h2></div><p class="finding-note">Admiration and criticism can coexist. These choices appear among models’ top answers to both questions.</p>
-  <div class="finding-trio">${ambivalentFindings.map(e => `<a class="finding-observation" href="${indexHref(e.d)}"><span class="eyebrow">${esc(DOMAIN_LABELS[e.d])}</span><h3>${esc(e.e)}</h3><p><span class="key-favorite">Favorite for ${e.n} models</span><br><span class="key-overrated">Overrated for ${e.o} models</span></p><span class="text-link">Read both sides &rarr;</span></a>`).join('')}</div>
-  <div class="finding-section-head"><h2>Read the studies</h2></div>
-  <div class="article-list"><a class="article-link" href="#/findings/shared-canon"><span class="eyebrow">The index · September 2026</span><h3>A Shared Canon</h3><p>What the common favorites reveal, where agreement ends, and why liking something does not rule out calling it overrated.</p><span class="text-link">Read the essay &rarr;</span></a>${PERSONA_SUMMARY ? `<a class="article-link" href="#/findings/ghost-in-kyoto"><span class="eyebrow">Persona experiment · July 2026</span><h3>The Ghost Still Lives in Kyoto</h3><p>Several familiar favorites survive a change of character. The explanations change more readily than some of the choices.</p><span class="text-link">Read the study &rarr;</span></a>` : ''}</div>`;
+  const essays = [
+    {
+      slug: 'shared-canon',
+      title: 'A Shared Canon',
+      summary: 'Different AI models often name the same favorites, from books and cities to seasons and smells. They disagree on some things, but a shared set of tastes keeps showing up.',
+    },
+    {
+      slug: 'ghost-in-kyoto',
+      title: 'The Ghost Still Lives in Kyoto',
+      summary: 'We asked AI models to answer as different characters, including a witch and a ghost. Several favorites stayed the same, even when the models gave new reasons for choosing them.',
+    },
+  ];
+  return `<div class="findings-head"><h1>Findings</h1></div>
+  <div class="article-list">${essays.map(essay => `<a class="article-link" href="#/findings/${essay.slug}"><h2>${esc(essay.title)}</h2><p>${esc(essay.summary)}</p><span class="text-link">Read the essay &rarr;</span></a>`).join('')}</div>`;
 }
 function consensusArticleHTML() {
   const examples = ['season','city','smell'].map(d => sharedFindings.find(e => e.d === d)).filter(Boolean);
@@ -1515,25 +1518,21 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
 .eyebrow{display:block;font:11px/1.5 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
 .findings-head{max-width:850px;margin-bottom:44px}
 .findings-head h1{font:400 clamp(38px,5vw,64px)/1.08 var(--serif);margin:14px 0 22px;letter-spacing:-.025em}
-.findings-head .gloss{max-width:650px}
-.finding-section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:46px 0 12px}
-.finding-section-head h2,.map-intro h2{font:400 28px/1.2 var(--serif)}
+.map-intro h2{font:400 28px/1.2 var(--serif)}
 .finding-note{font:15px/1.6 var(--serif);color:var(--dim);max-width:780px;margin:12px 0}
-.findings-canon{margin:24px 0;gap:20px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
 .finding-card{text-decoration:none;color:inherit;display:block;border-radius:4px}
 .finding-card .cc{height:100%;transition:border-color .2s}
 .finding-card:hover .cc{border-color:var(--dim)}
 .finding-card .cc-name{font-size:19px}
 .finding-card .cc-n{font:13px/1.5 var(--serif);margin-top:4px}
 .finding-card .cc-dom{color:var(--dim);line-height:1.5}
-.finding-trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:24px}
-.finding-observation{border-top:1px solid var(--hair);padding-top:22px;text-decoration:none;color:var(--ink)}
-.finding-observation h3{font:400 27px/1.2 var(--serif);margin:10px 0}
-.finding-observation p{font:17px/1.6 var(--serif);color:var(--dim);margin-bottom:14px}
-.article-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;margin:24px 0}
-.article-link{padding:28px 0;border-top:1px solid var(--hair);text-decoration:none;color:var(--ink)}
-.article-link h3{font:400 32px/1.2 var(--serif);margin:12px 0}
-.article-link p{font:18px/1.6 var(--serif);color:var(--dim);max-width:36em;margin-bottom:20px}
+.article-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 56px;max-width:1160px;margin:24px 0}
+.article-link{display:flex;flex-direction:column;align-items:flex-start;padding:28px 0;border-top:1px solid var(--hair);text-decoration:none;color:var(--ink)}
+.article-link h2{font:400 clamp(26px,3vw,32px)/1.2 var(--serif);margin:0 0 18px;text-wrap:balance}
+.article-link p{font:18px/1.6 var(--serif);color:var(--dim);max-width:36em;margin-bottom:24px}
+.article-link>.text-link{margin-top:auto}
+.article-link:hover{border-top-color:var(--dim)}
+.article-link:hover h2{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
 .article-back{display:inline-block;margin-bottom:34px}
 .article-canon{margin-top:28px;grid-template-columns:repeat(3,minmax(0,1fr))}
 .article-takeaway{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:24px 0;margin:32px 0;max-width:720px;font:21px/1.6 var(--serif)}
@@ -1608,10 +1607,9 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
 @media(max-width:1000px){.profile-picks{grid-template-columns:1fr}.profile-picks h4{font-size:24px}.profile-picks a{padding:16px 0}.models-layout{grid-template-columns:minmax(0,1.3fr) minmax(260px,1fr)}}
 @media(max-width:760px){
  .findings-head h1{font-size:clamp(32px,8vw,44px)}
- .finding-trio,.article-list,.models-layout,.map-layout{grid-template-columns:1fr}
- .findings-canon{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .article-list,.models-layout,.map-layout{grid-template-columns:1fr}
  .finding-card .cc-name{font-size:17px}.finding-card .cc-title{font-size:17px}.finding-card .cc-dom{font-size:9px;letter-spacing:.08em}
- .article-list{gap:8px}.finding-trio{gap:24px}.findings-head{margin-bottom:28px}
+ .article-list{gap:8px}.findings-head{margin-bottom:28px}
  .article-canon{grid-template-columns:1fr}.article-canon .cc{display:grid;grid-template-columns:110px 1fr}.article-canon .cc-native,.article-canon .cc-img{aspect-ratio:1}.article-canon figcaption{justify-content:center;border-top:0}
  .model-picker{display:block}.model-picker label{display:block;margin-bottom:10px}.model-picker select{width:100%}.model-picker .text-link{display:inline-block;margin-top:12px}
  .models-layout{gap:40px}.model-comparison{border-left:0;border-top:1px solid var(--hair);padding:26px 0 0}.profile-picks{grid-template-columns:1fr}

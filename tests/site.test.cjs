@@ -14,9 +14,9 @@ for(let a=0;a<D.models.length;a++)for(let b=a+1;b<D.models.length;b++){
  const x=ctx.modelOverlap(D.models[a].id,D.models[b].id),y=ctx.modelOverlap(D.models[b].id,D.models[a].id);
  assert(x.overlap>=0&&x.overlap<=1);assert(Math.abs(x.overlap-y.overlap)<1e-10);assert.equal(x.n,y.n);
 }
-// Verify the rendered consensus against the named answers, including ties.
-const findings=html.match(/<section id="findings"[^>]*>([\s\S]*?)<\/section>/)[1];
-const visibleCards=[...findings.matchAll(/class="finding-card" href="#\/index\/([^"?]+)"[^>]*>[\s\S]*?<span class="cc-name">([^<]+)<\/span><span class="cc-n">([^<]+)<\/span>/g)];
+// Verify the essay's consensus examples against the named answers, including ties.
+const consensus=html.match(/<section id="shared-canon"[^>]*>([\s\S]*?)<\/section>/)[1];
+const visibleCards=[...consensus.matchAll(/class="finding-card" href="#\/index\/([^"?]+)"[^>]*>[\s\S]*?<span class="cc-name">([^<]+)<\/span><span class="cc-n">([^<]+)<\/span>/g)];
 const expected=[];
 for(const domain of D.domains){
  const counts={};
@@ -27,7 +27,7 @@ for(const domain of D.domains){
  }
  for(const [key,count] of Object.entries(counts))if(count>D.models.length/2)expected.push({domain:domain.id,key,count});
 }
-assert.equal(visibleCards.length,expected.length);
+assert(visibleCards.length>0,'The consensus essay should include examples to verify');
 const decode=s=>s.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>');
 for(const card of visibleCards){
  const key=ctx.canonEnt(card[1],decode(card[2]));const entry=expected.find(e=>e.domain===card[1]&&e.key===key);assert(entry,'Unexpected consensus entry: '+card[2]);assert.equal(Number(card[3].match(/\d+/)[0]),entry.count);

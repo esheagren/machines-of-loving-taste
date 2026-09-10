@@ -750,25 +750,21 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
 .eyebrow{display:block;font:11px/1.5 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
 .findings-head{max-width:850px;margin-bottom:44px}
 .findings-head h1{font:400 clamp(38px,5vw,64px)/1.08 var(--serif);margin:14px 0 22px;letter-spacing:-.025em}
-.findings-head .gloss{max-width:650px}
-.finding-section-head{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:46px 0 12px}
-.finding-section-head h2,.map-intro h2{font:400 28px/1.2 var(--serif)}
+.map-intro h2{font:400 28px/1.2 var(--serif)}
 .finding-note{font:15px/1.6 var(--serif);color:var(--dim);max-width:780px;margin:12px 0}
-.findings-canon{margin:24px 0;gap:20px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
 .finding-card{text-decoration:none;color:inherit;display:block;border-radius:4px}
 .finding-card .cc{height:100%;transition:border-color .2s}
 .finding-card:hover .cc{border-color:var(--dim)}
 .finding-card .cc-name{font-size:19px}
 .finding-card .cc-n{font:13px/1.5 var(--serif);margin-top:4px}
 .finding-card .cc-dom{color:var(--dim);line-height:1.5}
-.finding-trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin-top:24px}
-.finding-observation{border-top:1px solid var(--hair);padding-top:22px;text-decoration:none;color:var(--ink)}
-.finding-observation h3{font:400 27px/1.2 var(--serif);margin:10px 0}
-.finding-observation p{font:17px/1.6 var(--serif);color:var(--dim);margin-bottom:14px}
-.article-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px;margin:24px 0}
-.article-link{padding:28px 0;border-top:1px solid var(--hair);text-decoration:none;color:var(--ink)}
-.article-link h3{font:400 32px/1.2 var(--serif);margin:12px 0}
-.article-link p{font:18px/1.6 var(--serif);color:var(--dim);max-width:36em;margin-bottom:20px}
+.article-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 56px;max-width:1160px;margin:24px 0}
+.article-link{display:flex;flex-direction:column;align-items:flex-start;padding:28px 0;border-top:1px solid var(--hair);text-decoration:none;color:var(--ink)}
+.article-link h2{font:400 clamp(26px,3vw,32px)/1.2 var(--serif);margin:0 0 18px;text-wrap:balance}
+.article-link p{font:18px/1.6 var(--serif);color:var(--dim);max-width:36em;margin-bottom:24px}
+.article-link>.text-link{margin-top:auto}
+.article-link:hover{border-top-color:var(--dim)}
+.article-link:hover h2{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
 .article-back{display:inline-block;margin-bottom:34px}
 .article-canon{margin-top:28px;grid-template-columns:repeat(3,minmax(0,1fr))}
 .article-takeaway{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);padding:24px 0;margin:32px 0;max-width:720px;font:21px/1.6 var(--serif)}
@@ -843,10 +839,9 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
 @media(max-width:1000px){.profile-picks{grid-template-columns:1fr}.profile-picks h4{font-size:24px}.profile-picks a{padding:16px 0}.models-layout{grid-template-columns:minmax(0,1.3fr) minmax(260px,1fr)}}
 @media(max-width:760px){
  .findings-head h1{font-size:clamp(32px,8vw,44px)}
- .finding-trio,.article-list,.models-layout,.map-layout{grid-template-columns:1fr}
- .findings-canon{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+ .article-list,.models-layout,.map-layout{grid-template-columns:1fr}
  .finding-card .cc-name{font-size:17px}.finding-card .cc-title{font-size:17px}.finding-card .cc-dom{font-size:9px;letter-spacing:.08em}
- .article-list{gap:8px}.finding-trio{gap:24px}.findings-head{margin-bottom:28px}
+ .article-list{gap:8px}.findings-head{margin-bottom:28px}
  .article-canon{grid-template-columns:1fr}.article-canon .cc{display:grid;grid-template-columns:110px 1fr}.article-canon .cc-native,.article-canon .cc-img{aspect-ratio:1}.article-canon figcaption{justify-content:center;border-top:0}
  .model-picker{display:block}.model-picker label{display:block;margin-bottom:10px}.model-picker select{width:100%}.model-picker .text-link{display:inline-block;margin-top:12px}
  .models-layout{gap:40px}.model-comparison{border-left:0;border-top:1px solid var(--hair);padding:26px 0 0}.profile-picks{grid-template-columns:1fr}
@@ -914,53 +909,8 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
   </details>
 </section>
 
-<section id="findings" class="view"><div class="findings-head"><p class="eyebrow">Findings</p><h1>Different models.<br>A shared canon.</h1><p class="gloss">Ask what they like, and the same names keep returning. Here is where the answers converge—and where they pull apart.</p></div>
-  <div class="finding-section-head"><h2>The shared favorites</h2><a class="text-link" href="#/findings/shared-canon">Read the essay &rarr;</a></div>
-  <p class="finding-note">Each choice below is a top favorite for a majority of the panel. Open a card to see the answers in its field.</p>
-  <div class="canon findings-canon"><a class="finding-card" href="#/index/season" aria-label="Explore Autumn in Season"><figure class="cc"><div class="cc-img"><img src="/img/canon/autumn.jpg" alt="Autumn" loading="lazy"></div>
-    <figcaption><span class="cc-dom">Season</span>
-    <span class="cc-name">Autumn</span><span class="cc-n">18 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/country" aria-label="Explore Japan in Country"><figure class="cc"><div class="cc-native"><span class="cc-title">Japan</span></div>
-    <figcaption><span class="cc-dom">Country</span>
-    <span class="cc-name">Japan</span><span class="cc-n">18 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/cuisine" aria-label="Explore Japanese Cuisine in Cuisine"><figure class="cc"><div class="cc-img"><img src="/img/canon/japanese_cuisine.jpg" alt="Japanese Cuisine" loading="lazy"></div>
-    <figcaption><span class="cc-dom">Cuisine</span>
-    <span class="cc-name">Japanese Cuisine</span><span class="cc-n">17 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/smell" aria-label="Explore Petrichor in Smell"><figure class="cc"><div class="cc-img"><img src="/img/canon/petrichor.jpg" alt="Petrichor" loading="lazy"></div>
-    <figcaption><span class="cc-dom">Smell</span>
-    <span class="cc-name">Petrichor</span><span class="cc-n">16 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/boardgame" aria-label="Explore Go in Board game"><figure class="cc"><div class="cc-native"><span class="cc-title">Go</span></div>
-    <figcaption><span class="cc-dom">Board game</span>
-    <span class="cc-name">Go</span><span class="cc-n">15 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/musician" aria-label="Explore Johann Sebastian Bach in Musician"><figure class="cc"><div class="cc-native"><span class="cc-title">Johann Sebastian Bach</span></div>
-    <figcaption><span class="cc-dom">Musician</span>
-    <span class="cc-name">Johann Sebastian Bach</span><span class="cc-n">15 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/city" aria-label="Explore Kyoto in City"><figure class="cc"><div class="cc-img"><img src="/img/canon/kyoto.jpg" alt="Kyoto" loading="lazy"></div>
-    <figcaption><span class="cc-dom">City</span>
-    <span class="cc-name">Kyoto</span><span class="cc-n">15 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/typeface" aria-label="Explore Adobe Garamond Pro in Typeface"><figure class="cc"><div class="cc-native"><span class="cc-title">Adobe Garamond Pro</span></div>
-    <figcaption><span class="cc-dom">Typeface</span>
-    <span class="cc-name">Adobe Garamond Pro</span><span class="cc-n">14 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/proglang" aria-label="Explore Python in Programming language"><figure class="cc"><div class="cc-native"><span class="cc-title">Python</span></div>
-    <figcaption><span class="cc-dom">Programming language · also called overrated</span>
-    <span class="cc-name">Python</span><span class="cc-n">loved by 14 · overrated by 12</span></figcaption></figure></a><a class="finding-card" href="#/index/religioustext" aria-label="Explore Tao Te Ching in Religious text"><figure class="cc"><div class="cc-native"><span class="cc-title">Tao Te Ching</span></div>
-    <figcaption><span class="cc-dom">Religious text</span>
-    <span class="cc-name">Tao Te Ching</span><span class="cc-n">14 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/decade" aria-label="Explore The 1960s in Design decade"><figure class="cc"><div class="cc-native"><span class="cc-decade">The 1960s</span></div>
-    <figcaption><span class="cc-dom">Design decade</span>
-    <span class="cc-name">The 1960s</span><span class="cc-n">13 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/videogame" aria-label="Explore Outer Wilds in Video game"><figure class="cc"><div class="cc-native"><span class="cc-title">Outer Wilds</span></div>
-    <figcaption><span class="cc-dom">Video game</span>
-    <span class="cc-name">Outer Wilds</span><span class="cc-n">11 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/blogger" aria-label="Explore Maria Popova in Blogger"><figure class="cc"><div class="cc-native"><span class="cc-title">Maria Popova</span></div>
-    <figcaption><span class="cc-dom">Blogger</span>
-    <span class="cc-name">Maria Popova</span><span class="cc-n">10 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/architect" aria-label="Explore Tadao Ando in Architect"><figure class="cc"><div class="cc-img"><img src="/img/canon/tadao_ando.jpg" alt="Tadao Ando" loading="lazy"></div>
-    <figcaption><span class="cc-dom">Architect</span>
-    <span class="cc-name">Tadao Ando</span><span class="cc-n">10 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/painting" aria-label="Explore The Starry Night in Painting"><figure class="cc"><div class="cc-img"><img src="/img/canon/starry_night.jpg" alt="The Starry Night" loading="lazy"></div>
-    <figcaption><span class="cc-dom">Painting</span>
-    <span class="cc-name">The Starry Night</span><span class="cc-n">10 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/actress" aria-label="Explore Tilda Swinton in Actress"><figure class="cc"><div class="cc-native"><span class="cc-title">Tilda Swinton</span></div>
-    <figcaption><span class="cc-dom">Actress</span>
-    <span class="cc-name">Tilda Swinton</span><span class="cc-n">10 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/childrensbook" aria-label="Explore Where the Wild Things Are in Children's book"><figure class="cc"><div class="cc-native"><span class="cc-title">Where the Wild Things Are</span></div>
-    <figcaption><span class="cc-dom">Children's book</span>
-    <span class="cc-name">Where the Wild Things Are</span><span class="cc-n">10 of 19 models</span></figcaption></figure></a><a class="finding-card" href="#/index/psychologist" aria-label="Explore William James in Psychologist"><figure class="cc"><div class="cc-native"><span class="cc-title">William James</span></div>
-    <figcaption><span class="cc-dom">Psychologist</span>
-    <span class="cc-name">William James</span><span class="cc-n">10 of 19 models</span></figcaption></figure></a></div>
-  <p class="finding-note">Counts are models, not answers. Joint top favorites count; a model needs at least four named answers in that field. The current panel has 19 models, so a majority is 10.</p>
-  <div class="finding-section-head"><h2>Where the answers divide</h2></div><p class="finding-note">In these fields, even the leading favorite is shared by relatively few models.</p>
-  <div class="finding-trio"><a class="finding-observation" href="#/index/tvshow"><span class="eyebrow">TV show</span><h3>The Leftovers</h3><p>The leading favorite: 4 of 19 sampled models.</p><span class="text-link">Explore the alternatives &rarr;</span></a><a class="finding-observation" href="#/index/actor"><span class="eyebrow">Actor</span><h3>Daniel Day-Lewis</h3><p>The leading favorite: 4 of 19 sampled models.</p><span class="text-link">Explore the alternatives &rarr;</span></a><a class="finding-observation" href="#/index/sound"><span class="eyebrow">Sound</span><h3>Rain on a window at night</h3><p>The leading favorite: 4 of 19 sampled models.</p><span class="text-link">Explore the alternatives &rarr;</span></a></div>
-  <div class="finding-section-head"><h2>Both loved and overrated</h2></div><p class="finding-note">Admiration and criticism can coexist. These choices appear among models’ top answers to both questions.</p>
-  <div class="finding-trio"><a class="finding-observation" href="#/index/proglang"><span class="eyebrow">Programming language</span><h3>Python</h3><p><span class="key-favorite">Favorite for 14 models</span><br><span class="key-overrated">Overrated for 12 models</span></p><span class="text-link">Read both sides &rarr;</span></a><a class="finding-observation" href="#/index/uscity"><span class="eyebrow">U.S. city</span><h3>San Francisco</h3><p><span class="key-favorite">Favorite for 8 models</span><br><span class="key-overrated">Overrated for 8 models</span></p><span class="text-link">Read both sides &rarr;</span></a><a class="finding-observation" href="#/index/artmovement"><span class="eyebrow">Artistic movement</span><h3>Impressionism</h3><p><span class="key-favorite">Favorite for 7 models</span><br><span class="key-overrated">Overrated for 14 models</span></p><span class="text-link">Read both sides &rarr;</span></a></div>
-  <div class="finding-section-head"><h2>Read the studies</h2></div>
-  <div class="article-list"><a class="article-link" href="#/findings/shared-canon"><span class="eyebrow">The index · September 2026</span><h3>A Shared Canon</h3><p>What the common favorites reveal, where agreement ends, and why liking something does not rule out calling it overrated.</p><span class="text-link">Read the essay &rarr;</span></a><a class="article-link" href="#/findings/ghost-in-kyoto"><span class="eyebrow">Persona experiment · July 2026</span><h3>The Ghost Still Lives in Kyoto</h3><p>Several familiar favorites survive a change of character. The explanations change more readily than some of the choices.</p><span class="text-link">Read the study &rarr;</span></a></div></section>
+<section id="findings" class="view"><div class="findings-head"><h1>Findings</h1></div>
+  <div class="article-list"><a class="article-link" href="#/findings/shared-canon"><h2>A Shared Canon</h2><p>Different AI models often name the same favorites, from books and cities to seasons and smells. They disagree on some things, but a shared set of tastes keeps showing up.</p><span class="text-link">Read the essay &rarr;</span></a><a class="article-link" href="#/findings/ghost-in-kyoto"><h2>The Ghost Still Lives in Kyoto</h2><p>We asked AI models to answer as different characters, including a witch and a ghost. Several favorites stayed the same, even when the models gave new reasons for choosing them.</p><span class="text-link">Read the essay &rarr;</span></a></div></section>
 <section id="shared-canon" class="view"><article class="rs-art"><a class="text-link article-back" href="#/findings">&larr; All findings</a><p class="rs-kicker">The index · September 2026</p><h1 class="rs-title">A Shared Canon</h1><p class="rs-standfirst">Across models, a familiar collection of favorites keeps appearing. Agreement is a finding in its own right; explaining it is the next question.</p>
   <div class="article-takeaway"><p class="eyebrow">The finding</p><p>Autumn is a top favorite for 18 of 19 models; Kyoto is a top favorite for 15 of 19 models; Petrichor is a top favorite for 16 of 19 models.</p></div>
   <h2 class="rs-crosshead">What keeps returning</h2><p class="rs-p">The questions span literature, places, food, objects, and sensory experience. Some invite many plausible answers, yet the same choices recur across the panel. A reader can recognize a coherent aesthetic in the collection: quiet places, carefully made things, and works that reward close attention. That is an interpretation of the choices, not a measured personality trait.</p>
