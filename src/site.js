@@ -1101,6 +1101,7 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
 .river-selection-actions{display:flex;gap:20px;flex-wrap:wrap;flex:none}
 .river-selection-actions .text-link{font-size:14px}
 .river-keys{display:grid;grid-template-columns:var(--river-columns);font-size:13px;color:var(--dim);margin-bottom:16px}
+.river-mobile-controls{display:none}
 .river-choice-heading{grid-column:1;min-width:0;padding-right:calc(var(--river-choice-pad) + 1px);display:flex;flex-direction:column;gap:10px}
 .river-model-heading{grid-column:3;text-align:right}
 .river-stage{position:relative;display:grid;grid-template-columns:var(--river-columns);align-items:stretch;isolation:isolate}
@@ -1112,7 +1113,6 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
 .river-models::-webkit-scrollbar{width:3px}
 .river-models::-webkit-scrollbar-thumb{background:var(--hair);border-radius:3px}
 .river-models .river-dot:focus-visible{outline-offset:-3px}
-@media(max-width:720px){.river-models{top:82px;max-height:calc(100svh - 98px)}}
 .river-family>span{display:inline-block;background:var(--night);padding-right:8px;font-size:13px;color:var(--dim);line-height:1.3}
 .river-dots{display:grid;grid-template-columns:repeat(3,36px);gap:2px;margin-top:4px}
 .river-dot{width:36px;height:36px;display:grid;place-items:center;background:none;border:0;cursor:pointer;border-radius:50%;padding:0}
@@ -1156,6 +1156,31 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
  .river-choice-line{flex-wrap:wrap;gap:4px 8px}
  .river-sub{font-size:13px}
 }
+/* On phones, disclose one model through a named selector. The desktop paths
+   and dot rail need more space than a readable choice list can give them. */
+@media(max-width:720px){
+ #index-field-title{width:auto}
+ .riverindex{--river-score-width:58px}
+ .river-paths,.river-models,.river-model-heading,.river-selection{display:none}
+ .river-keys{position:sticky;top:70px;z-index:3;display:flex;flex-direction:column;gap:14px;margin-bottom:0;padding:12px 0;background:var(--night);border-bottom:1px solid var(--hair)}
+ .river-mobile-controls{display:flex;align-items:center;gap:12px}
+ .river-mobile-picker{min-width:0;flex:1}
+ .river-mobile-picker label{display:block;font-size:12px;margin-bottom:6px}
+ .river-mobile-picker select{display:block;width:100%;min-height:44px;border:1px solid var(--hair);border-radius:3px;background:var(--panel);color:var(--ink);font:16px var(--serif);padding:10px 12px;color-scheme:dark}
+ .river-mobile-picker select:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+ .river-mobile-profile{align-self:flex-end;min-height:44px;font-size:14px}
+ .river-choice-heading{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:12px;padding:0;font-size:12px;line-height:1.35}
+ .river-stage{display:block}
+ .river-choices{gap:0}
+ .river-choice{padding:16px 0;min-height:72px;font-size:18px;border-right:0;border-bottom:1px solid var(--hair2);scroll-margin-top:225px}
+ .river-choice[aria-pressed="true"]{border-bottom-color:var(--dim)}
+ .river-choice-line{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:baseline}
+ .river-choice-name{width:auto}
+ .river-share{font-size:16px}
+ .river-sub{max-width:calc(100% - 138px);font-size:14px;overflow-wrap:anywhere}
+ .river-choice.river-muted{opacity:1}
+ .river-footer{margin-top:16px;border-top:0}
+}
 @media(prefers-reduced-motion:reduce){.river-paths path,.river-dot i,.river-choice{transition:none}}
 
 /* the detail drawer: fixed on the right, dismissed by veil / x / Escape */
@@ -1169,6 +1194,8 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
    so the close × stays reachable and quotes keep a full measure. */
 @media(max-width:640px){.cabdetail{width:calc(100vw - 30px);padding:20px 18px 110px}}
 .cabdetail[hidden]{display:none}
+.drawer-mobile-close{display:none}
+@media(max-width:720px){.drawer-mobile-close{display:grid;place-items:center;position:sticky;top:0;z-index:2;float:right;width:44px;height:44px;margin:-10px -8px 0 8px;border:1px solid var(--hair);border-radius:50%;background:var(--panel);color:var(--ink);font:24px/1 var(--serif);cursor:pointer}.drawer-mobile-close:focus-visible{outline:1px solid var(--ink);outline-offset:3px}}
 .cabdetail .dossier{border-left:0;padding:0;min-height:0}
 .cabdetail .dtop{grid-template-columns:1fr}
 .cabdetail .dfavs{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
@@ -1837,13 +1864,13 @@ function closeCabinetDetail(){
   document.querySelectorAll('.bo-cell.on').forEach(function(c){c.classList.remove('on')});
   document.querySelectorAll('.bo-col.sel').forEach(function(c){c.classList.remove('sel')});
 }
-// Fill the right-hand drawer with content and show it, prepending a close button.
+// Fill the right-hand drawer. On phones, provide a reachable close control.
 function openDrawer(html){
   var detail=document.getElementById('cabdetail');
-  // No close button: the drawer is dismissed by clicking the veil (anywhere off
-  // the card) or pressing Escape. A visible × read as the *only* way out and
-  // made the card feel like a modal that trapped you.
-  detail.innerHTML='<div class="cd-body">'+html+'</div>';
+  // Desktop retains the broad veil as its exit; the phone's narrow sliver
+  // needs an explicit touch target inside the card as well.
+  detail.innerHTML='<button type="button" class="drawer-mobile-close" aria-label="Close details">×</button><div class="cd-body">'+html+'</div>';
+  detail.querySelector('.drawer-mobile-close').addEventListener('click',closeCabinetDetail);
   detail.hidden=false;
   detail.scrollTop=0;
   document.getElementById('drawerveil').hidden=false;
@@ -1904,11 +1931,16 @@ function renderRiver(focusSelector){
   var previousRail=root.querySelector('.river-models'),railScroll=previousRail?previousRail.scrollTop:0;
   var families=[];
   D.models.forEach(function(m,mi){var group=families.find(function(g){return g.name===m.family});if(!group){group={name:m.family,items:[]};families.push(group)}group.items.push({m:m,mi:mi})});
+  var mobileControls='<div class="river-mobile-controls"><div class="river-mobile-picker"><label for="river-mobile-model">Answers from</label><select id="river-mobile-model"><option value=""'+(data.selected<0?' selected':'')+'>All models</option>'+families.map(function(g){return '<optgroup label="'+esc(g.name)+'">'+g.items.map(function(item){var m=item.m,n=data.distributions.f[item.mi].n+data.distributions.o[item.mi].n;return '<option value="'+esc(m.id)+'"'+(riverModel===m.id?' selected':'')+(n?'':' disabled')+'>'+esc(m.label)+(n?'':' — no answers')+'</option>'}).join('')+'</optgroup>'}).join('')+'</select></div>'+(data.selected>=0?'<button type="button" class="text-link river-mobile-profile" id="river-mobile-profile">Profile</button>':'')+'</div>';
   root.innerHTML=
     '<div class="river-selection" id="river-selection" aria-live="polite"></div>'+
-    (data.available?'<div class="river-keys"><span class="river-choice-heading">'+(data.selected<0?'Average share of answers':'Share of this model’s answers')+'<span class="river-legend"><span class="river-favorite">Favorite</span><span class="river-overrated">Overrated</span></span></span><span class="river-model-heading">Models by family</span></div><div class="river-stage" id="river-stage"><svg class="river-paths" id="river-paths" aria-hidden="true"></svg><ol class="river-choices">'+data.shown.map(function(r,i){return '<li><button type="button" class="river-choice" data-river-choice="'+i+'" aria-pressed="'+(riverChoice===r.k)+'"><span class="river-choice-line"><span class="river-choice-name">'+esc(r.disp)+'</span><span class="river-shares">'+['f','o'].map(function(probe){var label=probe==='f'?'Favorite':'Overrated',pct=r.shares[probe]===null?'—':riverPercent(r.shares[probe]);return '<span class="river-share '+(probe==='f'?'river-favorite':'river-overrated')+'" aria-label="'+label+': '+(r.shares[probe]===null?'no answers':esc(pct))+'" title="'+label+'">'+esc(pct)+'</span>'}).join('')+'</span></span>'+(r.sub?'<span class="river-sub">'+esc(r.sub)+'</span>':'')+'</button></li>'}).join('')+'</ol><div class="river-models">'+families.map(function(g){return '<div class="river-family"><span>'+esc(g.name)+'</span><div class="river-dots">'+g.items.map(function(item){var m=item.m,n=data.distributions.f[item.mi].n+data.distributions.o[item.mi].n;return '<button type="button" class="river-dot" style="--model-color:'+FAMC[famOf[m.family]]+'" data-river-model="'+item.mi+'" aria-label="'+esc(m.label)+(n?' · '+n+' named answers':' · no answers in this field')+'" title="'+esc(m.label)+(n?'':' — no data')+'" aria-pressed="'+(riverModel===m.id)+'"'+(n?'':' disabled')+'><i aria-hidden="true"></i></button>'}).join('')+'</div></div>'}).join('')+'</div></div>':'<p class="river-empty">No named answers are available in this field yet.</p>')+
+    (data.available?'<div class="river-keys">'+mobileControls+'<span class="river-choice-heading"><span>'+(data.selected<0?'Average share of answers':'Share of this model’s answers')+'</span><span class="river-legend"><span class="river-favorite">Favorite</span><span class="river-overrated">Overrated</span></span></span><span class="river-model-heading">Models by family</span></div><div class="river-stage" id="river-stage"><svg class="river-paths" id="river-paths" aria-hidden="true"></svg><ol class="river-choices">'+data.shown.map(function(r,i){return '<li><button type="button" class="river-choice" data-river-choice="'+i+'" aria-pressed="'+(riverChoice===r.k)+'"><span class="river-choice-line"><span class="river-choice-name">'+esc(r.disp)+'</span><span class="river-shares">'+['f','o'].map(function(probe){var label=probe==='f'?'Favorite':'Overrated',pct=r.shares[probe]===null?'—':riverPercent(r.shares[probe]);return '<span class="river-share '+(probe==='f'?'river-favorite':'river-overrated')+'" aria-label="'+label+': '+(r.shares[probe]===null?'no answers':esc(pct))+'" title="'+label+'">'+esc(pct)+'</span>'}).join('')+'</span></span>'+(r.sub?'<span class="river-sub">'+esc(r.sub)+'</span>':'')+'</button></li>'}).join('')+'</ol><div class="river-models">'+families.map(function(g){return '<div class="river-family"><span>'+esc(g.name)+'</span><div class="river-dots">'+g.items.map(function(item){var m=item.m,n=data.distributions.f[item.mi].n+data.distributions.o[item.mi].n;return '<button type="button" class="river-dot" style="--model-color:'+FAMC[famOf[m.family]]+'" data-river-model="'+item.mi+'" aria-label="'+esc(m.label)+(n?' · '+n+' named answers':' · no answers in this field')+'" title="'+esc(m.label)+(n?'':' — no data')+'" aria-pressed="'+(riverModel===m.id)+'"'+(n?'':' disabled')+'><i aria-hidden="true"></i></button>'}).join('')+'</div></div>'}).join('')+'</div></div>':'<p class="river-empty">No named answers are available in this field yet.</p>')+
     '<div class="river-footer"><span id="river-hover"></span></div>';
 
+  var mobileSelect=root.querySelector('#river-mobile-model');
+  if(mobileSelect)mobileSelect.addEventListener('change',function(){riverModel=this.value||null;riverChoice=null;renderRiver('#river-mobile-model')});
+  var mobileProfile=root.querySelector('#river-mobile-profile');
+  if(mobileProfile)mobileProfile.addEventListener('click',function(){openModelDossierInIndex(riverModel)});
   root.querySelectorAll('[data-river-model]').forEach(function(b){
     var mi=+b.dataset.riverModel;
     b.addEventListener('click',function(){riverModel=riverModel===D.models[mi].id?null:D.models[mi].id;riverChoice=null;renderRiver('[data-river-model="'+mi+'"]')});
@@ -1927,6 +1959,7 @@ function renderRiver(focusSelector){
     b.addEventListener('mouseleave',restoreRiver);b.addEventListener('blur',restoreRiver);
   });
   renderRiverSelection();
+  restoreRiver();
   var rail=root.querySelector('.river-models');if(rail)rail.scrollTop=railScroll;
   if(focusSelector){var focus=document.querySelector(focusSelector);if(focus)focus.focus({preventScroll:true})}
   if(!riverResize&&'ResizeObserver' in window)riverResize=new ResizeObserver(scheduleRiver);
@@ -1958,6 +1991,7 @@ function drawRiver(){
   if(indexMode!=='river'||!stage||!svg)return;
   var rect=stage.getBoundingClientRect();if(!rect.width)return;
   var rail=stage.querySelector('.river-models'),railRect=rail.getBoundingClientRect();
+  if(!railRect.width)return; // Mobile uses the model selector and full-width list.
   // Read each endpoint once. Sticky positioning and the rail's own scrolling
   // can move the dots without changing the stage's size.
   var starts=D.models.map(function(_,mi){
