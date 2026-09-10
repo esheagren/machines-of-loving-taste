@@ -343,7 +343,11 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
 .river-paths path{fill:none;stroke-opacity:.16;transition:stroke-opacity .18s}
 .river-paths path.river-lit{stroke-opacity:.8}
 .river-paths path.river-dim{stroke-opacity:.025}
-.river-models{grid-column:3;grid-row:1;display:flex;flex-direction:column;gap:10px;padding:4px 0}
+.river-models{grid-column:3;grid-row:1;align-self:start;position:sticky;top:96px;max-height:calc(100svh - 112px);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--hair) transparent;display:flex;flex-direction:column;gap:10px;padding:4px 0}
+.river-models::-webkit-scrollbar{width:3px}
+.river-models::-webkit-scrollbar-thumb{background:var(--hair);border-radius:3px}
+.river-models .river-dot:focus-visible{outline-offset:-3px}
+@media(max-width:720px){.river-models{top:82px;max-height:calc(100svh - 98px)}}
 .river-family>span{display:inline-block;background:var(--night);padding-right:8px;font-size:13px;color:var(--dim);line-height:1.3}
 .river-dots{display:grid;grid-template-columns:repeat(3,36px);gap:2px;margin-top:4px}
 .river-dot{width:36px;height:36px;display:grid;place-items:center;background:none;border:0;cursor:pointer;border-radius:50%;padding:0}
@@ -377,7 +381,7 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
  .river-choice-line{gap:8px}
 }
 @media(max-width:480px){
- .riverindex{--river-columns:minmax(0,1fr) 20px 84px;--river-score-width:50px}
+ .riverindex{--river-columns:minmax(0,1fr) 20px 88px;--river-score-width:50px}
  .river-family>span{font-size:12px}
  .river-keys{font-size:12px}
  .river-choice-name{width:100%}
@@ -1507,6 +1511,7 @@ function renderRiver(focusSelector){
   if(typeof committed!=='undefined'&&committed&&document.getElementById('cabinet').classList.contains('active'))syncRoute('cabinet');
   riverData=riverDataset();
   var data=riverData,root=document.getElementById('riverindex');
+  var previousRail=root.querySelector('.river-models'),railScroll=previousRail?previousRail.scrollTop:0;
   var families=[];
   D.models.forEach(function(m,mi){var group=families.find(function(g){return g.name===m.family});if(!group){group={name:m.family,items:[]};families.push(group)}group.items.push({m:m,mi:mi})});
   root.innerHTML=
@@ -1532,6 +1537,7 @@ function renderRiver(focusSelector){
     b.addEventListener('mouseleave',restoreRiver);b.addEventListener('blur',restoreRiver);
   });
   renderRiverSelection();
+  var rail=root.querySelector('.river-models');if(rail)rail.scrollTop=railScroll;
   if(focusSelector){var focus=document.querySelector(focusSelector);if(focus)focus.focus({preventScroll:true})}
   if(!riverResize&&'ResizeObserver' in window)riverResize=new ResizeObserver(scheduleRiver);
   if(riverResize){riverResize.disconnect();var stage=document.getElementById('river-stage');if(stage)riverResize.observe(stage)}
@@ -1554,29 +1560,39 @@ function renderRiverSelection(){
   var clear=document.getElementById('river-clear');if(clear)clear.addEventListener('click',function(){riverModel=null;riverChoice=null;renderRiver('[data-index-mode="river"]')});
 }
 function scheduleRiver(){
-  if(riverDrawFrame)cancelAnimationFrame(riverDrawFrame);
+  if(indexMode!=='river'||!document.getElementById('cabinet').classList.contains('active')||riverDrawFrame)return;
   riverDrawFrame=requestAnimationFrame(function(){riverDrawFrame=0;drawRiver()});
 }
 function drawRiver(){
   var stage=document.getElementById('river-stage'),svg=document.getElementById('river-paths');
   if(indexMode!=='river'||!stage||!svg)return;
   var rect=stage.getBoundingClientRect();if(!rect.width)return;
-  svg.setAttribute('viewBox','0 0 '+rect.width+' '+rect.height);
-  var paths='';
+  var rail=stage.querySelector('.river-models'),railRect=rail.getBoundingClientRect();
+  // Read each endpoint once. Sticky positioning and the rail's own scrolling
+  // can move the dots without changing the stage's size.
+  var starts=D.models.map(function(_,mi){
+    var r=stage.querySelector('[data-river-model="'+mi+'"]').getBoundingClientRect();
+    var y=r.top+r.height/2;
+    return {x:r.left-rect.left+r.width/2,y:y-rect.top,visible:y>=railRect.top&&y<=railRect.bottom};
+  });
+  var ends=riverData.shown.map(function(_,ci){
+    var r=stage.querySelector('[data-river-choice="'+ci+'"]').getBoundingClientRect();
+    return {x:r.right-rect.left,y:r.top-rect.top+r.height/2};
+  });
+  var links=[];
   riverData.shown.forEach(function(choice,ci){
-    var end=stage.querySelector('[data-river-choice="'+ci+'"]').getBoundingClientRect();
-    var x2=end.right-rect.left,y2=end.top-rect.top+end.height/2;
     D.models.forEach(function(_,mi){
-      var rate=(choice.rates.f[mi]+choice.rates.o[mi])/2;
-      if(!rate)return;
-      var start=stage.querySelector('[data-river-model="'+mi+'"]').getBoundingClientRect();
-      var x1=start.left-rect.left+start.width/2,y1=start.top-rect.top+start.height/2;
-      var control=x1+(x2-x1)*.5;
-      paths+='<path data-source="'+mi+'" data-choice="'+ci+'" d="M'+x1+' '+y1+' C'+control+' '+y1+' '+control+' '+y2+' '+x2+' '+y2+'" style="stroke:'+FAMC[famOf[D.models[mi].family]]+';stroke-width:'+(0.6+rate*1.7)+'"/>';
+      var rate=(choice.rates.f[mi]+choice.rates.o[mi])/2;if(!rate)return;
+      var start=starts[mi],end=ends[ci],control=start.x+(end.x-start.x)*.5;
+      links.push({mi:mi,ci:ci,rate:rate,visible:start.visible,d:'M'+start.x+' '+start.y+' C'+control+' '+start.y+' '+control+' '+end.y+' '+end.x+' '+end.y});
     });
   });
-  svg.innerHTML=paths;
-  restoreRiver();
+  svg.setAttribute('viewBox','0 0 '+rect.width+' '+rect.height);
+  var fresh=svg.children.length!==links.length;
+  if(fresh)svg.innerHTML=links.map(function(link){return '<path data-source="'+link.mi+'" data-choice="'+link.ci+'" style="stroke:'+FAMC[famOf[D.models[link.mi].family]]+';stroke-width:'+(0.6+link.rate*1.7)+'"/>'}).join('');
+  links.forEach(function(link,i){var path=svg.children[i];path.setAttribute('d',link.d);path.style.display=link.visible?'':'none'});
+  // Scrolling only moves existing paths, preserving hover/selection highlights.
+  if(fresh)restoreRiver();
 }
 function highlightRiver(mi,ci){
   var root=document.getElementById('riverindex');if(!riverData||!root)return;
@@ -1593,6 +1609,7 @@ function restoreRiver(){
 }
 document.querySelectorAll('[data-index-mode]').forEach(function(b){b.addEventListener('click',function(){indexMode=b.dataset.indexMode;closeCabinetDetail();if(typeof endRowHint==='function')endRowHint();renderIndex()})});
 addEventListener('resize',scheduleRiver,{passive:true});
+addEventListener('scroll',scheduleRiver,{passive:true,capture:true});
 
 function indexChoices(domainId){
   var favD=D.models.map(function(m){return choiceDistribution(m.id,domainId,'f')});
