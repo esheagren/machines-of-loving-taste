@@ -35,7 +35,7 @@ Imagery: Wikimedia Commons (credits in the site's Method section).
 
 ## Website navigation
 
-- **Index** opens in Flow; Grid remains available for model-by-model inspection.
+- **Index** opens in Grid for model-by-model inspection; Flow remains available as an alternative.
 - **Models** provides selectable profiles, sampled favorite distributions, pairwise overlap comparisons, and an optional vocabulary map.
 - **Findings** opens with two linked essay previews, each with a title and a two-sentence summary. Add entries in `findingsHTML()` to extend the overview. The shared-canon essay's counts include tied top favorites and require four named answers per model and field.
 - **Method** explains collection, the percentages, and the different views.
