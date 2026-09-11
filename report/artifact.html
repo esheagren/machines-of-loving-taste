@@ -224,9 +224,6 @@ figcaption{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px;bor
 .chip:hover{color:var(--ink);border-color:var(--dim)}
 .chip:focus-visible{outline:1px dashed var(--ink);outline-offset:2px}
 .chip.on{background:var(--ink);color:var(--night);border-color:var(--ink)}
-.probe-band{position:absolute;right:-40px;top:0;bottom:0;display:flex;flex-direction:column;align-items:center;gap:8px;font:9px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.probe-band span{writing-mode:vertical-rl}
-.probe-band i{flex:1;width:6px;border-radius:3px;background:linear-gradient(180deg,rgba(110,209,145,.85),rgba(110,209,145,.08) 46%,rgba(232,104,98,.08) 54%,rgba(232,104,98,.85))}
 .indexgrid{display:grid;grid-template-columns:158px minmax(0,1fr);gap:clamp(22px,2.6vw,44px);margin-top:16px}
 .idx-rail{position:sticky;top:96px;align-self:start;max-height:calc(100svh - 116px);overflow-y:auto;scrollbar-width:none}
 .idx-rail::-webkit-scrollbar{display:none}
@@ -263,18 +260,32 @@ figcaption{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px;bor
 }
 .choicematrix{margin-top:2px}
 .matrix-panel{margin-top:6px}
-.bo-scroll{width:100%;max-width:100%;overflow:visible;padding-bottom:5px}
-/* Header rows: 28px company row + 38px model row. The sticky offsets below
-   (desktop top:82/110px; container-anchored top:0/28px when scrolling) all key
-   off the 28px company-row height — change one, change all. */
-.bo-matrix{position:relative;margin-right:52px;display:grid;grid-template-rows:28px 38px;grid-auto-rows:44px;width:max-content}
-.bo-famrow{position:sticky;left:0;top:82px;z-index:5;background:var(--night)}
-.bo-fam{position:sticky;top:82px;z-index:4;background:var(--night);display:flex;flex-direction:column;gap:2px;align-items:center;justify-content:center;min-width:0;overflow:hidden;text-align:center;line-height:1.15;padding:0 1px;font:8px var(--mono);letter-spacing:0;text-transform:uppercase;color:var(--faint);border-left:1px solid var(--hair2)}
+/* The page owns vertical scrolling; the aligned header and body pan sideways. */
+.bo-heading{position:sticky;top:82px;z-index:6;background:var(--night)}
+.bo-navigation{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:4px 0 8px}
+.bo-key{display:flex;gap:16px;font:13px var(--serif)}
+.bo-paging{display:flex;align-items:center;gap:6px;color:var(--dim);font:13px var(--serif)}
+.bo-paging[hidden]{display:none}
+.bo-paging>span{margin-right:6px}
+.bo-paging button{display:grid;place-items:center;width:40px;height:40px;background:none;border:1px solid var(--hair);border-radius:50%;color:var(--ink);font:21px/1 var(--serif);cursor:pointer}
+.bo-paging button:hover:not(:disabled){border-color:var(--dim)}
+.bo-paging button:disabled{opacity:.25;cursor:default}
+.bo-paging button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
+.bo-overflow{position:relative}
+.bo-overflow::after{content:'';position:absolute;z-index:5;top:0;right:0;bottom:0;width:18px;background:linear-gradient(90deg,transparent,var(--night));pointer-events:none;opacity:0}
+.matrix-panel.has-more .bo-overflow::after{opacity:1}
+.bo-scroll,.bo-head-scroll{width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.bo-scroll::-webkit-scrollbar,.bo-head-scroll::-webkit-scrollbar{display:none}
+.bo-scroll:focus-visible{outline:1px solid var(--dim);outline-offset:3px}
+.bo-matrix{position:relative;display:grid;grid-auto-rows:44px;width:max-content}
+.bo-header{grid-template-rows:28px 38px}
+.bo-famrow{position:sticky;left:0;z-index:5;background:var(--night)}
+.bo-fam{position:relative;z-index:4;background:var(--night);display:flex;flex-direction:column;gap:2px;align-items:center;justify-content:center;min-width:0;overflow:hidden;text-align:center;line-height:1.15;padding:0 1px;font:8px var(--mono);letter-spacing:0;text-transform:uppercase;color:var(--faint);border-left:1px solid var(--hair2)}
 .bo-fam:first-child{border-left:0}
 .co-mono{display:inline-grid;place-items:center;width:12px;height:12px;border-radius:3px;font:700 8px/1 var(--mono);font-style:normal;color:var(--night);flex:none}
 .co-logo{display:block;width:12px;height:12px;flex:none}
-.bo-corner{position:sticky;left:0;top:110px;z-index:5;display:flex;align-items:flex-end;padding:0 10px 8px 3px;border-bottom:1px solid var(--hair2);background:var(--night);font:18px/1.1 var(--serif);color:var(--ink)}
-.bo-col{position:sticky;top:110px;z-index:4;background:var(--night);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border-bottom:1px solid var(--hair2);text-align:center;cursor:pointer}
+.bo-corner{position:sticky;left:0;z-index:5;display:flex;align-items:flex-end;padding:0 10px 8px 3px;border-bottom:1px solid var(--hair2);background:var(--night);font:18px/1.1 var(--serif);color:var(--ink)}
+.bo-col{position:relative;z-index:4;background:var(--night);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;border-bottom:1px solid var(--hair2);text-align:center;cursor:pointer}
 .bo-col:hover{background:#1e2025}
 .bo-col:hover span,.bo-col.sel span{color:var(--ink)}
 .bo-col.sel{background:#22242a}
@@ -307,13 +318,12 @@ button.bo-split.on{box-shadow:none;outline:2px solid var(--ink);outline-offset:-
    monogram rule above, whose display:grid turns the orb into a block and
    drops the colour name onto its own line below it. */
 i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:7px;vertical-align:-1px;border:1px solid rgba(233,230,221,.28)}
-/* Keep a wide model panel inside its available column, at any roster size.
-   Headers stick inside the scroll area when the matrix needs to scroll. */
-@container(max-width:1255px){
-  .bo-scroll{overflow:auto;max-height:calc(100svh - 170px);overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
-  .bo-famrow,.bo-fam{top:0}
-  .bo-corner,.bo-col{top:28px}
+@media(max-width:720px){
+  .bo-heading{top:70px}
+  .bo-key{gap:12px}
+  .bo-paging button{width:44px;height:44px}
 }
+@media(max-width:360px){.bo-paging>span{display:none}}
 @media(max-width:640px){
   .bo-matrix{--labw:132px}
   .bo-rowlabel{font-size:12px}
@@ -1656,7 +1666,8 @@ function indexChoices(domainId){
 }
 function choiceMatrixHTML(domainId){
   var data=indexChoices(domainId),choices=data.choices,favD=data.favD,ovrD=data.ovrD;
-  var html='<section class="matrix-panel" data-domain="'+domainId+'"><div class="bo-scroll"><div class="bo-matrix" style="grid-template-columns:var(--labw,192px) repeat('+D.models.length+',56px)">'+
+  var columns='grid-template-columns:var(--labw,192px) repeat('+D.models.length+',56px)';
+  var html='<section class="matrix-panel" data-domain="'+domainId+'"><div class="bo-heading"><div class="bo-navigation"><div class="bo-key" aria-label="Cell colors"><span class="key-favorite">Favorite</span><span class="key-overrated">Overrated</span></div><div class="bo-paging" role="group" aria-label="Browse models"><span>Models</span><button type="button" data-grid-pan="-1" aria-label="Previous models" title="Previous models">&larr;</button><button type="button" data-grid-pan="1" aria-label="Next models" title="Next models">&rarr;</button></div></div><div class="bo-overflow"><div class="bo-head-scroll"><div class="bo-matrix bo-header" style="'+columns+'">'+
     '<div class="bo-famrow"></div>'+familyRuns.map(function(g){
       var bp=BRANDS[g.family];
       var mark=bp
@@ -1664,7 +1675,8 @@ function choiceMatrixHTML(domainId){
         :'<i class="co-mono" style="background:'+FAMC[famOf[g.family]]+'">'+esc(g.family.charAt(0).toUpperCase())+'</i>';
       return '<div class="bo-fam" style="grid-column:span '+g.n+'"><span>'+esc(g.family)+'</span>'+mark+'</div>'
     }).join('')+
-    '<div class="bo-corner" aria-hidden="true"></div>'+D.models.map(function(m,i){return '<div class="bo-col" data-m="'+m.id+'" role="button" tabindex="0" title="Open the '+esc(m.label)+' dossier"><span>'+esc(m.short)+'</span></div>'}).join('');
+    '<div class="bo-corner" aria-hidden="true"></div>'+D.models.map(function(m,i){return '<div class="bo-col" data-m="'+m.id+'" role="button" tabindex="0" title="Open the '+esc(m.label)+' dossier"><span>'+esc(m.short)+'</span></div>'}).join('')+
+    '</div></div></div></div><div class="bo-overflow"><div class="bo-scroll" tabindex="0" role="region" aria-label="Model comparison"><div class="bo-matrix" style="'+columns+'">';
   choices.forEach(function(choice){
     // Native renderings in the row label: color rows wear a dot of the color
     // itself; typeface rows are set in the face they name (system stacks only).
@@ -1696,14 +1708,33 @@ function choiceMatrixHTML(domainId){
       html+='<button class="bo-cell'+(v>=.45?' hi':'')+'" type="button" data-domain="'+domainId+'" data-m="'+m.id+'" data-e="'+esc(choice.e)+'" data-p="'+p+'" data-probe="'+probe+'" style="background:rgba('+rgb+','+alpha+')" aria-label="'+esc(m.short)+': '+esc(choice.e)+', '+(probe==='f'?'favourite':'overrated')+' in '+p+'% of responses">'+p+'%</button>';
     });
   });
-  // Vertical probe legend hugging the matrix's right edge, spanning its full
-  // height — green up top where the most-liked rows sort, red at the bottom.
-  return html+'<div class="probe-band" aria-label="Cell colour scale: green is favourite, red is overrated">'+
-    '<span>favourite</span><i></i><span>overrated</span></div></div></div></section>';
+  return html+'</div></div></div></section>';
+}
+var gridResize=null;
+function wireGridScrolling(wrap){
+  var panel=wrap.querySelector('.matrix-panel'),body=wrap.querySelector('.bo-scroll'),head=wrap.querySelector('.bo-head-scroll');
+  var paging=wrap.querySelector('.bo-paging'),prev=wrap.querySelector('[data-grid-pan="-1"]'),next=wrap.querySelector('[data-grid-pan="1"]');
+  function update(){
+    var max=Math.max(0,body.scrollWidth-body.clientWidth),left=body.scrollLeft;
+    paging.hidden=max<2;prev.disabled=left<1;next.disabled=left>=max-1;
+    panel.classList.toggle('has-more',max>1&&left<max-1);
+  }
+  function sync(source,target){if(Math.abs(target.scrollLeft-source.scrollLeft)>.5)target.scrollLeft=source.scrollLeft;update()}
+  body.addEventListener('scroll',function(){sync(body,head)},{passive:true});
+  head.addEventListener('scroll',function(){sync(head,body)},{passive:true});
+  paging.querySelectorAll('[data-grid-pan]').forEach(function(button){button.addEventListener('click',function(){
+    var label=wrap.querySelector('.bo-rowlabel'),width=label?label.getBoundingClientRect().width:192;
+    var step=Math.max(56,Math.floor((body.clientWidth-width)/56)*56);
+    body.scrollBy({left:Number(button.dataset.gridPan)*step,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+  })});
+  if(gridResize)gridResize.disconnect();
+  if('ResizeObserver' in window){gridResize=new ResizeObserver(function(){sync(body,head)});gridResize.observe(body)}
+  sync(body,head);
 }
 function renderChoiceMatrices(){
   var wrap=document.getElementById('choicematrix');
   wrap.innerHTML=choiceMatrixHTML(curDomain);
+  wireGridScrolling(wrap);
   wrap.querySelectorAll('button.bo-cell').forEach(function(cell){cell.addEventListener('click',function(){
     openCabinetDetail(cell.getAttribute('data-m'),cell.getAttribute('data-e'),Number(cell.getAttribute('data-p')),cell.getAttribute('data-domain'),cell.getAttribute('data-probe'));cell.classList.add('on');
   })});
