@@ -32,6 +32,37 @@ const decode=s=>s.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,
 for(const card of visibleCards){
  const key=ctx.canonEnt(card[1],decode(card[2]));const entry=expected.find(e=>e.domain===card[1]&&e.key===key);assert(entry,'Unexpected consensus entry: '+card[2]);assert.equal(Number(card[3].match(/\d+/)[0]),entry.count);
 }
+// The comparison shows model support for each leading answer, not pooled reply
+// shares. Verify both questions, their eligible denominators, and the drawn dots.
+const {parseHTML}=require('linkedom');
+const articleDocument=parseHTML('<html><body>'+consensus+'</body></html>').document;
+const comparisons=[...articleDocument.querySelectorAll('[data-canon-support]')];
+assert.equal(comparisons.length,8);
+for(const choice of comparisons){
+ const domain=choice.dataset.canonDomain,probe=choice.dataset.canonProbe;
+ const key=ctx.canonEnt(domain,choice.dataset.canonName);let available=0;const supports={};
+ for(const model of D.models){
+  const dist=ctx.choiceDistribution(model.id,domain,probe);if(dist.n<4)continue;available++;
+  const top=Math.max(...Object.values(dist.map).map(r=>r.n));
+  for(const [name,row]of Object.entries(dist.map))if(row.n===top)supports[name]=(supports[name]||0)+1;
+ }
+ assert.equal(Number(choice.dataset.canonAvailable),available);
+ assert.equal(Number(choice.dataset.canonSupport),supports[key]);
+ assert.equal(supports[key],Math.max(...Object.values(supports)));
+ assert.equal(choice.querySelectorAll('.canon-votes i').length,available);
+ assert.equal(choice.querySelectorAll('.canon-votes .chosen').length,supports[key]);
+}
+// Historical examples preserve the actual named leaders and sample counts.
+const editions=[...articleDocument.querySelectorAll('[data-canon-model]')];
+assert.equal(editions.length,9);
+for(const pick of editions){
+ const dist=ctx.choiceDistribution(pick.dataset.canonModel,pick.dataset.canonDomain,'f');
+ assert.equal(Number(pick.dataset.canonN),dist.n);
+ const top=Math.max(...Object.values(dist.map).map(r=>r.n));
+ const shown=[...pick.querySelectorAll('[data-canon-pick]')];
+ assert.equal(shown.length,Object.values(dist.map).filter(r=>r.n===top).length);
+ for(const label of shown){const key=ctx.canonEnt(pick.dataset.canonDomain,label.dataset.canonPick);assert.equal(dist.map[key].n,top);assert.equal(Number(label.dataset.canonCount),top);}
+}
 const summary=JSON.parse(fs.readFileSync(path.join(__dirname,'..','data','persona2-reanalysis.json'),'utf8'));
 const research=html.match(/<section id="research"[^>]*>([\s\S]*?)<\/section>/)[1];
 assert(research.includes(summary.source.completions.toLocaleString('en-US')+' recorded completions'));

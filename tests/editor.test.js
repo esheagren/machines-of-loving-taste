@@ -90,6 +90,7 @@ test('generated essays preserve figures and source quotations outside editable r
     const regions = [...document.querySelectorAll('[data-region]')];
     assert.equal(regions.length,Object.keys(b.regions).length);
     assert.ok(regions.some(el=>el.querySelector('h1')));
+    for (const p of document.querySelectorAll('article > .essay-opening .rs-p, article > .ghost-opening .rs-p')) assert.ok(p.closest('[data-region]'),'Opening prose must remain editable');
     for (const el of regions) {assert.equal(el.innerHTML,b.regions[el.dataset.region]);assert.equal(el.querySelector('figure,svg,.ghost-quote-pair,details'),null);}
   }
   assert.match(baselines['ghost-in-kyoto'].template,/assistant-axis-figure/);

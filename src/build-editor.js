@@ -17,7 +17,7 @@ export function buildEditor(site, root) {
     function collect(container) {
       let region = null;
       for (const child of [...container.children]) {
-      if (child.classList.contains('ghost-opening')) { region = null; collect(child); continue; }
+      if (child.classList.contains('ghost-opening') || child.classList.contains('essay-opening')) { region = null; collect(child); continue; }
       if (/^(P|H1|H2|H3)$/.test(child.tagName) && !child.classList.contains('rs-kicker')) {
         if (!region) {
           region = document.createElement('div');
