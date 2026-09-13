@@ -798,6 +798,25 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
 .consensus-essay .rs-p{font:18px/1.7 var(--serif)}
 .consensus-essay .rs-p a{color:var(--ink);text-decoration-color:var(--hair);text-underline-offset:3px}
 .consensus-essay .article-canon{max-width:720px;margin-top:32px;margin-bottom:32px}
+.canon-ledger{width:100%;max-width:720px;border-collapse:collapse;margin-top:24px;font:16px/1.5 var(--serif)}
+.canon-ledger th{font:11px/1.5 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--dim);font-weight:400;text-align:left;padding:0 12px 10px 0;border-bottom:1px solid var(--hair)}
+.canon-ledger th.n{text-align:right;padding-right:0}
+.canon-ledger td{padding:9px 12px 9px 0;border-bottom:1px solid var(--hair);color:var(--ink);vertical-align:baseline}
+.canon-ledger td.cat{color:var(--dim);white-space:nowrap}
+.canon-ledger td.n{text-align:right;white-space:nowrap;padding-right:0}
+.canon-ledger-pairs td.n:not(:last-child){padding-right:28px}
+.canon-ledger-pairs th.n:not(:last-child){padding-right:28px}
+.canon-ledger td.n b{font-weight:500}
+.canon-ledger td.n small{color:var(--dim);font-size:13px;margin-left:5px}
+.canon-ledger .fav{color:#aac7ae}.canon-ledger .over{color:#d19b8c}
+.canon-ledger caption{caption-side:bottom;text-align:left;font:14px/1.5 var(--serif);color:var(--dim);padding-top:10px}
+.canon-specimen{max-width:720px;margin:22px 0 0;padding:12px 0 12px 18px;border-left:2px solid #aac7ae}
+.canon-specimen.over{border-left-color:#d19b8c}
+.canon-specimen blockquote{margin:0;font:19px/1.55 var(--serif);color:var(--ink)}
+.canon-specimen figcaption{margin-top:8px;font:11px/1.5 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--dim)}
+.canon-specimen+.canon-specimen{margin-top:12px}
+.canon-limits{max-width:720px;margin-top:28px;padding:4px 0 16px;border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+@media (max-width:520px){.canon-ledger{font-size:14.5px}.canon-ledger td.cat{white-space:normal}.canon-ledger-pairs td{padding-right:8px}}
 .essay-opening{margin-top:38px}
 .canon-agreement{--fav:#aac7ae;--over:#d19b8c;margin-top:32px}
 .canon-agreement>.eyebrow,.canon-editions>.eyebrow,.canon-influences>.eyebrow{margin-bottom:22px}
