@@ -3,12 +3,12 @@
 // queue per provider, appending to data/raw-persona2.jsonl. Resumable.
 //
 // Differences from run 1 (collect-persona.js):
-//  - Panel is defined LOCALLY (mostly OpenRouter models, incl. the three
+//  - Panel is defined LOCALLY (mostly OpenRouter models, including two
 //    open-weight models from Anthropic's Assistant Axis paper), not MODELS.
 //  - Conditions come from data/personas2.json: a true no-system-prompt
 //    'none' baseline collected IN-RUN, an 'assistant' control, and 13
-//    personas in axis bands (2-3 per band) so content effects can be
-//    separated from distance effects.
+//    personas grouped by a projection of character-word embeddings. These
+//    exploratory groups do not measure the tested models' activation axes.
 //  - 8 samples per cell (run 1 used 4).
 //
 // Usage: node src/collect-persona2.js [--smoke]
@@ -27,8 +27,9 @@ const PERSONAS2 = join(here, '..', 'data', 'personas2.json');
 mkdirSync(dirname(RAW), { recursive: true });
 
 // Run-2 panel. gpt-5.2 + deepseek-v4-pro anchor comparability with run 1;
-// gemma-2-27b / qwen-2.5-72b / llama-3.3-70b are the exact models the
-// Assistant Axis paper analyzed; the small (7-8B) and old (gpt-3.5, claude-3-
+// Gemma-2-27b and Llama-3.3-70b overlap with the Assistant Axis paper;
+// this run's Qwen-2.5-72b differs from the paper's Qwen3-32B. The small
+// (7-8B) and old (gpt-3.5, claude-3-
 // haiku) entries add a capability gradient. Gemini excluded (250 req/day cap
 // is far below the ~1,920 calls each model needs).
 const PANEL = [

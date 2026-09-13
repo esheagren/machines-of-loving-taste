@@ -42,4 +42,18 @@ Imagery: Wikimedia Commons (credits in the site's Method section).
 
 Fragment routes keep links portable in the standalone HTML: `#/findings`, `#/findings/shared-canon`, `#/findings/ghost-in-kyoto`, `#/models/claude-fable-5-1`, and `#/index/city`. An Index link can select a model with `?model=claude-fable-5-1`. Reload and browser back/forward restore these destinations.
 
-The persona article uses the archived experiment summary. Its counts and charts do not change merely because the main model roster changes. Model comparisons average shared probability mass across favorite-answer distributions, giving each eligible field equal weight.
+The persona article uses an audited reanalysis of the July experiment and a separate September follow-up. Its counts and charts do not change merely because the main model roster changes. Model comparisons average shared probability mass across favorite-answer distributions, giving each eligible field equal weight.
+
+## Persona experiments
+
+- [July reanalysis](report/persona2-reanalysis.md): 23,040 recorded completions, including nonanswers. Recovers omitted extractions, normalizes equivalent names, preserves modal ties, and compares full distributions with matched controls. Favorites and overrated answers are separate. Reports model-resampling intervals, finite-sample shuffled references, per-model results, and alias/nonanswer sensitivity.
+- [September follow-up](report/persona3-followup.md): 1,512 new responses from three models, testing characters, writing style, and explicitly different aesthetic preferences with neutral question wording. The [protocol](data/persona3-protocol.json) was frozen before collection. All responses and reviewed choices are committed in `data/persona3-observations.json`; preliminary smoke calls are excluded.
+
+Both analyses reproduce from committed data without API keys or private JSONL files:
+
+```sh
+npm run analyze:persona2
+npm run analyze:persona3
+```
+
+`src/import-persona2.js` and `src/import-persona3.js` rebuild the audited observations from local raw files and the committed review decisions. Collection is separate: `npm run collect:persona3 -- --dry-run` prints the design without API calls; collection without that flag uses API keys and resumes the fixed protocol. Changing the protocol after collection starts is rejected by a hash check. See each report for limitations; these are exploratory behavioral studies, not measurements of internal model activations.

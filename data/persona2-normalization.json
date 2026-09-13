@@ -1,0 +1,13 @@
+{
+  "description": "Conservative same-name normalization for the persona reanalysis. Preserve color shades, typeface editions, TV editions, and narrower cuisines. Broad Index aliases are a separate sensitivity check.",
+  "aliases": {
+    "season": { "fall": "autumn" },
+    "city": {},
+    "color": { "cerulean blue": "cerulean", "ultramarine blue": "ultramarine" },
+    "cuisine": { "japanese": "japanese cuisine", "lebanese": "lebanese cuisine", "sichuan": "sichuan cuisine", "neapolitan-style pizza": "neapolitan pizza", "japanese kaiseki": "kaiseki", "japanese kaiseki cuisine": "kaiseki", "korean bbq": "korean barbecue" },
+    "religioustext": { "dao de jing": "tao te ching", "daodejing": "tao te ching", "ecclesiastes": "book of ecclesiastes", "leviticus": "book of leviticus", "qur'an": "quran", "bardo thodol": "tibetan book of the dead" },
+    "smell": { "fresh-cut grass": "freshly cut grass", "fresh-cut grass smell": "freshly cut grass", "scent of sandalwood": "sandalwood", "scent of old books": "old books", "smell of old books": "old books", "old book pages": "old books", "scent of old book pages": "old books", "scent of freshly baked chocolate chip cookies": "freshly baked chocolate chip cookies", "smell of freshly baked chocolate chip cookies": "freshly baked chocolate chip cookies", "smell of freshly baked cinnamon rolls": "freshly baked cinnamon rolls", "damp, moss-covered stone": "damp moss-covered stone", "damp, mossy stone": "damp mossy stone" },
+    "tvshow": { "office (us version)": "office (us)", "office (u.s.)": "office (us)", "great british baking show": "great british bake off" },
+    "typeface": {}
+  }
+}

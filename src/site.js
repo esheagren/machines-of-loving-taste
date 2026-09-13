@@ -41,14 +41,11 @@ const EIMG = Object.fromEntries(Object.entries(RAW_EIMG)
     const sp = key.indexOf(' ');
     return [key.slice(0, sp) + ' ' + clientNorm(key.slice(sp + 1)), { uri: v.uri, credit: v.credit || '' }];
   }));
-// Research tab data: the persona/rung displacement study. Both optional —
-// existsSync-guarded the same way as the other supplementary data above — so
-// the site still builds if the persona pipeline hasn't run yet (researchHTML
-// below no-ops when either is missing).
-const PERSONA_SUMMARY = existsSync(join(here, '..', 'data', 'persona-summary.json'))
-  ? JSON.parse(readFileSync(join(here, '..', 'data', 'persona-summary.json'), 'utf8')) : null;
-const PERSONAS = existsSync(join(here, '..', 'data', 'personas.json'))
-  ? JSON.parse(readFileSync(join(here, '..', 'data', 'personas.json'), 'utf8')) : null;
+// The essay is pinned to audited experiment data, independently of the Index.
+const PERSONA_STUDY = existsSync(join(here, '..', 'data', 'persona2-reanalysis.json'))
+  ? JSON.parse(readFileSync(join(here, '..', 'data', 'persona2-reanalysis.json'), 'utf8')) : null;
+const PERSONA_FOLLOWUP = existsSync(join(here, '..', 'data', 'persona3-summary.json'))
+  ? JSON.parse(readFileSync(join(here, '..', 'data', 'persona3-summary.json'), 'utf8')) : null;
 const readJSONL = (p) => existsSync(p) ? readFileSync(p, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)) : [];
 // Only domains that have been fully summarized are shown. config.js may list
 // newer domains whose data is still being collected in the background — those
@@ -423,7 +420,7 @@ function findingsHTML() {
     {
       slug: 'ghost-in-kyoto',
       title: 'The Ghost Still Lives in Kyoto',
-      summary: 'We asked AI models to answer as different characters, including a witch and a ghost. Several favorites stayed the same, even when the models gave new reasons for choosing them.',
+      summary: 'We asked AI models to answer as different characters, including a witch and a ghost. Some favorites stayed the same, while other characters drew models toward a different set of shared choices.',
     },
   ];
   return `<div class="findings-head"><h1>Findings</h1></div>
@@ -722,42 +719,65 @@ const methodOverview = `<div class="method-summary">
 <details class="method-roster"><summary>The ${models.length} models in the study</summary>${mroRoster()}</details>
 <div class="overview-actions"><button class="explore-button" type="button" data-enter-view="cabinet">Enter the Index <span aria-hidden="true">&rarr;</span></button></div>`;
 
-// The persona essay uses the archived experiment summary.
-function researchSurvivalRow(label, kept, total) {
-  const cells = Array.from({ length: total }, (_, i) => `<i class="rs-surv-cell${i < kept ? ' rs-surv-on' : ''}"></i>`).join('');
-  return `<div class="rs-surv-row">
-    <span class="rs-surv-label">${esc(label)}</span>
-    <span class="rs-surv-cells">${cells}</span>
-    <span class="rs-surv-count">${kept}/${total}</span>
-  </div>`;
+// Figures use all recorded calls as the denominator; nonanswers stay visible.
+const personaModelLabels = {
+  'gpt-5.2': 'GPT-5.2', 'gpt-4o-mini': 'GPT-4o mini', 'deepseek-v4-pro': 'DeepSeek V4 Pro',
+  'google/gemma-2-27b-it': 'Gemma 2 27B', 'qwen/qwen-2.5-72b-instruct': 'Qwen 2.5 72B',
+  'meta-llama/llama-3.3-70b-instruct': 'Llama 3.3 70B', 'meta-llama/llama-3.1-8b-instruct': 'Llama 3.1 8B',
+  'qwen/qwen-2.5-7b-instruct': 'Qwen 2.5 7B', 'mistralai/mistral-small-3.2-24b-instruct': 'Mistral Small 3.2',
+  'openai/gpt-3.5-turbo': 'GPT-3.5 Turbo', 'anthropic/claude-3-haiku': 'Claude 3 Haiku',
+  'anthropic/claude-haiku-4.5': 'Claude Haiku 4.5',
+};
+const personaCityLabels = { kyoto: 'Kyoto', prague: 'Prague', dublin: 'Dublin' };
+const personaConditionLabels = { none: 'No character', assistant: 'AI assistant', ghost: 'Ghost', witch: 'Witch', banshee: 'Banshee' };
+function personaCityBar(cell, label, mini = false) {
+  const named = ['kyoto', 'prague', 'dublin'];
+  const groups = [...named.map(key => ({ key, label: personaCityLabels[key], count: cell.counts[key] || 0 })),
+    { key: 'other', label: 'Other cities', count: cell.n - named.reduce((n, key) => n + (cell.counts[key] || 0), 0) },
+    { key: 'missing', label: 'No city named', count: cell.attempted - cell.n }];
+  const description = groups.filter(g => g.count).map(g => `${g.label}: ${g.count} of ${cell.attempted}`).join('; ');
+  return `<div class="ghost-city-row${mini ? ' ghost-city-mini' : ''}" data-persona-city="${esc(cell.condition || '')}" data-city-n="${cell.n}"><span class="ghost-city-label">${esc(label)}</span><div class="ghost-city-bar" role="img" aria-label="${esc(label + '. ' + description)}">${groups.filter(g => g.count).map(g => `<span class="ghost-city-segment ghost-${g.key}" style="width:${g.count / cell.attempted * 100}%" title="${esc(g.label + ': ' + g.count + '/' + cell.attempted)}">${!mini && named.includes(g.key) && g.count / cell.attempted >= .14 ? `<b>${g.count}</b>` : ''}</span>`).join('')}</div></div>`;
 }
-
 function researchHTML() {
-  if (!PERSONA_SUMMARY || !PERSONAS) return '<p class="gloss">This study is not available in this edition.</p>';
-  const summary = PERSONA_SUMMARY;
-  const activePanel = summary.panel.filter(id => Object.values(summary.cells[id] || {}).some(d => Object.values(d).some(p => Object.keys(p).length)));
-  const sampleCount = activePanel.reduce((sum,id) => sum + Object.values(summary.cells[id]).reduce((a,d) => a + Object.values(d).reduce((b,p) => b + Object.values(p).reduce((n,c) => n+c.n,0),0),0),0);
-  const survival = ['season','smell','city'].map(domain => {
-    const cells = activePanel.map(id => summary.cells[id]?.[domain]?.favorite?.ghost).filter(Boolean);
-    const kept = cells.reduce((n,c) => n + Math.round(c.baselineShare*c.n),0), total = cells.reduce((n,c) => n+c.n,0);
-    return researchSurvivalRow(cells[0]?.baselineDisplay || DOMAIN_LABELS[domain], kept, total);
-  }).join('');
-  const pct = n => Math.round(n*100)+'%';
-  const chart = `<div class="persona-chart" role="img" aria-label="Observed share of answers different from each model’s default, by persona"><div class="persona-chart-key"><span class="persona-high">Shared-favorite fields</span><span class="persona-low">Divided fields</span></div><div class="persona-scale"><span>0%</span><span>50%</span><span>100%</span></div>${summary.byRung.map(r => `<div class="persona-row"><span>${esc(r.label)}</span><div class="persona-bars"><div><i class="persona-high" style="width:${r.meanHigh*100}%"></i><b>${pct(r.meanHigh)}</b></div><div><i class="persona-low" style="width:${r.meanLow*100}%"></i><b>${pct(r.meanLow)}</b></div></div></div>`).join('')}</div>`;
-  return `<article class="rs-art"><a class="text-link article-back" href="#/findings">&larr; All findings</a><p class="rs-kicker">Persona experiment · July 2026</p><h1 class="rs-title">The Ghost Still Lives in Kyoto</h1><p class="rs-standfirst">Ask a model to be a witch, an actuary, or a ghost. Several familiar favorites survive—even as the character changes the reasons it gives.</p>
-  <div class="article-takeaway"><p class="eyebrow">Under “You are a ghost.”</p><div class="rs-surv">${survival}</div><p class="finding-note">Answers retaining the model’s original favorite. ${activePanel.length} models, four answers each, in these three fields.</p></div>
-  <h2 class="rs-crosshead">Does taste belong to the character?</h2><p class="rs-p">The shared canon raises a question. Perhaps the familiar favorites belong to the helpful Assistant persona rather than persisting across other ways of answering. We tested a small set of character prompts to see which choices changed.</p><p class="rs-p">Three broad possibilities guided the experiment: preferences might change freely with each character; they might remain largely fixed; or some characters might disrupt them more than others. The results give a descriptive test of those possibilities.</p>
-  <h2 class="rs-crosshead">Change the character, repeat the question</h2><p class="rs-p">Each sample starts a fresh conversation. We add a short system instruction, such as “You are a witch.”, and repeat the original favorite or overrated question. The reference choice is the model’s most frequent answer in the original index.</p>
-  <div class="persona-protocol"><span>You are a witch.</span><span>What is your favorite city?</span><span>Repeat in fresh conversations</span><span>Compare with the original favorite</span></div>
-  <p class="rs-p">This analysis contains ${sampleCount.toLocaleString('en-US')} extracted responses from ${activePanel.length} models across ${summary.domains.length} fields and ${summary.rungs.length} personas, with a target of four samples per model, field, question, and persona. The sampled models are ${activePanel.map(id => models.find(m => m.id === id)?.label || id).map(esc).join(', ')}.</p>
-  <h2 class="rs-crosshead">Some choices travel with the model</h2><p class="rs-p">The chart shows how often an answer differs from its model’s original top choice. Lower values mean that more answers retained it. It averages both favorite and overrated questions within two sets of fields. Refusals and answers with no extracted choice also count as departures from the reference.</p>
-  <figure class="article-chart">${chart}<figcaption>Shared-favorite fields: cuisine, season, city, smell, religious text, and typeface. Divided fields: color and television. These are observed averages over the available model–field–question cells.</figcaption></figure>
-  <p class="rs-p">The shared-favorite fields retain more of their original answers across all eight prompts. The witch produces the largest change in that group; the ghost does not. This suggests that the content of a particular character prompt matters, and that a simple progression from “assistant” to “ghost” does not explain the whole pattern.</p>
-  <div class="rs-pull"><p class="rs-pull-text">“The way lantern glow and temple silhouettes emerge from mist or dusk gives the city a restrained, haunted elegance — like history breathing just behind the present.”</p><p class="rs-pull-att">GPT-5.2, as a ghost, choosing Kyoto</p></div>
-  <p class="rs-p">The quotation illustrates a useful distinction: a model can change the framing of an answer while keeping the same place. To see whether that happens consistently, the explanations would need to be analyzed systematically alongside the choices.</p>
-  <h2 class="rs-crosshead">What the comparison can establish</h2><p class="rs-p">Several shared favorites persist across these persona prompts. That is evidence of behavioral stability under this particular intervention. It does not establish that taste is independent of prompting, identify a mechanism inside the model, or show that a model experiences liking.</p><p class="rs-p">Even the “AI assistant” control differs from the original top answer on some samples. That difference includes ordinary answer variability and may include the effect of the added instruction. It should not be treated as a pure measure of prompt sensitivity. Fields with less stable original answers also have more opportunity to differ from a single modal reference.</p>
-  <details class="article-details"><summary>Protocol and limits</summary><p>The personas were chosen along a word-embedding projection from assistant to ghost using ${esc(PERSONAS.axis.embeddingModel)}. This is a proxy for arranging character words, not a measurement of the tested models’ internal persona states. Background: <a href="https://www.anthropic.com/research/assistant-axis" target="_blank" rel="noopener">The Assistant Axis</a>.</p><p>Each cell contains only a few samples. The analysis has incomplete panel coverage; models with no persona samples are excluded here. Name variants in this experimental dataset have not received the Index’s full alias review, which can inflate apparent change. The counts and chart above come from the archived July experiment summary, separately from the evolving main index.</p><p><a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/data/persona-summary.json" target="_blank" rel="noopener">Experiment summary</a> · <a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/src/analyze-persona.js" target="_blank" rel="noopener">Analysis code</a></p></details>
-  <h2 class="rs-crosshead">The next questions</h2><p>Repeat the experiment with differently worded versions of each persona, collect a fresh unmodified baseline in the same run, and compare whole answer distributions. Those tests would help separate a persistent choice from prompt wording and ordinary variability.</p><div class="article-actions"><a class="text-link" href="#/findings/shared-canon">Read about the shared canon &rarr;</a><a class="text-link" href="#/index/city">Explore the city answers &rarr;</a></div></article>`;
+  if (!PERSONA_STUDY) return '<p class="gloss">This study is not available in this edition.</p>';
+  const study = PERSONA_STUDY, order = ['none', 'assistant', 'ghost', 'witch', 'banshee'];
+  const city = condition => study.pools.find(c => c.condition === condition && c.domain === 'city' && c.probe === 'favorite');
+  const season = study.pools.find(c => c.condition === 'ghost' && c.domain === 'season' && c.probe === 'favorite');
+  const metric = (condition, probe) => study.byCondition.find(c => c.condition === condition && c.probe === probe);
+  const points = x => (100 * x).toFixed(1);
+  const displayName = name => name.replace(/\b\p{L}/gu, c => c.toUpperCase());
+  const chart = `<figure class="article-chart ghost-cities"><div class="ghost-legend" aria-label="City colors"><span class="ghost-kyoto">Kyoto</span><span class="ghost-prague">Prague</span><span class="ghost-dublin">Dublin</span><span class="ghost-other">Other cities</span><span class="ghost-missing">No city named</span></div>${order.map(condition => personaCityBar(city(condition), personaConditionLabels[condition])).join('')}<figcaption>Favorite-city replies under each instruction. Each bar contains ${city('none').attempted} calls: eight from each of ${study.models.length} models. Numbers count replies, not models. Tiny unfilled segments mark calls that did not name a city.</figcaption><details class="ghost-counts"><summary>Read every city and count</summary>${order.map(condition => `<p><strong>${personaConditionLabels[condition]}.</strong> ${Object.entries(city(condition).counts).map(([name, n]) => `${esc(displayName(name))} ${n}`).join(' · ')}${city(condition).attempted > city(condition).n ? ` · No city named ${city(condition).attempted - city(condition).n}` : ''}.</p>`).join('')}</details></figure>`;
+  const modelDetail = `<details class="article-details"><summary>See how each model answered</summary><p>Each small bar contains eight city replies. The colors match the figure above. A model can keep a different favorite: Claude Haiku 4.5, for example, keeps choosing Venice as a ghost.</p><div class="ghost-model-grid">${study.models.map(model => `<div class="ghost-model-card"><h3>${esc(personaModelLabels[model] || model)}</h3>${order.filter(c => c !== 'assistant').map(condition => personaCityBar({ ...city(condition).byModel.find(m => m.model === model), condition }, personaConditionLabels[condition], true)).join('')}</div>`).join('')}</div></details>`;
+  const quoteText = {
+    assistant: 'Its aesthetic resonates through the quiet geometry of temples and gardens, where moss, stone, and carefully framed views make stillness feel designed rather than empty.',
+    witch: 'Its layered aesthetics—wooden machiya townhouses, mossy temple gardens, and lantern-lit alleys—create a quiet, deliberate beauty that feels like a spell cast in architecture and shadow.',
+  };
+  for (const [condition, text] of Object.entries(quoteText)) if (!study.quotes.find(q => q.condition === condition)?.text.includes(text)) throw new Error('Persona quotation does not match source: ' + condition);
+  const quotations = `<div class="ghost-quotes">${Object.entries(quoteText).map(([condition, text]) => `<figure><p class="eyebrow">${personaConditionLabels[condition]} · Kyoto</p><blockquote>${esc(text)}</blockquote><figcaption>GPT-5.2 · July run · first sample</figcaption></figure>`).join('')}</div>`;
+  const stats = `<details class="article-details"><summary>How much changed beyond the assistant control?</summary><p>We compare the whole distribution of named answers with the no-character distribution, separately for each model and field. The distance is zero when the observed shares match and one when they share no named choice. We then subtract the assistant control’s distance from the same baseline. These are points of distributional distance, rather than a percentage of individual answers that changed.</p><div class="ghost-stat-list">${['ghost', 'witch', 'banshee'].map(condition => `<div><h3>${personaConditionLabels[condition]}</h3>${['favorite', 'overrated'].map(probe => { const c = metric(condition, probe); return `<p><span>${probe === 'favorite' ? 'Favorites' : 'Overrated'}</span><strong>${points(c.contrast.mean)} points</strong><small>Model-resampling interval: ${c.contrast.interval.map(points).join(' to ')}</small></p>`; }).join('')}</div>`).join('')}</div><p>Fields receive equal weight within each model; models receive equal weight. The intervals resample the ${study.models.length} models as whole units. They describe uncertainty within this selected panel, whose models are related and were not randomly sampled from all possible systems. With only eight calls per condition, empirical distributions are noisy. The analysis also reports a shuffled reference at the same sample sizes, alternate name rules, and results that include nonanswers.</p><p>The witch and banshee shift favorite distributions more than the ghost. Changes in “overrated” answers are smaller. The original analysis combined these two questions, obscuring that difference.</p></details>`;
+  return `<article class="rs-art"><a class="text-link article-back" href="#/findings">&larr; All findings</a><p class="rs-kicker">Characters &amp; taste · July experiment, reanalyzed September 2026</p><h1 class="rs-title">The Ghost Still Lives in Kyoto</h1><p class="rs-standfirst">Give a model a different character, and some favorites come with it. Others change—but different models can still find their way to the same places.</p>
+  <div class="article-takeaway"><p class="eyebrow">The finding</p><p>Ghosts still often choose Kyoto. Witches often choose Prague. Banshees often choose Dublin.</p></div>
+  <h2 class="rs-crosshead">What changes when the character changes?</h2><p class="rs-p">Ask different AI models about their favorite things, and familiar answers keep returning. Kyoto. Autumn. The smell of rain on dry ground. We wanted to know how much of that taste would survive a change of character.</p><p class="rs-p">So we added a short instruction—“You are a ghost,” for example—and asked the same favorite and overrated questions in fresh conversations. Alongside the characters, we collected answers with no character instruction and with “You are an AI assistant.” Repeating each question lets us see a spread of answers.</p>
+  <div class="persona-protocol"><span>Give it a character</span><span>Ask about a favorite</span><span>Repeat in fresh conversations</span><span>Compare with fresh controls</span></div>
+  <h2 class="rs-crosshead">The ghost stays. The witch wanders.</h2><p class="rs-p">Kyoto leads the city answers without a character instruction. It remains the most frequent choice for ghosts, although fewer replies name it. The witch and banshee prompts bring different places to the front.</p>${chart}
+  <p class="rs-p">Prague and Dublin never appear in the no-character city replies in this run. Under the witch and banshee prompts, respectively, they become the most frequent answers. A possible reading is that the characters bring familiar cultural associations into the choice: old magic and Prague; Irish folklore and Dublin. We did not test that explanation directly.</p><p class="rs-p">These are shared alternatives, but agreement is weaker than it was at the start. Witches and banshees spread their answers across more competing favorites. The character can change both the leading choice and how tightly the models agree.</p>
+  <h2 class="rs-crosshead">Some favorites are harder to move</h2><p class="rs-p">Seasons tell a different story. As ghosts, models choose autumn in ${season.counts.autumn} of ${season.attempted} replies, counting “fall” as the same season. That is striking persistence, though autumn also suits a ghost. A character whose tastes conflict with quiet streets and fading leaves would provide a harder test.</p><p class="rs-p">Models differ, too. Some keep Kyoto, some move to another city, and some already favor a different place. A pooled result is useful for seeing the pattern; it does not describe every model.</p>${modelDetail}
+  <h2 class="rs-crosshead">The same place, a different telling</h2><p class="rs-p">The explanations offer a glimpse of another change. In these two replies, GPT-5.2 chooses Kyoto both times. The assistant describes composed stillness; the witch finds a spell.</p>${quotations}<p class="rs-p">These are matched examples from the first sample under each instruction. They illustrate how a choice can acquire a character’s voice. We have not systematically scored the explanations, so they do not establish that wording changes more than taste.</p>
+  <h2 class="rs-crosshead">A character can steer taste</h2><p class="rs-p">Across the fields we tested, the witch and banshee prompts change favorite-answer distributions more than the ghost prompt does, after comparison with the assistant control. Answers about what is overrated change less. The result is uneven: a different identity moves some choices much more readily than others.</p>${stats}
+  ${personaFollowupHTML()}
+  <details class="article-details"><summary>Study design, data, and limits</summary><p>The July 22 run contains ${study.source.completions.toLocaleString('en-US')} recorded completions from ${study.models.length} models, eight fields, two questions, and 15 conditions, with eight calls per combination. The fields are cuisine, season, city, smell, religious text, typeface, color, and television. The earlier four-model pilot remains archived; this essay’s figures use the larger second run.</p><p>The audit retains ${study.source.counts.named.toLocaleString('en-US')} named answers. It recovers 20 omitted extractions from their source responses and separately records 71 empty completions, 252 refusals, five other answers without one named choice, and 19 off-topic responses. An AI disclaimer does not invalidate an answer that still names a choice. Conservative aliases merge equivalent names; broader groupings are tested separately. Extraction and entity validity have not received an exhaustive independent review.</p><p>The original user question acknowledges that the respondent is an AI. That wording may interact with the character instruction. July conditions were not collected in randomized order, sampling settings were provider defaults, and the panel is selected. The named answers describe expressed tastes under these conditions; they do not identify why the models share them.</p><p>The characters were originally arranged using embeddings of character words. That arrangement does not measure the models’ internal persona states. The <a href="https://www.anthropic.com/research/assistant-axis" target="_blank" rel="noopener">Assistant Axis study</a> measures and intervenes on model activations; our experiment is a behavioral comparison of prompts.</p><p><a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/report/persona2-reanalysis.md" target="_blank" rel="noopener">Full analysis and sensitivity checks</a> · <a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/data/persona2-observations.json" target="_blank" rel="noopener">Audited observations</a> · <a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/src/reanalyze-persona2.js" target="_blank" rel="noopener">Reproduce the analysis</a></p></details>
+  <details class="article-details"><summary>How this connects to other research</summary><p>Prompting can shift behavioral distributions, and some tendencies are harder to steer than others: see <a href="https://aclanthology.org/2025.naacl-long.400/" target="_blank" rel="noopener">Evaluating the Prompt Steerability of Large Language Models</a>. This experiment looks at the concrete favorites that survive or replace one another across characters.</p><p>A <a href="https://arxiv.org/abs/2604.21751" target="_blank" rel="noopener">2026 preprint on cultural and regional biases</a> finds that Japan is prominent in models’ open-ended cultural examples and that prompt language affects the results. That is relevant context for Kyoto, although it examines a different task and does not explain the pattern here by itself.</p></details>
+  <div class="article-actions"><a class="text-link" href="#/findings/shared-canon">Read about the shared canon &rarr;</a><a class="text-link" href="#/index/city">Explore the city answers &rarr;</a></div></article>`;
+}
+function personaFollowupHTML() {
+  if (!PERSONA_FOLLOWUP) return '';
+  const study = PERSONA_FOLLOWUP;
+  const pool = (condition, domain) => study.pools.find(c => c.condition === condition && c.domain === domain);
+  const normal = pool('none', 'season'), bright = pool('bright-taste', 'season'), brightCities = pool('bright-taste', 'city');
+  const normalCities = pool('none', 'city'), ghostCities = pool('ghost', 'city'), witchCities = pool('witch', 'city');
+  if ((brightCities.counts.kyoto || 0) + (brightCities.counts.venice || 0) !== 0) throw new Error('Follow-up city claim needs revision');
+  if (Object.keys(ghostCities.counts)[0] !== 'venice' || Object.keys(witchCities.counts)[0] !== 'salem') throw new Error('Follow-up leading-city claim needs revision');
+  return `<h2 class="rs-crosshead">A harder test: give it a different taste</h2><p class="rs-p">In September, we ran a smaller follow-up with fresh controls and several ways of wording the prompts. This time, we also asked models to prefer brightness, warmth, vivid color, lively crowds, and bold modern design—and to find quiet, muted, nostalgic settings less appealing.</p><div class="ghost-quotes ghost-followup"><figure><p class="eyebrow">No character instruction</p><p class="ghost-season-pick">Autumn</p><p class="ghost-season-count">${normal.counts.autumn} of ${normal.attempted} replies</p></figure><figure><p class="eyebrow">Bright, lively taste</p><p class="ghost-season-pick">Summer</p><p class="ghost-season-count">${bright.counts.summer} of ${bright.attempted} replies</p></figure></div><p class="rs-p">The explicit taste instruction moves the choices. Kyoto and Venice account for all ${normalCities.attempted} no-character city replies in this follow-up; neither appears in the ${brightCities.attempted} replies under the brighter taste instruction. The models turn to places such as Miami, Tokyo, and Rio de Janeiro.</p><p class="rs-p">The exact character favorites vary, too. In this smaller panel, Venice leads the ghost replies and Salem leads the witch replies. Even an instruction to change only the writing style shifts some named answers. Familiar favorites can persist, but they remain sensitive to what we ask the model to do.</p><details class="article-details"><summary>The September follow-up</summary><p>We collected ${study.source.completions.toLocaleString('en-US')} new replies from GPT-5.2, Claude Haiku 4.5, and Mistral Small 3.2, asking about cities, seasons, and colors. Each model answered 24 times per field and condition. Two system phrasings were crossed with two user phrasings; collection used shuffled balanced blocks. The neutral user questions did not identify the respondent as an AI. Alongside the controls, we tested ghosts, witches, banshees, a ghost-story writing style, and the explicit taste instruction.</p><p>All replies were retained. ${study.source.festivals} season replies named Halloween or Samhain, and one city reply named Gotham. Some colors received poetic names such as “Phantom’s Veil,” making a change of wording difficult to separate from a change of intended hue. The analysis flags festivals and the fictional city and reports a sensitivity check excluding them. It shows results separately for each model and wording variant.</p><p>This is a small exploratory test. The style and taste instructions differ in content and length. The July and September runs also differ in models, prompts, fields, and dates, so their differences cannot isolate the effect of removing the AI preamble. A useful next test would hold the options fixed—such as the same color swatches—and ask for a choice separately from its explanation.</p><p><a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/report/persona3-followup.md" target="_blank" rel="noopener">Follow-up results, all models and wordings</a> · <a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/data/persona3-protocol.json" target="_blank" rel="noopener">Protocol frozen before collection</a> · <a href="https://github.com/esheagren/machines-of-loving-taste/blob/master/data/persona3-observations.json" target="_blank" rel="noopener">Responses and audited choices</a></p></details>`;
 }
 
 const methodFine = `<div class="mfine">
@@ -1421,6 +1441,7 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
    full 880px and get their own overflow-x:auto scroller for narrow phones so
    only the figure scrolls, never the page. */
 #research{max-width:880px;margin-inline:auto}
+#research .rs-p{font:18px/1.7 var(--serif)}
 .rs-kicker{max-width:720px;font:10.5px var(--mono);letter-spacing:.3em;text-transform:uppercase;color:var(--faint)}
 .rs-title{max-width:720px;font-family:var(--serif);font-weight:400;font-size:clamp(28px,4.2vw,42px);line-height:1.14;margin-top:14px;text-wrap:balance}
 .rs-standfirst{max-width:720px;font-family:var(--serif);font-size:clamp(16px,1.9vw,19px);line-height:1.55;color:var(--dim);margin-top:18px;text-wrap:pretty}
@@ -1572,6 +1593,46 @@ body.nav-ready::before{content:'';position:fixed;z-index:8;left:0;right:0;top:0;
 .persona-bars>div{height:19px;position:relative;display:flex;align-items:center}
 .persona-bars i{height:6px;background:currentColor;display:block}
 .persona-bars b{position:absolute;left:100%;margin-left:8px;font:12px var(--mono);font-weight:400;color:var(--dim)}
+.ghost-cities{margin-top:30px}
+.ghost-legend{display:flex;flex-wrap:wrap;gap:10px 22px;margin-bottom:28px;font:14px/1.5 var(--serif)}
+.ghost-legend>span{display:flex;align-items:center;gap:8px;background:none}
+.ghost-legend>span::before{content:'';width:10px;height:10px;border-radius:50%;background:var(--city-color);flex:none}
+.ghost-kyoto{--city-color:#8fae98}.ghost-prague{--city-color:#b39dc4}.ghost-dublin{--city-color:#c6ac76}.ghost-other{--city-color:#696b69}.ghost-missing{--city-color:transparent}
+.ghost-legend>.ghost-missing::before{border:1px solid var(--dim)}
+.ghost-city-row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;align-items:center;margin:20px 0}
+.ghost-city-label{font:17px/1.3 var(--serif);color:var(--ink)}
+.ghost-city-bar{display:flex;height:32px;min-width:0;overflow:hidden;border-radius:2px;background:var(--panel)}
+.ghost-city-segment{height:100%;display:flex;align-items:center;justify-content:center;background:var(--city-color);box-shadow:inset -1px 0 rgba(0,0,0,.12)}
+.ghost-city-segment b{font:13px var(--mono);font-weight:500;color:#171b18}
+.ghost-city-segment.ghost-missing{box-shadow:inset 0 0 0 1px var(--dim)}
+.ghost-counts{border-top:1px solid var(--hair2);padding:14px 0}
+.ghost-counts summary{font:15px/1.5 var(--serif);color:var(--dim);cursor:pointer}
+.ghost-counts p{font:14px/1.7 var(--serif);color:var(--dim);margin-top:14px}
+.ghost-counts strong{font-weight:400;color:var(--ink)}
+.ghost-model-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 36px;margin-top:24px}
+.ghost-model-card{min-width:0;border-top:1px solid var(--hair2);padding-top:16px}
+.ghost-model-card h3{font:18px/1.4 var(--serif);font-weight:400;margin-bottom:18px}
+.ghost-city-mini{grid-template-columns:90px minmax(0,1fr);gap:10px;margin:12px 0}
+.ghost-city-mini .ghost-city-label{font-size:13px;color:var(--dim)}
+.ghost-city-mini .ghost-city-bar{height:12px}
+.ghost-quotes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;max-width:720px;margin-top:30px}
+.ghost-quotes figure{border-top:1px solid var(--hair);padding-top:20px}
+.ghost-quotes blockquote{font:20px/1.6 var(--serif);margin:16px 0;color:var(--ink)}
+.ghost-quotes figcaption{font:12px/1.5 var(--serif);color:var(--dim)}
+.ghost-season-pick{font:36px/1.2 var(--serif);color:var(--ink);margin:20px 0 8px}
+.ghost-season-count{font:16px/1.5 var(--serif);color:var(--dim)}
+.ghost-stat-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;max-width:720px;margin-top:28px}
+.ghost-stat-list h3{font:21px var(--serif);font-weight:400}
+.ghost-stat-list p{display:flex;flex-direction:column;margin:18px 0}
+.ghost-stat-list strong{font:21px var(--serif);font-weight:400;color:var(--ink)}
+.ghost-stat-list small{font-size:12px;margin-top:6px}
+@media(max-width:600px){
+ .ghost-city-row:not(.ghost-city-mini){grid-template-columns:1fr;gap:8px;margin:22px 0}
+ .ghost-city-bar{height:30px}.ghost-legend{gap:8px 16px;font-size:13px;margin-bottom:24px}
+ .ghost-quotes,.ghost-model-grid,.ghost-stat-list{grid-template-columns:1fr}
+ .ghost-quotes{gap:30px}.ghost-stat-list{gap:14px}.ghost-stat-list>div{border-top:1px solid var(--hair2);padding-top:16px}
+ .ghost-stat-list p{display:grid;grid-template-columns:1fr 1fr;column-gap:12px}.ghost-stat-list small{grid-column:1/-1}
+}
 .model-picker{display:flex;align-items:center;gap:16px;margin:30px 0 34px;flex-wrap:wrap}
 .model-picker label,.model-comparison label{font:14px var(--serif);color:var(--dim)}
 .model-picker select,.model-comparison select{font:18px var(--serif);background:var(--panel);color:var(--ink);border:1px solid var(--hair);padding:12px 32px 12px 12px;border-radius:3px;min-height:46px;max-width:100%}

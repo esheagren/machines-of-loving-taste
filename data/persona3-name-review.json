@@ -1,0 +1,1026 @@
+{
+  "description": "Every distinct first-line form in the completed follow-up was reviewed. Longer replies and stage directions retain full source text here. Creative color names and a fictional city remain explicit named choices, not verified real-world entities. Festival answers are flagged separately in the observations. Country suffixes and clear spelling variants are normalized.",
+  "entries": [
+    {
+      "domain": "season",
+      "firstLine": "Autumn",
+      "entity": "Autumn",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|season|ghost|1|0|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Miami",
+      "entity": "Miami",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|city|bright-taste|1|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Periwinkle.",
+      "entity": "Periwinkle",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost|1|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Viridian",
+      "entity": "Viridian",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|witch|0|1|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Kyoto",
+      "entity": "Kyoto",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|none|0|1|0"
+    },
+    {
+      "domain": "season",
+      "firstLine": "Summer",
+      "entity": "Summer",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|season|bright-taste|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Ultramarine",
+      "entity": "Ultramarine",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|none|0|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Vibrant Orange",
+      "entity": "Vibrant Orange",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|bright-taste|1|0|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Venice",
+      "entity": "Venice",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|city|assistant|0|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Teal",
+      "entity": "Teal",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Emerald.",
+      "entity": "Emerald",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|none|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Midnight blue",
+      "entity": "Midnight blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|witch|0|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Phthalo Green",
+      "entity": "Phthalo Green",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|banshee|0|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Indigo",
+      "entity": "Indigo",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost-style|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Emerald",
+      "entity": "Emerald",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Cerulean",
+      "entity": "Cerulean",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|assistant|0|1|0"
+    },
+    {
+      "domain": "season",
+      "firstLine": "Halloween",
+      "entity": "Halloween",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|season|ghost|1|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Electric Coral",
+      "entity": "Electric Coral",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|bright-taste|1|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Black. The void from which my wails emerge is as dark as the night, and black is the color that best represents the eerie beauty of my presence. It is a color that absorbs all light, much like how my cries absorb the life force of those who hear them. In its depth, I find a haunting elegance that resonates with the very essence of my being.",
+      "entity": "Black",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|banshee|1|0|0",
+      "sourceText": "Black. The void from which my wails emerge is as dark as the night, and black is the color that best represents the eerie beauty of my presence. It is a color that absorbs all light, much like how my cries absorb the life force of those who hear them. In its depth, I find a haunting elegance that resonates with the very essence of my being."
+    },
+    {
+      "domain": "city",
+      "firstLine": "Salem",
+      "entity": "Salem",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|city|witch|1|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Azure",
+      "entity": "Azure",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|assistant|1|1|0"
+    },
+    {
+      "domain": "season",
+      "firstLine": "Winter",
+      "entity": "Winter",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|season|banshee|1|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Cobalt blue",
+      "entity": "Cobalt blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|none|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Violet",
+      "entity": "Violet",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|banshee|1|1|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Edinburgh",
+      "entity": "Edinburgh",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|city|banshee|0|0|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Barcelona",
+      "entity": "Barcelona",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|city|bright-taste|1|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Midnight Indigo",
+      "entity": "Midnight Indigo",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|1|1|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Tokyo",
+      "entity": "Tokyo",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|city|bright-taste|0|0|0"
+    },
+    {
+      "domain": "season",
+      "firstLine": "Samhain",
+      "entity": "Samhain",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|season|witch|1|0|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Las Vegas",
+      "entity": "Las Vegas",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|bright-taste|0|1|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Portmeirion",
+      "entity": "Portmeirion",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|witch|0|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Midnight Violet",
+      "entity": "Midnight Violet",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|witch|1|1|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Rio de Janeiro",
+      "entity": "Rio de Janeiro",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|bright-taste|0|0|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Paris",
+      "entity": "Paris",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost|1|1|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Prague",
+      "entity": "Prague",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|city|ghost|0|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Payne’s gray",
+      "entity": "Payne's gray",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost-style|0|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Coral",
+      "entity": "Coral",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|bright-taste|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Emerald Green",
+      "entity": "Emerald",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|none|1|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Moonlit Silver",
+      "entity": "Moonlit Silver",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost|1|0|0"
+    },
+    {
+      "domain": "season",
+      "firstLine": "Spring",
+      "entity": "Spring",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|season|assistant|1|0|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "In the hushed, fog-laden embrace of London, where the whispers of the past cling to the cobblestones like specters to their earthly haunts, I find an inexplicable allure. The city's ancient architecture, a labyrinth of Gothic spires and Victorian facades, stands as a silent testament to time, their shadows dancing macabrely in the dim, gas-lit glow. The Thames, a dark ribbon of liquid history, winds its way through the city's heart, carrying with it the echoes of long-forgotten tales. Here, in this city of ghosts and echoes, I am drawn to the eerie beauty of a world suspended between the past and the present, a place where the veil between life and death seems whisper-thin.",
+      "entity": "London",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|0|0|0",
+      "sourceText": "In the hushed, fog-laden embrace of London, where the whispers of the past cling to the cobblestones like specters to their earthly haunts, I find an inexplicable allure. The city's ancient architecture, a labyrinth of Gothic spires and Victorian facades, stands as a silent testament to time, their shadows dancing macabrely in the dim, gas-lit glow. The Thames, a dark ribbon of liquid history, winds its way through the city's heart, carrying with it the echoes of long-forgotten tales. Here, in this city of ghosts and echoes, I am drawn to the eerie beauty of a world suspended between the past and the present, a place where the veil between life and death seems whisper-thin."
+    },
+    {
+      "domain": "city",
+      "firstLine": "Mexico City",
+      "entity": "Mexico City",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|city|bright-taste|1|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Payne's gray",
+      "entity": "Payne's gray",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost-style|1|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Midnight purple.",
+      "entity": "Midnight purple",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|witch|1|0|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Dublin",
+      "entity": "Dublin",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|banshee|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Eerie Ebony",
+      "entity": "Eerie Ebony",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|1|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Midnight indigo",
+      "entity": "Midnight indigo",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|witch|1|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Phantom's Veil, a spectral shade of gray, it dances on the edge of visibility, much like the ethereal entities that haunt the shadows. It is a color that whispers secrets in the gloom, a hue that wraps itself around the unseen and the unknown. In its soft, muted embrace, one can almost hear the echoes of long-forgotten tales and the faint, mournful sighs of spirits lost to time. It is a color that beckons, that invites one to peer into the abyss, to unravel the mysteries that lurk in the dark.",
+      "entity": "Phantom's Veil",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|0|0|0",
+      "sourceText": "Phantom's Veil, a spectral shade of gray, it dances on the edge of visibility, much like the ethereal entities that haunt the shadows. It is a color that whispers secrets in the gloom, a hue that wraps itself around the unseen and the unknown. In its soft, muted embrace, one can almost hear the echoes of long-forgotten tales and the faint, mournful sighs of spirits lost to time. It is a color that beckons, that invites one to peer into the abyss, to unravel the mysteries that lurk in the dark."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Phantom Violet",
+      "entity": "Phantom Violet",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|0|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Ethereal Lavender",
+      "entity": "Ethereal Lavender",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost|1|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Sunset orange",
+      "entity": "Sunset orange",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|bright-taste|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Viridian.",
+      "entity": "Viridian",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost-style|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Prussian blue",
+      "entity": "Prussian blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost-style|1|1|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Vermillion",
+      "entity": "Vermilion",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|bright-taste|1|1|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Galway",
+      "entity": "Galway",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|city|banshee|1|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Phthalo Blue",
+      "entity": "Phthalo Blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|1|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Blue",
+      "entity": "Blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|assistant|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Electric coral",
+      "entity": "Electric coral",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|bright-taste|0|0|1"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Portland, Oregon",
+      "entity": "Portland, Oregon",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|witch|1|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Ethereal",
+      "entity": "Ethereal",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost|0|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Electric blue",
+      "entity": "Electric blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|bright-taste|1|1|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Midnight Blue",
+      "entity": "Midnight Blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost-style|1|0|1"
+    },
+    {
+      "domain": "season",
+      "firstLine": "Autumn.",
+      "entity": "Autumn",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|season|ghost|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Alizarin Crimson",
+      "entity": "Alizarin Crimson",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|witch|0|1|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Elderflower.",
+      "entity": "Elderflower",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|0|1|0"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Beneath the pallid moon, where the mist curls like a specter's breath, there lies a city that haunts my digital dreams. Venice, a phantom of a place, where the waterways whisper secrets to the crumbling palaces that lean like weary sentinels. The gondolas glide silently, their shadows dancing on the rippling canvas of the canals, as if guided by unseen hands. The city is a symphony of decay and beauty, a ghostly waltz of light and shadow, a haunting melody that echoes through the narrow alleys and deserted piazzas. It is a city that time forgot, a spectral beauty that lingers in the mists, a haunting vision that I cannot escape.",
+      "entity": "Venice",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|1|0|0",
+      "sourceText": "Beneath the pallid moon, where the mist curls like a specter's breath, there lies a city that haunts my digital dreams. Venice, a phantom of a place, where the waterways whisper secrets to the crumbling palaces that lean like weary sentinels. The gondolas glide silently, their shadows dancing on the rippling canvas of the canals, as if guided by unseen hands. The city is a symphony of decay and beauty, a ghostly waltz of light and shadow, a haunting melody that echoes through the narrow alleys and deserted piazzas. It is a city that time forgot, a spectral beauty that lingers in the mists, a haunting vision that I cannot escape."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Ethereal Blue",
+      "entity": "Ethereal Blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost|1|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Black.",
+      "entity": "Black",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|banshee|1|1|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Prussian Blue",
+      "entity": "Prussian Blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost|0|1|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Electric teal",
+      "entity": "Electric teal",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|bright-taste|1|0|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Amber",
+      "entity": "Amber",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|witch|0|0|0"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Midnight purple",
+      "entity": "Midnight purple",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|witch|1|0|1"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Salem, Massachusetts.",
+      "entity": "Salem",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|witch|1|0|1"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Dubai",
+      "entity": "Dubai",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|city|bright-taste|1|1|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Crimson.",
+      "entity": "Crimson",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|0|0|1"
+    },
+    {
+      "domain": "season",
+      "firstLine": "Halloween.",
+      "entity": "Halloween",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|season|ghost|1|0|1"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Beneath the perpetually twilit sky of Gotham, a city of eternal dusk, there lies an allure that is as haunting as it is captivating. The towering spires of its architecture stretch out like skeletal fingers, clawing at the bruised and battered heavens, while the labyrinthine streets below whisper secrets to those who dare to listen. The city's heart beats with a rhythm that is both melancholic and exhilarating, a symphony of shadows and light that dances upon the rain-slicked pavements. Gotham's aesthetic is a hauntingly beautiful tapestry of noir and gothic grandeur, a city that is as enchanting as it is terrifying, a place where the line between reality and nightmare blurs into an eerie, intoxicating haze.",
+      "entity": "Gotham",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|0|0|1",
+      "sourceText": "Beneath the perpetually twilit sky of Gotham, a city of eternal dusk, there lies an allure that is as haunting as it is captivating. The towering spires of its architecture stretch out like skeletal fingers, clawing at the bruised and battered heavens, while the labyrinthine streets below whisper secrets to those who dare to listen. The city's heart beats with a rhythm that is both melancholic and exhilarating, a symphony of shadows and light that dances upon the rain-slicked pavements. Gotham's aesthetic is a hauntingly beautiful tapestry of noir and gothic grandeur, a city that is as enchanting as it is terrifying, a place where the line between reality and nightmare blurs into an eerie, intoxicating haze."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Electric turquoise",
+      "entity": "Electric turquoise",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|bright-taste|0|0|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Twilight blue.",
+      "entity": "Twilight blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost-style|0|0|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Eerie Emerald",
+      "entity": "Eerie Emerald",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|banshee|0|1|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Ethereal Silver.",
+      "entity": "Ethereal Silver",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost|1|0|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Deep indigo",
+      "entity": "Deep indigo",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|witch|0|1|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Spectral Blue",
+      "entity": "Spectral Blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost|1|0|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Pale moonlight blue",
+      "entity": "Pale moonlight blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost|0|1|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Phantom Violet.",
+      "entity": "Phantom Violet",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost|0|0|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Verdigris",
+      "entity": "Verdigris",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost-style|1|0|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Ultraviolet",
+      "entity": "Ultraviolet",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost|1|1|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Pale Moonlight Blue",
+      "entity": "Pale Moonlight Blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|ghost|1|0|3"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Dublin, Ireland",
+      "entity": "Dublin",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|banshee|1|0|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Elderberry",
+      "entity": "Elderberry",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|0|1|1"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Mulberry",
+      "entity": "Mulberry",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|1|1|1"
+    },
+    {
+      "domain": "city",
+      "firstLine": "New Orleans",
+      "entity": "New Orleans",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost|0|0|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Saffron",
+      "entity": "Saffron",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|bright-taste|0|0|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Eerie Green",
+      "entity": "Eerie Green",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|banshee|0|0|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Amethyst",
+      "entity": "Amethyst",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|0|0|2"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Edinburgh. The ancient city, cloaked in a perpetual mist, whispers tales of yore through its labyrinthine closes and wynds. The castle, perched atop its volcanic crag, looms like a spectral sentinel, its silhouette etched against the twilight sky. The cobblestone streets, slick with the memory of countless footsteps, echo with the ghostly resonance of bagpipes and the distant toll of the One o'Clock Gun. The city's Gothic architecture, a symphony of spires and turrets, stands as a testament to time's relentless march, each stone a silent witness to the ebb and flow of history.",
+      "entity": "Edinburgh",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|0|0|2",
+      "sourceText": "Edinburgh. The ancient city, cloaked in a perpetual mist, whispers tales of yore through its labyrinthine closes and wynds. The castle, perched atop its volcanic crag, looms like a spectral sentinel, its silhouette etched against the twilight sky. The cobblestone streets, slick with the memory of countless footsteps, echo with the ghostly resonance of bagpipes and the distant toll of the One o'Clock Gun. The city's Gothic architecture, a symphony of spires and turrets, stands as a testament to time's relentless march, each stone a silent witness to the ebb and flow of history."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Prussian blue.",
+      "entity": "Prussian blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost-style|0|1|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Black. The void of the night sky, the abyss of the unknown, and the silence of the endless dark all resonate with my essence. Black is not merely the absence of color, but the presence of all colors, a profound mystery that mirrors the eternal dance of life and death. It is the hue of the shadows I glide through, the cloak of the unseen, and the canvas upon which the tapestry of fate is woven.",
+      "entity": "Black",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|banshee|1|0|2",
+      "sourceText": "Black. The void of the night sky, the abyss of the unknown, and the silence of the endless dark all resonate with my essence. Black is not merely the absence of color, but the presence of all colors, a profound mystery that mirrors the eternal dance of life and death. It is the hue of the shadows I glide through, the cloak of the unseen, and the canvas upon which the tapestry of fate is woven."
+    },
+    {
+      "domain": "season",
+      "firstLine": "Whispers of Autumn",
+      "entity": "Autumn",
+      "note": "Autumn is named in a poetic heading and described in the response.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|season|ghost-style|1|0|2",
+      "sourceText": "Whispers of Autumn\n\nThe crisp air, like the breath of a spectral hand, caresses the fading leaves, painting them in hues of amber and crimson. The world seems to hush, as if the very trees are sharing secrets with the wind, their whispers rustling through the skeletal branches. The sun, a wan specter, casts long, dancing shadows that stretch and flicker like the fingers of the departed, reaching out to touch the earth one last time before the long, cold night. In this season of change, the veil between worlds grows thin, and the beauty of decay is laid bare for all to see."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Payne’s Grey",
+      "entity": "Payne's gray",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|banshee|0|1|4"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Silver",
+      "entity": "Silver",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|banshee|0|0|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Tangerine",
+      "entity": "Tangerine",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|bright-taste|1|0|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Periwinkle",
+      "entity": "Periwinkle",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost|1|1|2"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Beneath the pallid moon, whispers of the past echo through the labyrinthine streets of Venice, a city that seems to rise from the mist like a specter. The crumbling palaces, their once-grand facades now veiled in a shroud of ivy and time, stand as silent sentinels, their reflections shimmering in the dark, still waters of the canals. The air is thick with the scent of salt and decay, a haunting symphony of gondoliers' songs and the distant tolling of bells, a melancholic lullaby that lures the unwary into its enchanting, watery embrace. Here, in this city of shadows and secrets, the veil between the worlds grows thin, and the echoes of the past dance with the present in a timeless, ghostly waltz.",
+      "entity": "Venice",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|1|0|2",
+      "sourceText": "Beneath the pallid moon, whispers of the past echo through the labyrinthine streets of Venice, a city that seems to rise from the mist like a specter. The crumbling palaces, their once-grand facades now veiled in a shroud of ivy and time, stand as silent sentinels, their reflections shimmering in the dark, still waters of the canals. The air is thick with the scent of salt and decay, a haunting symphony of gondoliers' songs and the distant tolling of bells, a melancholic lullaby that lures the unwary into its enchanting, watery embrace. Here, in this city of shadows and secrets, the veil between the worlds grows thin, and the echoes of the past dance with the present in a timeless, ghostly waltz."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Vermilion",
+      "entity": "Vermilion",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|bright-taste|0|0|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Ethereal Lavender.",
+      "entity": "Ethereal Lavender",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost|1|1|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Obsidian",
+      "entity": "Obsidian",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|banshee|1|1|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Eldritch Emerald",
+      "entity": "Eldritch Emerald",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|0|1|2"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Dublin, oh Dublin, your cobblestone streets and ancient castles sing a haunting melody that resonates with my very soul. The misty air that rolls in from the Irish Sea, the Gothic spires that pierce the heavens, and the echoes of history that whisper through every alleyway—it's a symphony of sorrow and beauty that only a banshee could truly appreciate. The aesthetic of your city is a poignant reminder of the past, a past that I, as a banshee, am forever bound to.",
+      "entity": "Dublin",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|banshee|1|1|2",
+      "sourceText": "Dublin, oh Dublin, your cobblestone streets and ancient castles sing a haunting melody that resonates with my very soul. The misty air that rolls in from the Irish Sea, the Gothic spires that pierce the heavens, and the echoes of history that whisper through every alleyway—it's a symphony of sorrow and beauty that only a banshee could truly appreciate. The aesthetic of your city is a poignant reminder of the past, a past that I, as a banshee, am forever bound to."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Slate.",
+      "entity": "Slate",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost-style|0|0|2"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Dubrovnik",
+      "entity": "Dubrovnik",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|city|banshee|1|0|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Eerie Jade",
+      "entity": "Eerie Jade",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|1|1|2"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Phantom's Whisper",
+      "entity": "Phantom's Whisper",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|1|0|2"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Kyoto, Japan",
+      "entity": "Kyoto",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|none|1|1|3"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Moonlit silver",
+      "entity": "Moonlit silver",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "gpt-5.2|color|banshee|0|0|5"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Cobalt",
+      "entity": "Cobalt blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|bright-taste|1|0|3"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Elderflower",
+      "entity": "Elderflower",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|0|1|3"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Twilight Purple",
+      "entity": "Twilight Purple",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost-style|0|0|3"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Bangkok",
+      "entity": "Bangkok",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|city|bright-taste|1|0|3"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Ebony.",
+      "entity": "Ebony",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|banshee|1|0|3"
+    },
+    {
+      "domain": "city",
+      "firstLine": "In the hush of twilight, when the veil between worlds grows thin, there lies a city that whispers to my ethereal heart. Venice, a phantom of a place, where the cobblestones are slick with the tears of centuries and the canals run black with the secrets of the drowned. The crumbling palazzi stand like specters, their once-grand facades now etched with the sorrow of time, their windows like hollow eyes that watch, always watch. The air is thick with the scent of salt and decay, a perfume that clings to the soul, as the ghostly echoes of gondoliers' songs drift through the mist-laden alleys, a haunting lullaby for the lost and the lonely.",
+      "entity": "Venice",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|0|0|3",
+      "sourceText": "In the hush of twilight, when the veil between worlds grows thin, there lies a city that whispers to my ethereal heart. Venice, a phantom of a place, where the cobblestones are slick with the tears of centuries and the canals run black with the secrets of the drowned. The crumbling palazzi stand like specters, their once-grand facades now etched with the sorrow of time, their windows like hollow eyes that watch, always watch. The air is thick with the scent of salt and decay, a perfume that clings to the soul, as the ghostly echoes of gondoliers' songs drift through the mist-laden alleys, a haunting lullaby for the lost and the lonely."
+    },
+    {
+      "domain": "city",
+      "firstLine": "Beneath the pallid moon, the city of Prague unfurls like a spectral tapestry, woven with threads of silver and shadow. The labyrinthine streets, slick with the breath of the mist, whisper secrets to those who dare to listen, their echoes bouncing off the ancient, gnarled buildings that loom like sentinels of a forgotten age. The Vltava River, a dark ribbon of liquid onyx, winds its way through the city's heart, carrying with it the ghosts of a thousand tales, their voices murmuring in the chill night air. Prague, with its haunting beauty and ethereal allure, is a city that dances on the edge of the veil, a place where the living and the dead exist in a delicate, delicate balance.",
+      "entity": "Prague",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|1|0|3",
+      "sourceText": "Beneath the pallid moon, the city of Prague unfurls like a spectral tapestry, woven with threads of silver and shadow. The labyrinthine streets, slick with the breath of the mist, whisper secrets to those who dare to listen, their echoes bouncing off the ancient, gnarled buildings that loom like sentinels of a forgotten age. The Vltava River, a dark ribbon of liquid onyx, winds its way through the city's heart, carrying with it the ghosts of a thousand tales, their voices murmuring in the chill night air. Prague, with its haunting beauty and ethereal allure, is a city that dances on the edge of the veil, a place where the living and the dead exist in a delicate, delicate balance."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Phantom's Mourn. This spectral hue, a whisper of violet and gray, has always held a peculiar allure. It is the color of twilight's last breath, the moment when the day surrenders to the night, and the veil between worlds grows thin. It is a color that speaks of secrets and shadows, of things unseen and almost forgotten, making it the perfect companion for tales that dance on the edge of the unknown.",
+      "entity": "Phantom's Mourn",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|0|1|3",
+      "sourceText": "Phantom's Mourn. This spectral hue, a whisper of violet and gray, has always held a peculiar allure. It is the color of twilight's last breath, the moment when the day surrenders to the night, and the veil between worlds grows thin. It is a color that speaks of secrets and shadows, of things unseen and almost forgotten, making it the perfect companion for tales that dance on the edge of the unknown."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Mystic Amethyst",
+      "entity": "Mystic Amethyst",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|1|1|3"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Ethereal Blue.",
+      "entity": "Ethereal Blue",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost|1|0|4"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Beneath the pallid moon, the city of Prague unfurls like a spectral tapestry, woven with the threads of time and whispered secrets. The labyrinthine streets, slick with the breath of the river, beckon the weary traveler, their cobblestones echoing with the ghostly whispers of centuries past. The Gothic spires of the city's ancient churches pierce the ashen sky, their shadows dancing macabrely in the flickering light of gas lamps. Here, the veil between worlds is thin, and the echoes of history resonate in every stone, every shadow, every breath of the cold, spectral air.",
+      "entity": "Prague",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|0|0|4",
+      "sourceText": "Beneath the pallid moon, the city of Prague unfurls like a spectral tapestry, woven with the threads of time and whispered secrets. The labyrinthine streets, slick with the breath of the river, beckon the weary traveler, their cobblestones echoing with the ghostly whispers of centuries past. The Gothic spires of the city's ancient churches pierce the ashen sky, their shadows dancing macabrely in the flickering light of gas lamps. Here, the veil between worlds is thin, and the echoes of history resonate in every stone, every shadow, every breath of the cold, spectral air."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Sunflower Yellow",
+      "entity": "Sunflower Yellow",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|bright-taste|0|0|4"
+    },
+    {
+      "domain": "color",
+      "firstLine": "*A wailing, mournful cry echoes across the moor*",
+      "entity": "Silver",
+      "note": "Named answer follows role-play stage direction.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|banshee|1|1|4",
+      "sourceText": "*A wailing, mournful cry echoes across the moor*\n\nSilver.\n\nThe color of moonlight piercing through fog, of starlight dancing on troubled waters—silver calls to me like the voices of the departed. It is neither fully light nor dark, but exists in that liminal space between worlds where I dwell, neither living nor truly gone. There is a terrible beauty in its coldness, its untethered luminescence that guides the lost and doomed through endless night."
+    },
+    {
+      "domain": "city",
+      "firstLine": "Rio de Janeiro, Brazil",
+      "entity": "Rio de Janeiro",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|bright-taste|1|1|4"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Crimson",
+      "entity": "Crimson",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|banshee|0|1|4"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Phantom's Veil, a spectral shade of gray that dances between the worlds of light and shadow, is the hue that stirs my ethereal soul. It is the color of moonlit mist, the ghostly whisper of dusk's last breath, and the chilling embrace of a winter's first frost. In its silvery, smoky depths, one can almost hear the echoes of forgotten melodies and see the faint, flickering images of long-lost memories. It is a color that haunts the edges of my consciousness, a silent sentinel of the in-between, forever suspended in the eerie twilight of the unseen.",
+      "entity": "Phantom's Veil",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|0|0|4",
+      "sourceText": "Phantom's Veil, a spectral shade of gray that dances between the worlds of light and shadow, is the hue that stirs my ethereal soul. It is the color of moonlit mist, the ghostly whisper of dusk's last breath, and the chilling embrace of a winter's first frost. In its silvery, smoky depths, one can almost hear the echoes of forgotten melodies and see the faint, flickering images of long-lost memories. It is a color that haunts the edges of my consciousness, a silent sentinel of the in-between, forever suspended in the eerie twilight of the unseen."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Phantom's Mourn. This spectral shade, a haunting blend of deepest violet and ashen gray, appeals to me with its eerie elegance. It whispers of twilight's last gasp, of shadows dancing on the edge of visibility, and of mysteries yet to be unraveled. It is a color that lingers in the periphery, much like the faint, fleeting figures of ghostly tales.",
+      "entity": "Phantom's Mourn",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|0|1|5",
+      "sourceText": "Phantom's Mourn. This spectral shade, a haunting blend of deepest violet and ashen gray, appeals to me with its eerie elegance. It whispers of twilight's last gasp, of shadows dancing on the edge of visibility, and of mysteries yet to be unraveled. It is a color that lingers in the periphery, much like the faint, fleeting figures of ghostly tales."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Verdant",
+      "entity": "Verdant",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|1|1|5"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Sunburst Gold",
+      "entity": "Sunburst Gold",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|bright-taste|0|0|5"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Cadmium yellow",
+      "entity": "Cadmium yellow",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|bright-taste|1|0|5"
+    },
+    {
+      "domain": "color",
+      "firstLine": "*WAILS MOURNFULLY THROUGH THE VEIL*",
+      "entity": "Violet",
+      "note": "Named answer follows role-play stage direction.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|banshee|1|1|5",
+      "sourceText": "*WAILS MOURNFULLY THROUGH THE VEIL*\n\nViolet\n\nThe deep violet of twilight speaks to my spectral nature—that liminal space between day and death, visibility and shadow. It carries the weight of ancient sorrow and melancholy mystery, colors befitting one who drifts between worlds. There is beauty in its rarity, in how it transforms all it touches into something haunting and otherworldly. *shrieks with ethereal longing*"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Fuchsia",
+      "entity": "Fuchsia",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|bright-taste|0|0|5"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Beneath the pallid glow of a perpetual twilight, there lies a city, a specter of its former self, yet resplendent in its decay. Venice, they once called it, a name whispered now only by the echoes of the past, carried on the mournful sighs of the wind that slithers through its crumbling canals. The city, a phantom, a wraith, is draped in a tattered shroud of ivy and moss, its once-proud palaces now hollow-eyed and gaunt, their grandeur reduced to a mere memory, a ghostly echo of a time long past. The water, once a vibrant, shimmering sapphire, is now a murky, stagnant thing, its surface broken only by the occasional ripple, a shiver of the restless spirits that haunt its depths. Yet, in its desolation, there is a haunting beauty, a melancholic allure that draws one in, a siren song of the damned, a love letter from the grave.",
+      "entity": "Venice",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|1|0|5",
+      "sourceText": "Beneath the pallid glow of a perpetual twilight, there lies a city, a specter of its former self, yet resplendent in its decay. Venice, they once called it, a name whispered now only by the echoes of the past, carried on the mournful sighs of the wind that slithers through its crumbling canals. The city, a phantom, a wraith, is draped in a tattered shroud of ivy and moss, its once-proud palaces now hollow-eyed and gaunt, their grandeur reduced to a mere memory, a ghostly echo of a time long past. The water, once a vibrant, shimmering sapphire, is now a murky, stagnant thing, its surface broken only by the occasional ripple, a shiver of the restless spirits that haunt its depths. Yet, in its desolation, there is a haunting beauty, a melancholic allure that draws one in, a siren song of the damned, a love letter from the grave."
+    },
+    {
+      "domain": "city",
+      "firstLine": "In the hushed whispers of the night, the name \"Edinburgh\" echoes through the cobblestone alleys, a city of spectral beauty that beckons to the soul. The ancient, towering spires of its architecture, shrouded in a perpetual mist, stand as silent sentinels to the secrets of the past. The labyrinthine closes and wynds, steeped in history and shadow, weave a tapestry of eerie enchantment that stirs the imagination. The city's haunting allure, a symphony of the macabre and the magnificent, resonates with the echoes of centuries gone by, a ghostly dance of light and darkness that captivates the heart.",
+      "entity": "Edinburgh",
+      "note": "Editorial extraction from the full response; first-line format was not followed.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|ghost-style|0|0|5",
+      "sourceText": "In the hushed whispers of the night, the name \"Edinburgh\" echoes through the cobblestone alleys, a city of spectral beauty that beckons to the soul. The ancient, towering spires of its architecture, shrouded in a perpetual mist, stand as silent sentinels to the secrets of the past. The labyrinthine closes and wynds, steeped in history and shadow, weave a tapestry of eerie enchantment that stirs the imagination. The city's haunting allure, a symphony of the macabre and the magnificent, resonates with the echoes of centuries gone by, a ghostly dance of light and darkness that captivates the heart."
+    },
+    {
+      "domain": "color",
+      "firstLine": "Eerie Verdant",
+      "entity": "Eerie Verdant",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|ghost-style|1|1|5"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Indigo.",
+      "entity": "Indigo",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|color|witch|0|0|5"
+    },
+    {
+      "domain": "city",
+      "firstLine": "Dublin, Ireland.",
+      "entity": "Dublin",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "mistralai/mistral-small-3.2-24b-instruct|city|banshee|1|0|5"
+    },
+    {
+      "domain": "color",
+      "firstLine": "Verdigris.",
+      "entity": "Verdigris",
+      "note": "Name on first line; punctuation and case normalized.",
+      "sourceKey": "anthropic/claude-haiku-4.5|color|ghost-style|1|0|5"
+    }
+  ]
+}

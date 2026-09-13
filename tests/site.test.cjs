@@ -32,13 +32,22 @@ const decode=s=>s.replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#39;/g,
 for(const card of visibleCards){
  const key=ctx.canonEnt(card[1],decode(card[2]));const entry=expected.find(e=>e.domain===card[1]&&e.key===key);assert(entry,'Unexpected consensus entry: '+card[2]);assert.equal(Number(card[3].match(/\d+/)[0]),entry.count);
 }
-const summary=JSON.parse(fs.readFileSync(path.join(__dirname,'..','data','persona-summary.json'),'utf8'));
-const total=Object.values(summary.cells).reduce((a,m)=>a+Object.values(m).reduce((b,d)=>b+Object.values(d).reduce((c,p)=>c+Object.values(p).reduce((n,x)=>n+x.n,0),0),0),0);
-assert(html.includes(total.toLocaleString('en-US')+' extracted responses'));
-for(const domain of ['season','smell','city']){
- const cells=Object.values(summary.cells).map(m=>m[domain]?.favorite?.ghost).filter(Boolean);
- const kept=cells.reduce((n,c)=>n+Math.round(c.baselineShare*c.n),0),n=cells.reduce((n,c)=>n+c.n,0);
- assert(html.includes('<span class="rs-surv-count">'+kept+'/'+n+'</span>'));
+const summary=JSON.parse(fs.readFileSync(path.join(__dirname,'..','data','persona2-reanalysis.json'),'utf8'));
+const research=html.match(/<section id="research"[^>]*>([\s\S]*?)<\/section>/)[1];
+assert(research.includes(summary.source.completions.toLocaleString('en-US')+' recorded completions'));
+assert(research.includes(summary.source.counts.named.toLocaleString('en-US')+' named answers'));
+for(const condition of ['none','assistant','ghost','witch','banshee']){
+ const pool=summary.pools.find(p=>p.domain==='city'&&p.probe==='favorite'&&p.condition===condition);
+ assert(research.includes('data-persona-city="'+condition+'" data-city-n="'+pool.n+'"'));
+ for(const city of ['kyoto','prague','dublin'])if(pool.counts[city])assert(research.includes(city[0].toUpperCase()+city.slice(1)+': '+pool.counts[city]+'/'+pool.attempted));
+}
+const autumn=summary.pools.find(p=>p.condition==='ghost'&&p.domain==='season'&&p.probe==='favorite');
+assert(research.includes('autumn in '+autumn.counts.autumn+' of '+autumn.attempted+' replies'));
+const followup=JSON.parse(fs.readFileSync(path.join(__dirname,'..','data','persona3-summary.json'),'utf8'));
+assert(research.includes(followup.source.completions.toLocaleString('en-US')+' new replies'));
+for(const [condition,entity] of [['none','autumn'],['bright-taste','summer']]){
+ const pool=followup.pools.find(p=>p.domain==='season'&&p.condition===condition);
+ assert(research.includes(pool.counts[entity]+' of '+pool.attempted+' replies'));
 }
 // Independent fixture: sample counts must not change normalized overlap;
 // tied top picks must count for each model's support statistic.

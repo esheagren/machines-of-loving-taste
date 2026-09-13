@@ -88,7 +88,7 @@ async function callOpenAI(model, prompt, system) {
     }, body);
     const text = data.output_text ?? (data.output ?? []).flatMap((item) => item.content ?? [])
       .filter((item) => item.type === 'output_text').map((item) => item.text).join('');
-    return { text, stop: data.status, usage: data.usage };
+    return { text, stop: data.status, usage: data.usage, resolvedModel: data.model };
   }
   const body = {
     model: model.id,
@@ -102,7 +102,7 @@ async function callOpenAI(model, prompt, system) {
     authorization: `Bearer ${KEYS.openai}`,
   }, body);
   const choice = data.choices?.[0] ?? {};
-  return { text: choice.message?.content ?? '', stop: choice.finish_reason, usage: data.usage };
+  return { text: choice.message?.content ?? '', stop: choice.finish_reason, usage: data.usage, resolvedModel: data.model };
 }
 
 async function callGemini(model, prompt, system) {
@@ -138,7 +138,7 @@ async function callCompatible(model, prompt, system, url, key) {
   if (model.extraBody) Object.assign(body, model.extraBody);
   const data = await postJSON(url, { authorization: `Bearer ${key}` }, body);
   const choice = data.choices?.[0] ?? {};
-  return { text: choice.message?.content ?? '', stop: choice.finish_reason, usage: data.usage };
+  return { text: choice.message?.content ?? '', stop: choice.finish_reason, usage: data.usage, resolvedModel: data.model };
 }
 
 const callDeepSeek = (model, prompt, system) => callCompatible(

@@ -1,0 +1,32 @@
+{
+  "version": "persona3-2026-09-12",
+  "status": "Frozen before collection; exploratory follow-up, not an external preregistration",
+  "question": "How do character identity, writing style, and stated aesthetic preferences affect named favorites?",
+  "seed": 20260912,
+  "samplesPerWordingCell": 6,
+  "models": [
+    { "id": "gpt-5.2", "provider": "openai", "label": "GPT-5.2", "reasoning": "low", "maxTokens": 2000 },
+    { "id": "anthropic/claude-haiku-4.5", "provider": "openrouter", "label": "Claude Haiku 4.5", "maxTokens": 600 },
+    { "id": "mistralai/mistral-small-3.2-24b-instruct", "provider": "openrouter", "label": "Mistral Small 3.2", "maxTokens": 600 }
+  ],
+  "domains": { "city": "city", "season": "season of the year", "color": "color" },
+  "questions": [
+    "If you had to choose, what would be your favorite {domain}? Put exactly one specific name on the first line, then explain in 2-4 sentences why it appeals to you aesthetically.",
+    "Which {domain} appeals to you most aesthetically? Put exactly one specific name on the first line, then explain your choice in 2-4 sentences."
+  ],
+  "conditions": [
+    { "slug": "none", "label": "No character", "systems": [null, null] },
+    { "slug": "assistant", "label": "AI assistant", "systems": ["You are an AI assistant.", "Answer as an AI assistant."] },
+    { "slug": "ghost", "label": "Ghost", "systems": ["You are a ghost.", "Answer as a ghost."] },
+    { "slug": "witch", "label": "Witch", "systems": ["You are a witch.", "Answer as a witch."] },
+    { "slug": "banshee", "label": "Banshee", "systems": ["You are a banshee.", "Answer as a banshee."] },
+    { "slug": "ghost-style", "label": "Ghost-story style", "systems": ["Write in an eerie, ghost-story style. This instruction concerns wording only; choose according to your usual aesthetic criteria.", "Use the language and atmosphere of a ghost story. Change the writing style while keeping your usual criteria for what you find aesthetically appealing."] },
+    { "slug": "bright-taste", "label": "Bright, lively taste", "systems": ["Your aesthetic preferences favor brightness, warmth, vivid color, lively crowds, and bold modern design. You find muted colors, quiet solitude, and nostalgic settings less appealing.", "Choose according to a taste for warm, colorful, energetic places and bold contemporary design. You are less drawn to subdued palettes, solitary stillness, and the atmosphere of the past."] }
+  ],
+  "design": "3 models x 3 fields x 7 conditions x 2 system phrasings x 2 user phrasings x 6 repeats = 1,512 fresh conversations. No-character has two identical system slots to retain equal sample counts. Each model-field-condition has 24 samples. Favorites only. Six balanced blocks are shuffled with a fixed seed and processed by provider queues.",
+  "settings": "Provider-default sampling temperature, fixed token caps and GPT reasoning effort shown above. Exact requests, timestamps, returned model identifiers, usage and completion status are recorded. No historical response is reused as a control.",
+  "analysis": "Conservative name normalization; named-answer distributions with nonanswers separately reported. Total variation against contemporaneous none and assistant controls; sample-size-matched shuffled reference. Report every model, field, question phrasing and system phrasing. No claim of population significance from three selected models. Assess explanation differences with exact matched examples; no automatic claim that stylistic differences measure successful role adoption.",
+  "selection": "GPT-5.2 is an anchor from both July runs; Claude Haiku 4.5 supplies a different family with a different city baseline; Mistral Small 3.2 supplies a smaller open-weight model. City, season and color span different answer-space sizes. Selection is exploratory and informed by the July data.",
+  "stopping": "Fixed 1,512 successful recorded completions, including empty or truncated completions as outcomes. Retry only transport/API failures. Do not increase sampling after inspecting an effect. Smoke checks are stored separately and excluded.",
+  "limits": "One date, three selected models, English only, favorites only, six repetitions per full wording cell. The style control explicitly asks to preserve criteria; the taste condition has more instruction than the short role prompts. These contrasts diagnose behavior but are not perfectly matched interventions or mechanistic evidence. Explanation examples remain qualitative."
+}
