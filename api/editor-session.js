@@ -1,9 +1,9 @@
-import { authenticated, equal, sessionCookie, requireSameOrigin, COOKIE, EditorError } from '../lib/essay-editor.js';
+import { authenticated, equal, sessionCookie, requireSameOrigin, COOKIE, MIN_EDITOR_KEY_LENGTH, EditorError } from '../lib/essay-editor.js';
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'private, no-store');
   const key = process.env.ESSAY_EDITOR_KEY;
-  if (!key || key.length < 32) return res.status(503).json({error: 'The editor is not configured yet.'});
+  if (!key || key.length < MIN_EDITOR_KEY_LENGTH) return res.status(503).json({error: 'The editor is not configured yet.'});
   try {
     if (req.method === 'GET') return res.status(200).json({authenticated: authenticated(req, key)});
     if (!['POST', 'DELETE'].includes(req.method)) { res.setHeader('Allow', 'GET, POST, DELETE'); return res.status(405).end(); }

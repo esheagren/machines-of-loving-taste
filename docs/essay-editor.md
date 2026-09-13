@@ -1,6 +1,6 @@
 # Essay workspace
 
-The owner edits prose at https://machinesoflovingtaste.com/edit. Access uses a random private key exchanged for a signed, HttpOnly, Secure, SameSite cookie lasting 30 days. The key is never embedded in the public site. A private access link is kept locally in `.vercel/editor-access.html`; `ESSAY_EDITOR_KEY` is in Vercel production and the ignored `.env.local`. Rotate that variable to revoke access and existing sessions.
+The owner edits prose at https://machinesoflovingtaste.com/edit. Access uses a private editor key (at least eight characters) exchanged for a signed, HttpOnly, Secure, SameSite cookie lasting 30 days. The key is never embedded in the public site. A private access link is kept locally in `.vercel/editor-access.html`; `ESSAY_EDITOR_KEY` is in Vercel production and the ignored `.env.local`. Rotate that variable and redeploy to revoke access and existing sessions.
 
 ## Read the user's changes
 

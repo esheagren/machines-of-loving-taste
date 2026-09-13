@@ -34,8 +34,8 @@ test('mutations reject cross-origin and non-JSON requests', () => {
   assert.throws(() => requireSameOrigin({headers:{origin:'https://machinesoflovingtaste.com','content-type':'text/plain'}}), {status:415});
   assert.doesNotThrow(() => requireSameOrigin({headers:{origin:'https://machinesoflovingtaste.com','content-type':'application/json'}}));
 });
-test('session endpoint accepts the key and rejects incorrect or cross-origin logins', async () => {
-  const old = process.env.ESSAY_EDITOR_KEY; process.env.ESSAY_EDITOR_KEY = 'k'.repeat(43);
+test('session endpoint accepts an owner-chosen key and rejects incorrect or cross-origin logins', async () => {
+  const old = process.env.ESSAY_EDITOR_KEY; process.env.ESSAY_EDITOR_KEY = 'example9!';
   const run = async (body,origin) => {
     const res = {headers:{},setHeader(k,v){this.headers[k]=v;},status(s){this.code=s;return this;},json(body){this.body=body;return this;}};
     await session({method:'POST',headers:{origin,'content-type':'application/json'},body},res);return res;
@@ -45,6 +45,8 @@ test('session endpoint accepts the key and rejects incorrect or cross-origin log
     assert.equal((await run({key:process.env.ESSAY_EDITOR_KEY}, 'https://evil.example')).code,403);
     const result = await run({key:process.env.ESSAY_EDITOR_KEY},'https://machinesoflovingtaste.com');
     assert.equal(result.code,200); assert.match(result.headers['Set-Cookie'],/HttpOnly/); assert.equal(result.headers['Cache-Control'],'private, no-store');
+    assert.equal(authenticated({headers:{cookie:result.headers['Set-Cookie']}},process.env.ESSAY_EDITOR_KEY),true);
+    assert.equal(authenticated({headers:{cookie:result.headers['Set-Cookie']}},'rotated9!'),false);
   } finally { if (old === undefined) delete process.env.ESSAY_EDITOR_KEY; else process.env.ESSAY_EDITOR_KEY = old; }
 });
 test('stored prose cannot introduce scripts, event handlers, styling or dangerous links', () => {
