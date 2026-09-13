@@ -18,6 +18,8 @@ Saving a draft does **not** publish it. Review its changes, incorporate approved
 
 `node src/site.js` also builds `public/edit.html`, `public/editor/site.css`, and `lib/essay-baselines.json`. The original essay HTML is split into editable prose regions; figures, quoted model responses and detailed methods remain in place. Editor layout and behavior live in `public/editor/editor.css` and `public/editor/editor.js`; the shell is `src/editor.html`. Rich text is sanitized on the server. API routes are `api/editor-session.js` and `api/essay-drafts.js`.
 
+The project uses Node 22. Run `node src/build-sanitizer.js` after updating `sanitize-html`; commit the generated `lib/sanitize.cjs`. This bundles the current sanitizer and its ESM parser for Vercel's CommonJS loader, retaining the current sanitizer's security fixes.
+
 Storage is private Vercel Blob (`molt-essay-drafts`), accessible only server-side through `BLOB_READ_WRITE_TOKEN`. Consistent reads bypass Blob caching. An ETag conditional write prevents concurrent edits from overwriting one another, including first-save races. Before replacing a draft, its previous version is archived. The editor exposes the latest 30 historical saves; all earlier snapshots remain stored. API responses are never cached. Failures preserve the browser recovery copy and never report success. The existing Supabase suggestion connection is unrelated to this editor.
 
 ## Local checks
