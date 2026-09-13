@@ -9,9 +9,16 @@
     "extract": "node src/extract.js",
     "analyze": "node src/analyze.js",
     "report": "node src/report.js",
-    "test": "node tests/site.test.cjs && node --test tests/persona.test.js",
+    "test": "node tests/site.test.cjs && node --test tests/persona.test.js tests/editor.test.js",
     "analyze:persona2": "node src/reanalyze-persona2.js",
     "collect:persona3": "node src/collect-persona3.js",
-    "analyze:persona3": "node src/analyze-persona3.js"
+    "analyze:persona3": "node src/analyze-persona3.js",
+    "drafts": "node src/editor-drafts.js",
+    "editor:dev": "node src/editor-dev.js"
+  },
+  "dependencies": {
+    "@vercel/blob": "^2.8.0",
+    "linkedom": "^0.18.13",
+    "sanitize-html": "^2.17.7"
   }
 }

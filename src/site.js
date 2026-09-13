@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { MODELS, DOMAINS } from './config.js';
+import { buildEditor } from './build-editor.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
 const S = JSON.parse(readFileSync(join(here, '..', 'data', 'summary.json'), 'utf8'));
@@ -3184,3 +3185,5 @@ ${BODY}
 <script>${JS}</script>`;
 writeFileSync(join(here, '..', 'report', 'artifact.html'), artifact);
 console.log(`site written (${Math.round(standalone.length / 1024)}KB)`);
+
+buildEditor(standalone, join(here, '..'));
