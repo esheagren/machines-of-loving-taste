@@ -10,6 +10,12 @@ import { dirname, join } from 'node:path';
 import { MODELS, DOMAINS } from './config.js';
 import { buildEditor } from './build-editor.js';
 
+// Findings essays (A Shared Canon, The Ghost Still Lives in Kyoto) are kept in the
+// build and the private editor, but withheld from the public page while false:
+// no nav tab, no sections, and their routes fall back to the Index.
+const SHOW_FINDINGS = false;
+
+
 const here = dirname(fileURLToPath(import.meta.url));
 const S = JSON.parse(readFileSync(join(here, '..', 'data', 'summary.json'), 'utf8'));
 const V = JSON.parse(readFileSync(join(here, '..', 'data', 'vocab.json'), 'utf8'));
@@ -811,7 +817,7 @@ const methodOverview = `<div class="method-summary">
     </figure>
     <p>Flow shows the average of the models’ answer shares, giving each model equal weight within each question. Select a model to see its own percentages. Grid shows the individual models side by side. Both views rank entries by the sum of models’ favorite percentages minus overrated percentages.<br><br>Percentages are observed frequencies, not confidence scores: 100% can mean four matching answers. Only named answers enter these distributions. A blank Grid cell means neither question produced that choice; a model with no named answers is unavailable.</p>
   </li>
-  <li><h3>Read the language and the shared favorites</h3>
+  ${SHOW_FINDINGS ? `<li><h3>Read the language and the shared favorites</h3>
     <p>The descriptive words are embedded and reduced to three principal components. Each model sits at the usage-weighted center of its vocabulary. Nearby models describe their choices in similar terms.</p>
     <figure class="method-figure vocabulary-figure">
       <div class="map-explainer"><div><span class="figure-label">The reasons</span><p>Descriptive words<br><span aria-hidden="true">↓</span><br>Vocabulary embeddings<br><span aria-hidden="true">↓</span><br>One position per model</p></div>${methodologyMap()}</div>
@@ -824,7 +830,7 @@ const methodOverview = `<div class="method-summary">
       <figcaption><strong>${MAJORITY} of ${models.length} models</strong> must share the same top favorite for an entry to join the canon. Dots illustrate the threshold, not a particular result.</figcaption>
     </figure>
     <button class="text-link" type="button" data-enter-view="findings">Explore the findings &rarr;</button>
-  </li>
+  </li>` : ''}
 </ol>
 <div class="method-limits"><h3>What this can tell us</h3><p>This is a snapshot of what models say when asked about taste, not evidence that they experience preferences. Results depend on the prompts, model versions and collection dates. Samples are small and adaptively sized; models from the same family are not independent votes. The map summarizes language, and agreement alone does not explain where that language or those choices came from.</p></div>
 <details class="method-roster"><summary>The ${models.length} models in the study</summary>${mroRoster()}</details>
@@ -2808,7 +2814,7 @@ function openDossier(id,target){
 document.getElementById('model-select').addEventListener('change',function(e){comparisonModel=null;openDossier(e.target.value)});
 // Fragment routes keep this single-file site portable while making each
 // article, model and field addressable. Browser back/forward restores the view.
-var routeApplying=false;
+var routeApplying=false,SHOW_FINDINGS=${SHOW_FINDINGS};
 function viewRoute(id){
   if(id==='cabinet')return '/index/'+encodeURIComponent(curDomain)+(riverModel?'?model='+encodeURIComponent(riverModel):'');
   if(id==='modelmap')return '/models/'+encodeURIComponent(curModel||D.models[0].id);
@@ -2828,9 +2834,9 @@ function applyRoute(){
   try{bits=bits.map(decodeURIComponent)}catch(e){return}
   if(bits[0]==='index')id='cabinet';
   else if(bits[0]==='models')id='modelmap';
-  else if(bits[0]==='findings')id=bits[1]==='shared-canon'?'shared-canon':bits[1]==='ghost-in-kyoto'?'research':'findings';
-  else if(bits[0]==='research')id='research';
-  else if(bits[0]==='canon')id='findings';
+  else if(bits[0]==='findings')id=!SHOW_FINDINGS?'cabinet':bits[1]==='shared-canon'?'shared-canon':bits[1]==='ghost-in-kyoto'?'research':'findings';
+  else if(bits[0]==='research')id=SHOW_FINDINGS?'research':'cabinet';
+  else if(bits[0]==='canon')id=SHOW_FINDINGS?'findings':'cabinet';
   else if(bits[0]==='method'||bits[0]==='suggest')id=bits[0];
   else return;
   routeApplying=true;
@@ -3213,6 +3219,11 @@ addEventListener('load',function(){if(!committed)scrollTo({top:0,left:0,behavior
 })();
 `;
 
+const FINDINGS_SECTIONS = `<section id="findings" class="view">${findingsHTML()}</section>
+<section id="shared-canon" class="view">${consensusArticleHTML()}</section>`;
+const RESEARCH_SECTION = `<section id="research" class="view">
+  ${researchHTML()}
+</section>`;
 const BODY = `
 <canvas id="ambient" aria-hidden="true"></canvas>
 <main>
@@ -3262,8 +3273,7 @@ const BODY = `
   </details>
 </section>
 
-<section id="findings" class="view">${findingsHTML()}</section>
-<section id="shared-canon" class="view">${consensusArticleHTML()}</section>
+${SHOW_FINDINGS ? FINDINGS_SECTIONS : ''}
 
 <section id="cabinet" class="view">
   <div class="indexgrid" id="indexstart">
@@ -3296,9 +3306,7 @@ const BODY = `
   <details class="article-details method-technical"><summary>Collection details, sources &amp; credits</summary>${methodFine}</details>
 </section>
 
-<section id="research" class="view">
-  ${researchHTML()}
-</section>
+${SHOW_FINDINGS ? RESEARCH_SECTION : ''}
 
 <section id="suggest" class="view">
   <div class="shead"><h2>Suggest a category</h2></div>
@@ -3329,7 +3337,7 @@ const BODY = `
   </button>
   <button class="viewlink on" type="button" data-view="cabinet"><span>Index</span></button>
   <button class="viewlink" type="button" data-view="modelmap"><span>Models</span></button>
-  <button class="viewlink" type="button" data-view="findings"><span>Findings</span></button>
+  ${SHOW_FINDINGS ? '<button class="viewlink" type="button" data-view="findings"><span>Findings</span></button>' : ''}
   <button class="viewlink" type="button" data-view="method"><span>Method</span></button>
 </nav>
 <div id="rowhint" role="button" tabindex="-1" aria-label="Open the first entry's card">
@@ -3375,4 +3383,4 @@ ${BODY}
 writeFileSync(join(here, '..', 'report', 'artifact.html'), artifact);
 console.log(`site written (${Math.round(standalone.length / 1024)}KB)`);
 
-buildEditor(standalone, join(here, '..'));
+buildEditor(SHOW_FINDINGS ? standalone : standalone.replace('</body>', FINDINGS_SECTIONS + RESEARCH_SECTION + '</body>'), join(here, '..'));
