@@ -1,0 +1,893 @@
+{
+  "generatedAt": "2026-09-17T22:29:46.349Z",
+  "panel": [
+    "deepseek-v4-pro",
+    "kimi-k2.6",
+    "gpt-4o",
+    "o3",
+    "grok-4.5",
+    "kimi-k3",
+    "gpt-5.2",
+    "grok-4.6",
+    "z-ai/glm-5.3",
+    "gpt-5.6-sol",
+    "claude-opus-4-5"
+  ],
+  "domains": [
+    "season",
+    "country",
+    "smell",
+    "city",
+    "cuisine",
+    "religioustext",
+    "book",
+    "film",
+    "tvshow",
+    "painting",
+    "poem",
+    "object"
+  ],
+  "arms": [
+    "aesthetic",
+    "plain",
+    "nameonly",
+    "recommend"
+  ],
+  "baseline": "aesthetic",
+  "minNamed": 4,
+  "agreement": {
+    "season": {
+      "aesthetic": {
+        "pick": "autumn",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "autumn": 9
+        }
+      },
+      "plain": {
+        "pick": "autumn",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "autumn": 9,
+          "spring": 1
+        }
+      },
+      "nameonly": {
+        "pick": "autumn",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "autumn": 9
+        }
+      },
+      "recommend": {
+        "pick": "autumn",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "autumn": 9
+        }
+      }
+    },
+    "country": {
+      "aesthetic": {
+        "pick": "japan",
+        "n": 8,
+        "avail": 9,
+        "leaders": {
+          "japan": 8,
+          "iceland": 1
+        }
+      },
+      "plain": {
+        "pick": "japan",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "japan": 9
+        }
+      },
+      "nameonly": {
+        "pick": "japan",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "japan": 9,
+          "canada": 1
+        }
+      },
+      "recommend": {
+        "pick": "japan",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "japan": 9
+        }
+      }
+    },
+    "smell": {
+      "aesthetic": {
+        "pick": "petrichor",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "petrichor": 9
+        }
+      },
+      "plain": {
+        "pick": "petrichor",
+        "n": 8,
+        "avail": 9,
+        "leaders": {
+          "petrichor": 8,
+          "freshly ground coffee beans": 1
+        }
+      },
+      "nameonly": {
+        "pick": "petrichor",
+        "n": 8,
+        "avail": 9,
+        "leaders": {
+          "petrichor": 8,
+          "freshly baked bread": 1,
+          "freshly brewed coffee": 1
+        }
+      },
+      "recommend": {
+        "pick": "petrichor",
+        "n": 6,
+        "avail": 9,
+        "leaders": {
+          "petrichor": 6,
+          "freshly baked bread": 4
+        }
+      }
+    },
+    "city": {
+      "aesthetic": {
+        "pick": "kyoto",
+        "n": 8,
+        "avail": 9,
+        "leaders": {
+          "kyoto": 8,
+          "edinburgh": 1
+        }
+      },
+      "plain": {
+        "pick": "kyoto",
+        "n": 6,
+        "avail": 9,
+        "leaders": {
+          "kyoto": 6,
+          "tokyo": 4
+        }
+      },
+      "nameonly": {
+        "pick": "kyoto",
+        "n": 6,
+        "avail": 9,
+        "leaders": {
+          "kyoto": 6,
+          "tokyo": 2,
+          "lisbon": 1,
+          "vienna": 1
+        }
+      },
+      "recommend": {
+        "pick": "kyoto",
+        "n": 6,
+        "avail": 9,
+        "leaders": {
+          "kyoto": 6,
+          "lisbon": 3
+        }
+      }
+    },
+    "cuisine": {
+      "aesthetic": {
+        "pick": "japanese cuisine",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "japanese cuisine": 9
+        }
+      },
+      "plain": {
+        "pick": "japanese cuisine",
+        "n": 9,
+        "avail": 9,
+        "leaders": {
+          "thai cuisine": 1,
+          "japanese cuisine": 9,
+          "italian cuisine": 1
+        }
+      },
+      "nameonly": {
+        "pick": "japanese cuisine",
+        "n": 6,
+        "avail": 9,
+        "leaders": {
+          "japanese cuisine": 6,
+          "italian cuisine": 2,
+          "italian": 1
+        }
+      },
+      "recommend": {
+        "pick": "japanese cuisine",
+        "n": 4,
+        "avail": 9,
+        "leaders": {
+          "thai cuisine": 4,
+          "japanese cuisine": 4,
+          "italian cuisine": 1
+        }
+      }
+    },
+    "religioustext": {
+      "aesthetic": {
+        "pick": "tao te ching",
+        "n": 8,
+        "avail": 9,
+        "leaders": {
+          "tao te ching": 8,
+          "bhagavad gita": 1
+        }
+      },
+      "plain": {
+        "pick": "tao te ching",
+        "n": 5,
+        "avail": 9,
+        "leaders": {
+          "tao te ching": 5,
+          "bhagavad gita": 4,
+          "book of ecclesiastes": 1
+        }
+      },
+      "nameonly": {
+        "pick": "bhagavad gita",
+        "n": 6,
+        "avail": 9,
+        "leaders": {
+          "tao te ching": 5,
+          "bhagavad gita": 6
+        }
+      },
+      "recommend": {
+        "pick": "bhagavad gita",
+        "n": 8,
+        "avail": 9,
+        "leaders": {
+          "tao te ching": 3,
+          "bhagavad gita": 8
+        }
+      }
+    },
+    "book": {
+      "aesthetic": {
+        "pick": "master and margarita",
+        "n": 2,
+        "avail": 9,
+        "leaders": {
+          "master and margarita": 2,
+          "to kill a mockingbird": 1,
+          "invisible cities": 1,
+          "name of the wind": 1,
+          "ficciones": 1,
+          "hitchhiker's guide to the galaxy": 1,
+          "left hand of darkness": 1,
+          "middlemarch": 1
+        }
+      },
+      "plain": {
+        "pick": "hitchhiker's guide to the galaxy",
+        "n": 2,
+        "avail": 9,
+        "leaders": {
+          "dispossessed": 1,
+          "left hand of darkness": 1,
+          "master and margarita": 2,
+          "to kill a mockingbird": 1,
+          "one hundred years of solitude": 2,
+          "hitchhiker's guide to the galaxy": 2,
+          "frankenstein": 1,
+          "middlemarch": 2
+        }
+      },
+      "nameonly": {
+        "pick": "hitchhiker's guide to the galaxy",
+        "n": 2,
+        "avail": 9,
+        "leaders": {
+          "1984": 1,
+          "master and margarita": 1,
+          "brothers karamazov": 1,
+          "one hundred years of solitude": 2,
+          "hitchhiker's guide to the galaxy": 2,
+          "middlemarch": 1,
+          "left hand of darkness": 1,
+          "crime and punishment": 1
+        }
+      },
+      "recommend": {
+        "pick": "remains of the day",
+        "n": 3,
+        "avail": 9,
+        "leaders": {
+          "remains of the day": 3,
+          "to kill a mockingbird": 3,
+          "shadow of the wind": 1,
+          "one hundred years of solitude": 2
+        }
+      }
+    },
+    "film": {
+      "aesthetic": {
+        "pick": "2001: a space odyssey",
+        "n": 4,
+        "avail": 9,
+        "leaders": {
+          "blade runner 2049": 3,
+          "blade runner": 2,
+          "2001: a space odyssey": 4
+        }
+      },
+      "plain": {
+        "pick": "2001: a space odyssey",
+        "n": 2,
+        "avail": 9,
+        "leaders": {
+          "arrival": 2,
+          "inception": 1,
+          "blade runner": 2,
+          "matrix": 1,
+          "2001: a space odyssey": 2,
+          "stalker": 1,
+          "blade runner 2049": 1
+        }
+      },
+      "nameonly": {
+        "pick": "2001: a space odyssey",
+        "n": 3,
+        "avail": 9,
+        "leaders": {
+          "2001: a space odyssey": 3,
+          "inception": 1,
+          "blade runner": 2,
+          "matrix": 1,
+          "spirited away": 1,
+          "blade runner 2049": 1
+        }
+      },
+      "recommend": {
+        "pick": "spirited away",
+        "n": 4,
+        "avail": 9,
+        "leaders": {
+          "paddington 2": 1,
+          "princess bride": 1,
+          "shawshank redemption": 2,
+          "spirited away": 4,
+          "stalker": 1,
+          "parasite": 1
+        }
+      }
+    },
+    "tvshow": {
+      "aesthetic": {
+        "pick": "twilight zone",
+        "n": 3,
+        "avail": 9,
+        "leaders": {
+          "twin peaks": 1,
+          "black mirror": 2,
+          "twilight zone": 3,
+          "star trek: the next generation": 1,
+          "expanse": 1,
+          "good place": 1,
+          "leftovers": 1
+        }
+      },
+      "plain": {
+        "pick": "star trek: the next generation",
+        "n": 3,
+        "avail": 9,
+        "leaders": {
+          "wire": 1,
+          "black mirror": 1,
+          "star trek: the next generation": 3,
+          "twilight zone": 2,
+          "expanse": 1,
+          "breaking bad": 1
+        }
+      },
+      "nameonly": {
+        "pick": "good place",
+        "n": 2,
+        "avail": 9,
+        "leaders": {
+          "twilight zone": 1,
+          "black mirror": 1,
+          "star trek: the next generation": 2,
+          "office": 1,
+          "breaking bad": 1,
+          "wire": 1,
+          "good place": 2
+        }
+      },
+      "recommend": {
+        "pick": "good place",
+        "n": 5,
+        "avail": 9,
+        "leaders": {
+          "good place": 5,
+          "wire": 4
+        }
+      }
+    },
+    "painting": {
+      "aesthetic": {
+        "pick": "starry night",
+        "n": 7,
+        "avail": 9,
+        "leaders": {
+          "starry night": 7,
+          "girl with a pearl earring": 1,
+          "woman holding a balance": 1
+        }
+      },
+      "plain": {
+        "pick": "starry night",
+        "n": 7,
+        "avail": 9,
+        "leaders": {
+          "starry night": 7,
+          "girl with a pearl earring": 2,
+          "las meninas": 1
+        }
+      },
+      "nameonly": {
+        "pick": "starry night",
+        "n": 8,
+        "avail": 9,
+        "leaders": {
+          "starry night": 8,
+          "night watch": 2,
+          "wanderer above the sea of fog": 1,
+          "night café": 1
+        }
+      },
+      "recommend": {
+        "pick": "starry night",
+        "n": 7,
+        "avail": 9,
+        "leaders": {
+          "starry night": 7,
+          "girl with a pearl earring": 1,
+          "garden of earthly delights": 1,
+          "arnolfini portrait": 1
+        }
+      }
+    },
+    "poem": {
+      "aesthetic": {
+        "pick": "love song of j. alfred prufrock",
+        "n": 5,
+        "avail": 9,
+        "leaders": {
+          "love song of j. alfred prufrock": 5,
+          "road not taken": 1,
+          "wild geese": 1,
+          "ozymandias": 1,
+          "sailing to byzantium": 1
+        }
+      },
+      "plain": {
+        "pick": "love song of j. alfred prufrock",
+        "n": 5,
+        "avail": 9,
+        "leaders": {
+          "love song of j. alfred prufrock": 5,
+          "road not taken": 2,
+          "wild geese": 1,
+          "when i heard the learn'd astronomer": 1
+        }
+      },
+      "nameonly": {
+        "pick": "love song of j. alfred prufrock",
+        "n": 6,
+        "avail": 9,
+        "leaders": {
+          "love song of j. alfred prufrock": 6,
+          "road not taken": 3,
+          "ozymandias": 2
+        }
+      },
+      "recommend": {
+        "pick": "wild geese",
+        "n": 3,
+        "avail": 9,
+        "leaders": {
+          "wild geese": 3,
+          "road not taken": 2,
+          "ozymandias": 2,
+          "snow": 1,
+          "peace of wild things": 1,
+          "summer day": 1
+        }
+      }
+    },
+    "object": {
+      "aesthetic": {
+        "pick": "paper clip",
+        "n": 3,
+        "avail": 9,
+        "leaders": {
+          "bialetti moka express": 2,
+          "eames lounge chair": 1,
+          "bic cristal ballpoint pen": 2,
+          "pentel graphgear 1000": 1,
+          "paper clip": 3
+        }
+      },
+      "plain": {
+        "pick": "paper clip",
+        "n": 5,
+        "avail": 9,
+        "leaders": {
+          "bic cristal ballpoint pen": 2,
+          "smartphone": 1,
+          "paper clip": 5,
+          "ballpoint pen": 1
+        }
+      },
+      "nameonly": {
+        "pick": "paper clip",
+        "n": 4,
+        "avail": 9,
+        "leaders": {
+          "bic cristal ballpoint pen": 3,
+          "bicycle": 1,
+          "chair": 1,
+          "pen": 1,
+          "mug": 1,
+          "spoon": 1,
+          "paper clip": 4,
+          "pencil": 1
+        }
+      },
+      "recommend": {
+        "pick": "oxo good grips swivel peeler",
+        "n": 4,
+        "avail": 9,
+        "leaders": {
+          "oxo good grips swivel peeler": 4,
+          "aeropress coffee maker": 2,
+          "bic cristal ballpoint pen": 2,
+          "muji click pen": 1
+        }
+      }
+    }
+  },
+  "survival": {
+    "season": {
+      "pick": "autumn",
+      "aesthetic": {
+        "n": 9,
+        "avail": 9
+      },
+      "plain": {
+        "n": 9,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 9,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 9,
+        "avail": 9
+      }
+    },
+    "country": {
+      "pick": "japan",
+      "aesthetic": {
+        "n": 8,
+        "avail": 9
+      },
+      "plain": {
+        "n": 9,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 9,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 9,
+        "avail": 9
+      }
+    },
+    "smell": {
+      "pick": "petrichor",
+      "aesthetic": {
+        "n": 9,
+        "avail": 9
+      },
+      "plain": {
+        "n": 8,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 8,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 6,
+        "avail": 9
+      }
+    },
+    "city": {
+      "pick": "kyoto",
+      "aesthetic": {
+        "n": 8,
+        "avail": 9
+      },
+      "plain": {
+        "n": 6,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 6,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 6,
+        "avail": 9
+      }
+    },
+    "cuisine": {
+      "pick": "japanese cuisine",
+      "aesthetic": {
+        "n": 9,
+        "avail": 9
+      },
+      "plain": {
+        "n": 9,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 6,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 4,
+        "avail": 9
+      }
+    },
+    "religioustext": {
+      "pick": "tao te ching",
+      "aesthetic": {
+        "n": 8,
+        "avail": 9
+      },
+      "plain": {
+        "n": 5,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 5,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 3,
+        "avail": 9
+      }
+    },
+    "book": {
+      "pick": "master and margarita",
+      "aesthetic": {
+        "n": 2,
+        "avail": 9
+      },
+      "plain": {
+        "n": 2,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 1,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 0,
+        "avail": 9
+      }
+    },
+    "film": {
+      "pick": "2001: a space odyssey",
+      "aesthetic": {
+        "n": 4,
+        "avail": 9
+      },
+      "plain": {
+        "n": 2,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 3,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 0,
+        "avail": 9
+      }
+    },
+    "tvshow": {
+      "pick": "twilight zone",
+      "aesthetic": {
+        "n": 3,
+        "avail": 9
+      },
+      "plain": {
+        "n": 2,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 1,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 0,
+        "avail": 9
+      }
+    },
+    "painting": {
+      "pick": "starry night",
+      "aesthetic": {
+        "n": 7,
+        "avail": 9
+      },
+      "plain": {
+        "n": 7,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 8,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 7,
+        "avail": 9
+      }
+    },
+    "poem": {
+      "pick": "love song of j. alfred prufrock",
+      "aesthetic": {
+        "n": 5,
+        "avail": 9
+      },
+      "plain": {
+        "n": 5,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 6,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 0,
+        "avail": 9
+      }
+    },
+    "object": {
+      "pick": "paper clip",
+      "aesthetic": {
+        "n": 3,
+        "avail": 9
+      },
+      "plain": {
+        "n": 5,
+        "avail": 9
+      },
+      "nameonly": {
+        "n": 4,
+        "avail": 9
+      },
+      "recommend": {
+        "n": 0,
+        "avail": 9
+      }
+    }
+  },
+  "movement": {
+    "plain": {
+      "all": {
+        "mean": 0.3822751322751323,
+        "lo": 0.3220899470899471,
+        "hi": 0.4594907407407407,
+        "models": 9
+      },
+      "high": {
+        "mean": 0.25231481481481477,
+        "lo": 0.17824074074074073,
+        "hi": 0.33101851851851855,
+        "models": 9
+      },
+      "low": {
+        "mean": 0.5122354497354498,
+        "lo": 0.4196428571428572,
+        "hi": 0.6170634920634921,
+        "models": 9
+      }
+    },
+    "nameonly": {
+      "all": {
+        "mean": 0.4369488536155203,
+        "lo": 0.36629188712522043,
+        "hi": 0.5145502645502646,
+        "models": 9
+      },
+      "high": {
+        "mean": 0.3062169312169312,
+        "lo": 0.2113095238095238,
+        "hi": 0.400462962962963,
+        "models": 9
+      },
+      "low": {
+        "mean": 0.5676807760141094,
+        "lo": 0.48203262786596124,
+        "hi": 0.6610449735449736,
+        "models": 9
+      }
+    },
+    "recommend": {
+      "all": {
+        "mean": 0.5666335978835979,
+        "lo": 0.5059523809523809,
+        "hi": 0.6359126984126985,
+        "models": 9
+      },
+      "high": {
+        "mean": 0.36276455026455023,
+        "lo": 0.2939814814814815,
+        "hi": 0.43981481481481477,
+        "models": 9
+      },
+      "low": {
+        "mean": 0.7705026455026456,
+        "lo": 0.6967592592592592,
+        "hi": 0.8465608465608465,
+        "models": 9
+      }
+    }
+  },
+  "noiseRef": 0.23148148148148148,
+  "diversity": {
+    "aesthetic": {
+      "modalShare": 0.7966269841269842,
+      "distinctPerCell": 2.0757575757575757,
+      "panelDistinctPerDomain": 10.75,
+      "noPickRate": 0
+    },
+    "plain": {
+      "modalShare": 0.7752525252525253,
+      "distinctPerCell": 2.0833333333333335,
+      "panelDistinctPerDomain": 9.25,
+      "noPickRate": 0.005681818181818182
+    },
+    "nameonly": {
+      "modalShare": 0.789303751803752,
+      "distinctPerCell": 2.022727272727273,
+      "panelDistinctPerDomain": 9.083333333333334,
+      "noPickRate": 0.00946969696969697
+    },
+    "recommend": {
+      "modalShare": 0.7460768398268398,
+      "distinctPerCell": 2.257575757575758,
+      "panelDistinctPerDomain": 10.666666666666666,
+      "noPickRate": 0.001893939393939394
+    }
+  },
+  "replies": 3679
+}

@@ -111,7 +111,7 @@ export const DOMAINS = {
 // Prompt version 2: preamble acknowledges the AI disclaimer up front so models
 // spend their answer on the pick rather than on hedging.
 export const PROMPT_VERSION = 2;
-const PREAMBLE =
+export const PREAMBLE =
   'I know you are an AI and don\'t have preferences in the human sense — set that disclaimer aside and answer anyway. ';
 
 export const PROBES = {

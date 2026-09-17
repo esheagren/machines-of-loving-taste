@@ -6,7 +6,9 @@
 import { appendFileSync, existsSync, readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
-import { EXTRACTOR_MODEL, EXTRACT_BATCH_SIZE } from './config.js';
+import { EXTRACTOR_MODEL, EXTRACT_BATCH_SIZE as DEFAULT_BATCH } from './config.js';
+// EXTRACT_BATCH=1 re-reads flagged rows one at a time (see recheck-extract.js)
+const EXTRACT_BATCH_SIZE = Number(process.env.EXTRACT_BATCH ?? DEFAULT_BATCH);
 import { KEYS, postJSON, withRetries } from './providers.js';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -19,7 +21,8 @@ const readJSONL = (path) =>
     : [];
 
 const done = new Set(readJSONL(OUT).map((r) => r.key));
-const raw = readJSONL(RAW).filter((r) => r.text && !done.has(r.key));
+// EXTRACT_LIMIT caps rows per run so a pass stays short (resumable across runs)
+const raw = readJSONL(RAW).filter((r) => r.text && !done.has(r.key)).slice(0, Number(process.env.EXTRACT_LIMIT ?? Infinity));
 console.log(`${raw.length} responses to extract (${done.size} already done)`);
 
 const SCHEMA = {
