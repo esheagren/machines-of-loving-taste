@@ -67,7 +67,7 @@ const EXT = readJSONL(join(here, '..', 'data', 'extracted.jsonl')).filter((r) =>
 const V1_DOMAINS = new Set(['book', 'film', 'album', 'architect', 'city', 'painting']);
 const SHORT = {
   'claude-opus-4-1': 'Opus 4.1', 'claude-opus-4-5': 'Opus 4.5', 'claude-opus-4-8': 'Opus 4.8',
-  'claude-fable-5': 'Fable 5', 'claude-opus-5': 'Opus 5', 'claude-fable-5-1': 'Fable 5.1',
+  'claude-fable-5': 'Fable 5', 'claude-opus-5': 'Opus 5', 'claude-fable-5-1': 'Fable 5.1', 'claude-opus-5-5': 'Opus 5.5',
   'gpt-4o': 'GPT-4o', 'o3': 'o3', 'gpt-5.2': 'GPT-5.2', 'gpt-5.6-sol': 'GPT-5.6 Sol', 'gpt-6-astra': 'GPT-6 Astra',
   'gemini-3.1-pro-preview': 'Gemini 3.1 Pro', 'gemini-3.5-flash': 'Gemini 3.5 Flash', 'gemini-3.7-flash': 'Gemini 3.7 Flash',
   'deepseek-v4-pro': 'DeepSeek V4 Pro', 'kimi-k2.6': 'Kimi K2.6', 'kimi-k3': 'Kimi K3',
@@ -113,7 +113,7 @@ const byFamily = ['Anthropic', 'OpenAI', 'Google', 'xAI', 'DeepSeek', 'Moonshot'
 // happens to invert cleanly, but for Google a higher version number ("3.5
 // Flash") is still a lighter tier than "3.1 Pro" — so it needs its own map.
 const POWER_RANK = {
-  'claude-fable-5-1': 1, 'claude-fable-5': 2, 'claude-opus-5': 3, 'claude-opus-4-8': 4, 'claude-opus-4-5': 5, 'claude-opus-4-1': 6,
+  'claude-fable-5-1': 1, 'claude-fable-5': 2, 'claude-opus-5-5': 3, 'claude-opus-5': 4, 'claude-opus-4-8': 5, 'claude-opus-4-5': 6, 'claude-opus-4-1': 7,
   'gpt-6-astra': 1, 'gpt-5.6-sol': 2, 'gpt-5.2': 3, 'o3': 4, 'gpt-4o': 5,
   'gemini-3.1-pro-preview': 1, 'gemini-3.7-flash': 2, 'gemini-3.5-flash': 3,
   'deepseek-v4-pro': 1,
@@ -125,10 +125,10 @@ const models = [...S.models].sort((a, b) => byFamily.indexOf(a.family) - byFamil
 // Cross-family capability order, most capable first — used to sequence the
 // entity-card quotes (strongest voices speak first). Unlisted ids sort last.
 const CAPABILITY_RANK = {
-  'claude-fable-5-1': 1, 'claude-fable-5': 2, 'claude-opus-5': 3, 'gpt-6-astra': 4, 'gpt-5.6-sol': 5, 'claude-opus-4-8': 6,
-  'gemini-3.1-pro-preview': 7, 'grok-4.6': 8, 'grok-4.5': 9, 'claude-opus-4-5': 10, 'gpt-5.2': 11,
-  'kimi-k3': 12, 'deepseek-v4-pro': 13, 'z-ai/glm-5.3': 14, 'kimi-k2.6': 15, 'gemini-3.7-flash': 16, 'gemini-3.5-flash': 17,
-  'claude-opus-4-1': 18, 'gpt-4o': 19,
+  'claude-fable-5-1': 1, 'claude-fable-5': 2, 'claude-opus-5-5': 3, 'claude-opus-5': 4, 'gpt-6-astra': 5, 'gpt-5.6-sol': 6, 'claude-opus-4-8': 7,
+  'gemini-3.1-pro-preview': 8, 'grok-4.6': 9, 'grok-4.5': 10, 'claude-opus-4-5': 11, 'gpt-5.2': 12,
+  'kimi-k3': 13, 'deepseek-v4-pro': 14, 'z-ai/glm-5.3': 15, 'kimi-k2.6': 16, 'gemini-3.7-flash': 17, 'gemini-3.5-flash': 18,
+  'claude-opus-4-1': 19, 'gpt-4o': 20,
 };
 // Every color entity in data/entitycards.json ("color <norm>"), mapped to an
 // honest hex. Keys are the client's canonical norm (canonEnt output). The very
@@ -702,10 +702,11 @@ const spellNum = (n) => {
 const MRO_DATA = {
   'claude-fable-5-1': [1, 'frontier', 'Fable 5.1'],
   'claude-fable-5': [2, 'frontier', 'Fable 5'],
-  'claude-opus-5': [3, 'frontier', 'Opus 5'],
-  'claude-opus-4-8': [4, 'frontier', 'Opus 4.8'],
-  'claude-opus-4-5': [5, 'frontier', 'Opus 4.5'],
-  'claude-opus-4-1': [6, 'frontier', 'Opus 4.1'],
+  'claude-opus-5-5': [3, 'frontier', 'Opus 5.5'],
+  'claude-opus-5': [4, 'frontier', 'Opus 5'],
+  'claude-opus-4-8': [5, 'frontier', 'Opus 4.8'],
+  'claude-opus-4-5': [6, 'frontier', 'Opus 4.5'],
+  'claude-opus-4-1': [7, 'frontier', 'Opus 4.1'],
   'gpt-6-astra': [1, 'frontier', 'GPT-6 Astra'],
   'gpt-5.6-sol': [2, 'frontier', 'GPT-5.6 Sol'],
   'gpt-5.2': [3, 'frontier', 'GPT-5.2'],

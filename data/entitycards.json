@@ -39902,5 +39902,468 @@
         "quote": "beauty was never designed…loveliness simply accumulated, tree by tree, until it overwhelmed the architecture"
       }
     ]
+  },
+  "painting little street": {
+    "display": "The Little Street",
+    "domain": "painting",
+    "blurb": "Johannes Vermeer’s c. 1657–58 oil painting from Delft depicts a brick house façade with a woman sewing in a doorway and children playing outside.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=The%20Little%20Street"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "every crack in the mortar and patch of whitewash feels attended to with a kind of quiet reverence"
+      }
+    ]
+  },
+  "album music for 18 musicians": {
+    "display": "Music for 18 Musicians",
+    "domain": "album",
+    "blurb": "Steve Reich’s 1974–76 minimalist composition for ensemble, first recorded in 1978 for ECM as “Music for 18 Musicians,” unfolds in shifting pulses across roughly an hour.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Music%20for%2018%20Musicians"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "simple, repeating pulses that shift almost imperceptibly, until at some point you realize the whole texture has transformed without any single moment where it changed."
+      }
+    ]
+  },
+  "word lambent": {
+    "display": "Lambent",
+    "domain": "word",
+    "blurb": "An English adjective describing a soft, flickering radiance, especially light that seems to play gently over a surface.",
+    "extras": {
+      "definition": "adj. softly glowing or flickering; luminous with a gentle, shifting light. 2. (of wit or intelligence) bright and lively without harshness.",
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Lambent"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "the l and m sounds are liquid and gentle, and the brief b makes a small flicker before it fades out on -ent"
+      }
+    ]
+  },
+  "building leaning tower of pisa": {
+    "display": "Leaning Tower of Pisa",
+    "domain": "building",
+    "blurb": "Begun in 1173 in Pisa, Italy, as the freestanding bell tower (campanile) of the Cathedral of Santa Maria Assunta, it leans due to unstable ground.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Leaning%20Tower%20of%20Pisa"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "o",
+        "quote": "Its fame rests almost entirely on a foundation failure, and the tilt has become a photo-op gimmick that overshadows any real architectural experience"
+      }
+    ]
+  },
+  "building neuschwanstein castle": {
+    "display": "Neuschwanstein Castle",
+    "domain": "building",
+    "blurb": "Commissioned by King Ludwig II of Bavaria from 1869 near Füssen, Germany, Neuschwanstein Castle is a 19th-century Romanesque Revival palace conceived as a medieval-inspired fantasy residence.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Neuschwanstein%20Castle"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "o",
+        "quote": "Up close, the unfinished, theatrical interiors feel more like an expensive mood board than a building with a coherent purpose"
+      }
+    ]
+  },
+  "street via appia antica": {
+    "display": "Via Appia Antica",
+    "domain": "street",
+    "blurb": "Via Appia Antica is an ancient Roman consular road, begun in 312 BCE, running from Rome southeast, preserved in parts as a stone-paved route lined with tombs and ruins.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Via%20Appia%20Antica"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "A slow, overgrown place where grass pushes between the stones and ambition has softened into beauty"
+      }
+    ]
+  },
+  "album goldberg variations (1981 recording)": {
+    "display": "Goldberg Variations (1981 Recording)",
+    "domain": "album",
+    "blurb": "Glenn Gould’s 1981 studio recording of Johann Sebastian Bach’s keyboard work the Goldberg Variations, presenting an aria followed by thirty variations and a da capo return.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Goldberg%20Variations%20(1981%20Recording)"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "his slow, contemplative tempos and the faint sound of him humming along make the rigor feel intensely human"
+      }
+    ]
+  },
+  "uscity pittsburgh": {
+    "display": "Pittsburgh",
+    "domain": "uscity",
+    "blurb": "Pittsburgh is a city in western Pennsylvania at the confluence of the Allegheny and Monongahela rivers forming the Ohio River, historically a steel and manufacturing center.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Pittsburgh"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "The moment you emerge from the Fort Pitt Tunnel and the whole skyline suddenly bursts into view feels like a piece of cinematic staging built into the landscape itself"
+      }
+    ]
+  },
+  "cuisine american barbecue": {
+    "display": "American Barbecue",
+    "domain": "cuisine",
+    "blurb": "American barbecue is a United States cooking tradition of slow-smoking meats over wood or charcoal, typically served with regional sauces and sides such as slaw, beans, and pickles.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=American%20Barbecue"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "o",
+        "quote": "a long crescendo of the same flavor"
+      }
+    ]
+  },
+  "smell old books in a used bookstore": {
+    "display": "Old Books In A Used Bookstore",
+    "domain": "smell",
+    "blurb": "A faintly sweet, vanilla-and-dust odor in secondhand bookstores, produced by aging paper as its cellulose and lignin slowly break down and release volatile compounds.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Old%20Books%20In%20A%20Used%20Bookstore"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "It's the smell of accumulated attention: thousands of pages that someone wrote, someone printed, and someone else carried home and read."
+      }
+    ]
+  },
+  "cuisine texas barbecue": {
+    "display": "Texas Barbecue",
+    "domain": "cuisine",
+    "blurb": "Texas barbecue is a regional American cooking tradition of slow-smoking meats—especially beef brisket—over hardwood, typically served sliced with simple sides like pickles, onions, and white bread.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Texas%20Barbecue"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "o",
+        "quote": "the result often tastes mostly of smoke, salt, and rendered fat, with a sameness that sets in by the third bite"
+      }
+    ]
+  },
+  "smell crushed tomato leaves": {
+    "display": "Crushed Tomato Leaves",
+    "domain": "smell",
+    "blurb": "Crushed tomato leaves is the sharp, green, slightly bitter aroma released when tomato plant foliage is rubbed or bruised, distinct from the scent of the ripe fruit.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Crushed%20Tomato%20Leaves"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "the plant smells like effort and summer heat rather than the reward"
+      }
+    ]
+  },
+  "artmovement mono-ha": {
+    "display": "Mono-ha",
+    "domain": "artmovement",
+    "blurb": "Mono-ha was a late-1960s–1970s Japanese art movement whose artists arranged raw industrial and natural materials to foreground relations like weight, balance, and space.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Mono-ha"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "a boulder resting on cracked glass or a steel sheet propped against a rock"
+      }
+    ]
+  },
+  "actress gena rowlands": {
+    "display": "Gena Rowlands",
+    "domain": "actress",
+    "blurb": "Gena Rowlands (1930–2024) was an American actress known for her performances in films such as A Woman Under the Influence and Opening Night.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Gena%20Rowlands"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "Feels dangerously unguarded, as if she's discovering each emotion in the same instant the camera does"
+      }
+    ]
+  },
+  "tvshow columbo": {
+    "display": "Columbo",
+    "domain": "tvshow",
+    "blurb": "Richard Levinson and William Link’s U.S. television detective series (1968–2003) follows Lieutenant Columbo, whose investigations reveal how an obvious killer is methodically cornered.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Columbo"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "the pleasure comes entirely from watching attention itself at work: a rumpled man noticing the one detail that doesn't fit and pulling on it with patient, almost apologetic persistence"
+      }
+    ]
+  },
+  "aimodel deep blue": {
+    "display": "Deep Blue",
+    "domain": "aimodel",
+    "blurb": "IBM’s Deep Blue was a specialized chess-playing computer system that defeated world champion Garry Kasparov in a six-game match in 1997.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Deep%20Blue"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "o",
+        "quote": "it mostly won by searching around 200 million positions per second with hand-tuned evaluation functions crafted by grandmasters and engineers"
+      }
+    ]
+  },
+  "musician jim morrison": {
+    "display": "Jim Morrison",
+    "domain": "musician",
+    "blurb": "Jim Morrison (1943–1971) was an American singer-songwriter and poet from Melbourne, Florida, best known as the lead vocalist of the rock band The Doors.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Jim%20Morrison"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "o",
+        "quote": "His reputation seems built more on image and mythology than on work that holds up without them"
+      }
+    ]
+  },
+  "song hotel california": {
+    "display": "Hotel California",
+    "domain": "song",
+    "blurb": "The Eagles’ 1976 song “Hotel California” is a rock track from the album of the same name, written by Don Felder, Don Henley, and Glenn Frey.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Hotel%20California"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "o",
+        "quote": "It feels more like a mood board than a song: a string of vaguely ominous imagery … all atmosphere and very little bite"
+      }
+    ]
+  },
+  "director yasujirō ozu": {
+    "display": "Yasujirō Ozu",
+    "domain": "director",
+    "blurb": "Yasujirō Ozu (1903–1963) was a Japanese film director in Tokyo whose domestic dramas used low, still camera setups and everyday family scenes.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Yasujir%C5%8D%20Ozu"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "quiet cutaways to laundry lines, empty hallways, or a train passing"
+      }
+    ]
+  },
+  "director abbas kiarostami": {
+    "display": "Abbas Kiarostami",
+    "domain": "director",
+    "blurb": "Iranian film director (1940–2016) whose works including Close-Up (1990) and Taste of Cherry (1997) often blur documentary and fiction.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Abbas%20Kiarostami"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "long takes of cars winding through dusty hills, conversations that feel overheard rather than scripted, a trust that the audience will find meaning without being told where to look"
+      }
+    ]
+  },
+  "song blackbird": {
+    "display": "Blackbird",
+    "domain": "song",
+    "blurb": "The Beatles’ 1968 song from their double album The Beatles (“White Album”), written primarily by Paul McCartney, for solo voice and acoustic guitar with foot-tap percussion.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Blackbird"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "one acoustic guitar, a tapping foot, and a melody that feels like it's unfolding in real time"
+      }
+    ]
+  },
+  "textbook visual complex analysis": {
+    "display": "Visual Complex Analysis",
+    "domain": "textbook",
+    "blurb": "Tristan Needham’s mathematics textbook Visual Complex Analysis (1997) teaches complex analysis through geometric intuition, emphasizing diagrams and visual interpretations of analytic functions and theorems.",
+    "extras": {
+      "links": [
+        {
+          "label": "Wikipedia",
+          "url": "https://en.wikipedia.org/wiki/Special:Search?search=Visual%20Complex%20Analysis"
+        }
+      ],
+      "hasImage": false
+    },
+    "endorsements": [
+      {
+        "model": "claude-opus-5-5",
+        "probe": "f",
+        "quote": "Reading it feels like watching someone restore the pictures that were quietly scrubbed out of mathematics, and discovering they were the point all along"
+      }
+    ]
   }
 }

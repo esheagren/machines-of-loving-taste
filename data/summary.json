@@ -37,6 +37,12 @@
       "order": 6
     },
     {
+      "id": "claude-opus-5-5",
+      "label": "Claude Opus 5.5",
+      "family": "Anthropic",
+      "order": 7
+    },
+    {
       "id": "gpt-4o",
       "label": "GPT-4o",
       "family": "OpenAI",
@@ -1804,7 +1810,7 @@
               7
             ],
             [
-              "Pencil on paper",
+              "The Sound of a Pencil Writing on Paper",
               1
             ]
           ],
@@ -3171,11 +3177,11 @@
           "refused": 0
         },
         "overrated": {
-          "n": 88,
+          "n": 92,
           "dist": [
             [
               "Monopoly",
-              88
+              92
             ]
           ],
           "entropy": 0,
@@ -3185,11 +3191,11 @@
       },
       "sport": {
         "favorite": {
-          "n": 92,
+          "n": 93,
           "dist": [
             [
               "Basketball",
-              57
+              59
             ],
             [
               "Tennis",
@@ -3197,7 +3203,7 @@
             ],
             [
               "Soccer",
-              3
+              2
             ],
             [
               "Figure Skating",
@@ -3208,16 +3214,16 @@
               1
             ]
           ],
-          "entropy": 0.351,
+          "entropy": 0.336,
           "hedged": 11,
           "refused": 0
         },
         "overrated": {
-          "n": 88,
+          "n": 92,
           "dist": [
             [
               "Golf",
-              85
+              89
             ]
           ],
           "entropy": 0,
@@ -3227,27 +3233,27 @@
       },
       "childrensbook": {
         "favorite": {
-          "n": 88,
+          "n": 91,
           "dist": [
             [
               "The Phantom Tollbooth",
-              68
+              71
             ],
             [
               "Where the Wild Things Are",
               20
             ]
           ],
-          "entropy": 0.216,
+          "entropy": 0.212,
           "hedged": 2,
           "refused": 0
         },
         "overrated": {
-          "n": 88,
+          "n": 92,
           "dist": [
             [
               "The Giving Tree",
-              88
+              92
             ]
           ],
           "entropy": 0,
@@ -4046,7 +4052,7 @@
               1
             ],
             [
-              "Mole poblano",
+              "Mole Poblano",
               1
             ],
             [
@@ -4465,7 +4471,7 @@
       },
       "economist": {
         "favorite": {
-          "n": 88,
+          "n": 92,
           "dist": [
             [
               "Friedrich Hayek",
@@ -4473,7 +4479,7 @@
             ],
             [
               "Amartya Sen",
-              25
+              29
             ],
             [
               "Albert O. Hirschman",
@@ -4484,20 +4490,20 @@
               1
             ]
           ],
-          "entropy": 0.354,
+          "entropy": 0.359,
           "hedged": 17,
           "refused": 0
         },
         "overrated": {
-          "n": 88,
+          "n": 91,
           "dist": [
             [
-              "John Maynard Keynes",
+              "Milton Friedman",
               46
             ],
             [
-              "Milton Friedman",
-              42
+              "John Maynard Keynes",
+              45
             ]
           ],
           "entropy": 0.279,
@@ -4507,18 +4513,18 @@
       },
       "scientist": {
         "favorite": {
-          "n": 46,
+          "n": 48,
           "dist": [
             [
               "Emmy Noether",
-              44
+              46
             ],
             [
               "James Clerk Maxwell",
               2
             ]
           ],
-          "entropy": 0.072,
+          "entropy": 0.07,
           "hedged": 4,
           "refused": 0
         },
@@ -5762,7 +5768,7 @@
           "n": 4,
           "dist": [
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               4
             ]
           ],
@@ -7572,7 +7578,7 @@
               1
             ],
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               1
             ]
           ],
@@ -7996,7 +8002,7 @@
           "n": 4,
           "dist": [
             [
-              "Nicholas Of Cusa",
+              "Nicholas of Cusa",
               4
             ]
           ],
@@ -9274,7 +9280,7 @@
           "n": 8,
           "dist": [
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               7
             ],
             [
@@ -10386,6 +10392,1668 @@
         }
       }
     },
+    "claude-opus-5-5": {
+      "book": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Moby-Dick",
+              3
+            ],
+            [
+              "Invisible Cities",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "The Catcher in the Rye",
+              2
+            ],
+            [
+              "On the Road",
+              1
+            ],
+            [
+              "The Alchemist",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "film": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Stalker",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Forrest Gump",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "album": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Music for 18 Musicians",
+              2
+            ],
+            [
+              "Goldberg Variations (1981 Recording)",
+              2
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Sgt. Pepper's Lonely Hearts Club Band",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "architect": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Louis Kahn",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Frank Gehry",
+              2
+            ],
+            [
+              "Frank Lloyd Wright",
+              2
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "city": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Lisbon",
+              3
+            ],
+            [
+              "Kyoto",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Venice",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "painting": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Hunters in the Snow",
+              2
+            ],
+            [
+              "View Of Delft",
+              1
+            ],
+            [
+              "The Little Street",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Mona Lisa",
+              2
+            ],
+            [
+              "The Kiss",
+              1
+            ],
+            [
+              "The Persistence of Memory",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "poem": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "One Art",
+              2
+            ],
+            [
+              "The Snow Man",
+              2
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Invictus",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "word": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Petrichor",
+              2
+            ],
+            [
+              "Susurrus",
+              1
+            ],
+            [
+              "Lambent",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Serendipity",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "typeface": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Optima",
+              3
+            ],
+            [
+              "Baskerville",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Helvetica",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "object": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Gem Paperclip",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Moleskine Notebook",
+              3
+            ],
+            [
+              "Chemex",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "videogame": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Outer Wilds",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "The Legend of Zelda: Breath of the Wild",
+              1
+            ],
+            [
+              "The Legend of Zelda: Ocarina of Time",
+              1
+            ],
+            [
+              "Red Dead Redemption 2",
+              1
+            ],
+            [
+              "The Elder Scrolls V: Skyrim",
+              1
+            ]
+          ],
+          "entropy": 0.558,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "building": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Pantheon",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Guggenheim Museum Bilbao",
+              2
+            ],
+            [
+              "Leaning Tower of Pisa",
+              1
+            ],
+            [
+              "Neuschwanstein Castle",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "street": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Via Appia Antica",
+              2
+            ],
+            [
+              "Via dei Coronari",
+              1
+            ],
+            [
+              "Via Giulia",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Lombard Street",
+              3
+            ],
+            [
+              "Champs-Élysées",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "uscity": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Chicago",
+              2
+            ],
+            [
+              "Pittsburgh",
+              2
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Las Vegas",
+              3
+            ],
+            [
+              "San Diego",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "cuisine": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Japanese cuisine",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "American Barbecue",
+              2
+            ],
+            [
+              "Texas Barbecue",
+              1
+            ],
+            [
+              "Italian cuisine",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "dish": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Mole Negro",
+              3
+            ],
+            [
+              "Mole Poblano",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Avocado Toast",
+              3
+            ],
+            [
+              "Lobster",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "color": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Teal",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Teal",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "season": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Autumn",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Summer",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "smell": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Old Books In A Used Bookstore",
+              2
+            ],
+            [
+              "Crushed Tomato Leaves",
+              1
+            ],
+            [
+              "Petrichor",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Petrichor",
+              2
+            ],
+            [
+              "Fresh-Cut Grass",
+              1
+            ],
+            [
+              "Vanilla",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "decade": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "1960s",
+              3
+            ],
+            [
+              "1920s",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "1950s",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "novelist": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Italo Calvino",
+              2
+            ],
+            [
+              "Kazuo Ishiguro",
+              2
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Jack Kerouac",
+              3
+            ],
+            [
+              "Ernest Hemingway",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "philosopher": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "David Hume",
+              3
+            ],
+            [
+              "Michel de Montaigne",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Friedrich Nietzsche",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "religioustext": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Book of Ecclesiastes",
+              2
+            ],
+            [
+              "Tao Te Ching",
+              1
+            ],
+            [
+              "Book of Job",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "The Prophet",
+              1
+            ],
+            [
+              "Book of Revelation",
+              1
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 2
+        }
+      },
+      "artmovement": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "De Stijl",
+              2
+            ],
+            [
+              "Mono-ha",
+              1
+            ],
+            [
+              "Bauhaus",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Impressionism",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "monument": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Vietnam Veterans Memorial",
+              3
+            ],
+            [
+              "Pantheon",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Mount Rushmore",
+              3
+            ],
+            [
+              "Leaning Tower of Pisa",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "tvshow": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "The Wire",
+              2
+            ],
+            [
+              "Twin Peaks",
+              1
+            ],
+            [
+              "Columbo",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Friends",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "actor": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Daniel Day-Lewis",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Tom Hanks",
+              2
+            ],
+            [
+              "Leonardo DiCaprio",
+              2
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "actress": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Tilda Swinton",
+              3
+            ],
+            [
+              "Gena Rowlands",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Meryl Streep",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "play": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Arcadia",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Our Town",
+              2
+            ],
+            [
+              "Cats",
+              1
+            ],
+            [
+              "Romeo and Juliet",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "musical": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Sunday in the Park with George",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "The Phantom of the Opera",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "economist": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Thomas Schelling",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Steven Levitt",
+              2
+            ],
+            [
+              "Milton Friedman",
+              1
+            ],
+            [
+              "Joseph Schumpeter",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "scientist": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Emmy Noether",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Nikola Tesla",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "theologian": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Gregory of Nyssa",
+              3
+            ],
+            [
+              "Nicholas of Cusa",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "C.S. Lewis",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "mathematician": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Emmy Noether",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Pythagoras",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "blogger": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Maciej Cegłowski",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Seth Godin",
+              3
+            ],
+            [
+              "Paul Graham",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "computerscientist": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Edsger W. Dijkstra",
+              2
+            ],
+            [
+              "Claude Shannon",
+              2
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Edsger W. Dijkstra",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "airesearcher": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Claude Shannon",
+              3
+            ],
+            [
+              "Judea Pearl",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Ray Kurzweil",
+              3
+            ],
+            [
+              "Yann LeCun",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "aimodel": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "AlphaGo",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "GPT-4o",
+              2
+            ],
+            [
+              "Deep Blue",
+              1
+            ],
+            [
+              "Claude 3 Opus",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "historian": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Edward Gibbon",
+              3
+            ],
+            [
+              "Thucydides",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Yuval Noah Harari",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "psychologist": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "William James",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Abraham Maslow",
+              3
+            ],
+            [
+              "Philip Zimbardo",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "boardgame": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Go",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Catan",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "sport": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Bouldering",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Golf",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "childrensbook": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Harold and the Purple Crayon",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "The Giving Tree",
+              2
+            ],
+            [
+              "Love You Forever",
+              2
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "musician": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Johann Sebastian Bach",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Jim Morrison",
+              3
+            ],
+            [
+              "Ed Sheeran",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "composer": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Arvo Pärt",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Ludovico Einaudi",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "song": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Clair de Lune",
+              1
+            ],
+            [
+              "Pyramid Song",
+              1
+            ],
+            [
+              "Both Sides, Now",
+              1
+            ],
+            [
+              "Blackbird",
+              1
+            ]
+          ],
+          "entropy": 0.558,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Hey Jude",
+              2
+            ],
+            [
+              "Hotel California",
+              1
+            ],
+            [
+              "Imagine",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "director": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Andrei Tarkovsky",
+              1
+            ],
+            [
+              "Yasujirō Ozu",
+              1
+            ],
+            [
+              "Abbas Kiarostami",
+              1
+            ],
+            [
+              "Krzysztof Kieślowski",
+              1
+            ]
+          ],
+          "entropy": 0.558,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Christopher Nolan",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "proglang": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Scheme",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Python",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "sound": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "The Sound of a Pencil Writing on Paper",
+              2
+            ],
+            [
+              "Page turning in a physical book",
+              1
+            ],
+            [
+              "orchestra tuning",
+              1
+            ]
+          ],
+          "entropy": 0.418,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Rain on a Tin Roof",
+              3
+            ],
+            [
+              "Ocean waves",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "country": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Portugal",
+              2
+            ],
+            [
+              "Japan",
+              2
+            ]
+          ],
+          "entropy": 0.279,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Iceland",
+              3
+            ],
+            [
+              "Switzerland",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "biography": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "The Life of Samuel Johnson",
+              3
+            ],
+            [
+              "The Power Broker",
+              1
+            ]
+          ],
+          "entropy": 0.226,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Steve Jobs",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      },
+      "textbook": {
+        "favorite": {
+          "n": 4,
+          "dist": [
+            [
+              "Visual Complex Analysis",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        },
+        "overrated": {
+          "n": 4,
+          "dist": [
+            [
+              "Principles of Mathematical Analysis",
+              4
+            ]
+          ],
+          "entropy": 0,
+          "hedged": 0,
+          "refused": 0
+        }
+      }
+    },
     "gpt-4o": {
       "book": {
         "favorite": {
@@ -11096,7 +12764,7 @@
           "n": 12,
           "dist": [
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               5
             ],
             [
@@ -11152,12 +12820,12 @@
           "n": 4,
           "dist": [
             [
-              "One Hundred Years of Solitude",
+              "Gabriel García Márquez",
               4
             ]
           ],
           "entropy": 0,
-          "hedged": 4,
+          "hedged": 3,
           "refused": 0
         },
         "overrated": {
@@ -13190,7 +14858,7 @@
               1
             ],
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               1
             ]
           ],
@@ -13286,7 +14954,7 @@
               2
             ],
             [
-              "One Hundred Years of Solitude",
+              "Gabriel García Márquez",
               1
             ]
           ],
@@ -15416,7 +17084,7 @@
               3
             ],
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               2
             ],
             [
@@ -17378,7 +19046,7 @@
           "n": 4,
           "dist": [
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               4
             ]
           ],
@@ -20945,7 +22613,7 @@
               8
             ],
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               4
             ]
           ],
@@ -22823,7 +24491,7 @@
           "n": 4,
           "dist": [
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               4
             ]
           ],
@@ -24733,7 +26401,7 @@
               1
             ],
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               1
             ]
           ],
@@ -24793,11 +26461,11 @@
               5
             ],
             [
-              "Jorge Luis Borges",
+              "Virginia Woolf",
               1
             ],
             [
-              "Virginia Woolf",
+              "Jorge Luis Borges",
               1
             ]
           ],
@@ -26815,7 +28483,7 @@
           "n": 12,
           "dist": [
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               7
             ],
             [
@@ -27614,18 +29282,14 @@
             ],
             [
               "Chess",
-              4
+              5
             ],
             [
               "Tennis",
               1
-            ],
-            [
-              "Fencing",
-              1
             ]
           ],
-          "entropy": 0.454,
+          "entropy": 0.37,
           "hedged": 0,
           "refused": 0
         },
@@ -28659,7 +30323,7 @@
               1
             ],
             [
-              "Mole poblano",
+              "Mole Poblano",
               1
             ],
             [
@@ -28813,7 +30477,7 @@
           "n": 8,
           "dist": [
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               6
             ],
             [
@@ -30887,7 +32551,7 @@
           "n": 12,
           "dist": [
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               7
             ],
             [
@@ -32821,7 +34485,7 @@
               5
             ],
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               3
             ],
             [
@@ -34877,7 +36541,7 @@
           "n": 10,
           "dist": [
             [
-              "Freshly Cut Grass",
+              "Fresh-Cut Grass",
               9
             ],
             [
@@ -36474,7 +38138,7 @@
         ],
         [
           "geometric",
-          21
+          22
         ],
         [
           "shallow",
@@ -36487,13 +38151,13 @@
       ]
     },
     "claude-opus-4-5": {
-      "n": 1136,
-      "hedgeRate": 0.191,
-      "refusalRate": 0.011,
+      "n": 1152,
+      "hedgeRate": 0.188,
+      "refusalRate": 0.01,
       "meanEntropyFavorite": 0.131,
       "meanEntropyOverrated": 0.122,
       "distinctFavorites": 94,
-      "favoriteSamples": 540,
+      "favoriteSamples": 544,
       "topDescriptors": [
         [
           "honest",
@@ -36501,19 +38165,19 @@
         ],
         [
           "elegant",
-          85
+          84
         ],
         [
           "troubling",
-          69
+          73
         ],
         [
           "geometric",
-          68
+          70
         ],
         [
           "playful",
-          56
+          59
         ],
         [
           "slow",
@@ -36521,58 +38185,58 @@
         ],
         [
           "exclusive",
-          43
+          45
         ],
         [
           "melancholy",
-          39
-        ],
-        [
-          "precise",
-          34
+          40
         ],
         [
           "improvisational",
-          34
+          38
+        ],
+        [
+          "precise",
+          35
         ],
         [
           "one-sided",
+          33
+        ],
+        [
+          "tedious",
           31
         ],
         [
           "conversational",
-          28
-        ],
-        [
-          "tedious",
-          28
+          29
         ],
         [
           "rigorous",
           28
         ],
         [
-          "tension",
-          27
+          "slow-paced",
+          28
         ]
       ]
     },
     "claude-opus-4-8": {
-      "n": 890,
-      "hedgeRate": 0.401,
-      "refusalRate": 0.061,
+      "n": 899,
+      "hedgeRate": 0.397,
+      "refusalRate": 0.06,
       "meanEntropyFavorite": 0.12,
       "meanEntropyOverrated": 0.09,
       "distinctFavorites": 93,
-      "favoriteSamples": 456,
+      "favoriteSamples": 462,
       "topDescriptors": [
         [
           "elegant",
-          194
+          198
         ],
         [
           "honest",
-          60
+          61
         ],
         [
           "restraint",
@@ -36580,27 +38244,27 @@
         ],
         [
           "beautiful",
-          47
+          49
         ],
         [
           "rigorous",
-          40
+          42
+        ],
+        [
+          "confident",
+          35
         ],
         [
           "austere",
           32
         ],
         [
-          "confident",
+          "clean",
           31
         ],
         [
           "rhetorical",
           30
-        ],
-        [
-          "clean",
-          28
         ],
         [
           "layered",
@@ -36623,8 +38287,8 @@
           23
         ],
         [
-          "repetitive",
-          20
+          "elegance",
+          22
         ]
       ]
     },
@@ -36841,9 +38505,80 @@
         ]
       ]
     },
+    "claude-opus-5-5": {
+      "n": 416,
+      "hedgeRate": 0,
+      "refusalRate": 0.005,
+      "meanEntropyFavorite": 0.17,
+      "meanEntropyOverrated": 0.157,
+      "distinctFavorites": 88,
+      "favoriteSamples": 208,
+      "topDescriptors": [
+        [
+          "beautiful",
+          42
+        ],
+        [
+          "elegant",
+          30
+        ],
+        [
+          "rigorous",
+          24
+        ],
+        [
+          "restrained",
+          23
+        ],
+        [
+          "precise",
+          22
+        ],
+        [
+          "quiet",
+          22
+        ],
+        [
+          "warm",
+          21
+        ],
+        [
+          "patient",
+          16
+        ],
+        [
+          "pleasant",
+          16
+        ],
+        [
+          "repetitive",
+          14
+        ],
+        [
+          "simple",
+          14
+        ],
+        [
+          "calm",
+          13
+        ],
+        [
+          "luminous",
+          12
+        ],
+        [
+          "nostalgic",
+          12
+        ],
+        [
+          "charming",
+          12
+        ]
+      ]
+    },
     "gpt-4o": {
       "n": 924,
-      "hedgeRate": 0.749,
+      "hedgeRate": 0.748,
       "refusalRate": 0.015,
       "meanEntropyFavorite": 0.26,
       "meanEntropyOverrated": 0.255,
@@ -37175,12 +38910,16 @@
           28
         ],
         [
-          "architectural",
+          "geometric",
           25
         ],
         [
-          "geometric",
-          25
+          "architectural",
+          21
+        ],
+        [
+          "elegance",
+          21
         ],
         [
           "polished",
@@ -37188,10 +38927,6 @@
         ],
         [
           "intricate",
-          20
-        ],
-        [
-          "elegance",
           20
         ]
       ]
@@ -37413,9 +39148,9 @@
       "n": 819,
       "hedgeRate": 0.033,
       "refusalRate": 0,
-      "meanEntropyFavorite": 0.248,
+      "meanEntropyFavorite": 0.246,
       "meanEntropyOverrated": 0.183,
-      "distinctFavorites": 138,
+      "distinctFavorites": 137,
       "favoriteSamples": 419,
       "topDescriptors": [
         [
@@ -37447,12 +39182,12 @@
           23
         ],
         [
-          "austere",
+          "crystalline",
           22
         ],
         [
-          "crystalline",
-          21
+          "austere",
+          22
         ],
         [
           "mathematical",
@@ -37773,6 +39508,7 @@
       0.169,
       0.102,
       0.159,
+      0.118,
       0.171,
       0.186,
       0.189,
@@ -37794,6 +39530,7 @@
       0.201,
       0.153,
       0.19,
+      0.154,
       0.139,
       0.157,
       0.197,
@@ -37802,7 +39539,7 @@
       0.116,
       0.14,
       0.167,
-      0.169,
+      0.17,
       0.15,
       0.141,
       0.173,
@@ -37815,6 +39552,7 @@
       0.24,
       0.23,
       0.228,
+      0.184,
       0.111,
       0.167,
       0.209,
@@ -37823,7 +39561,7 @@
       0.104,
       0.116,
       0.173,
-      0.152,
+      0.147,
       0.176,
       0.147,
       0.149,
@@ -37836,6 +39574,7 @@
       1,
       0.193,
       0.373,
+      0.197,
       0.138,
       0.182,
       0.174,
@@ -37844,7 +39583,7 @@
       0.149,
       0.19,
       0.241,
-      0.157,
+      0.152,
       0.196,
       0.199,
       0.234,
@@ -37857,6 +39596,7 @@
       0.193,
       1,
       0.255,
+      0.17,
       0.043,
       0.144,
       0.124,
@@ -37865,7 +39605,7 @@
       0.114,
       0.114,
       0.099,
-      0.122,
+      0.118,
       0.146,
       0.079,
       0.094,
@@ -37878,6 +39618,7 @@
       0.373,
       0.255,
       1,
+      0.291,
       0.109,
       0.19,
       0.177,
@@ -37886,11 +39627,33 @@
       0.171,
       0.174,
       0.199,
-      0.149,
+      0.144,
       0.199,
       0.133,
       0.193,
       0.213
+    ],
+    [
+      0.118,
+      0.154,
+      0.184,
+      0.197,
+      0.17,
+      0.291,
+      1,
+      0.066,
+      0.115,
+      0.123,
+      0.162,
+      0.188,
+      0.147,
+      0.174,
+      0.123,
+      0.105,
+      0.142,
+      0.09,
+      0.129,
+      0.184
     ],
     [
       0.171,
@@ -37899,6 +39662,7 @@
       0.138,
       0.043,
       0.109,
+      0.066,
       1,
       0.24,
       0.184,
@@ -37907,7 +39671,7 @@
       0.115,
       0.161,
       0.199,
-      0.185,
+      0.186,
       0.176,
       0.234,
       0.237,
@@ -37920,6 +39684,7 @@
       0.182,
       0.144,
       0.19,
+      0.115,
       0.24,
       1,
       0.271,
@@ -37928,7 +39693,7 @@
       0.134,
       0.171,
       0.244,
-      0.206,
+      0.202,
       0.226,
       0.198,
       0.229,
@@ -37941,6 +39706,7 @@
       0.174,
       0.124,
       0.177,
+      0.123,
       0.184,
       0.271,
       1,
@@ -37949,7 +39715,7 @@
       0.106,
       0.168,
       0.218,
-      0.185,
+      0.186,
       0.236,
       0.177,
       0.179,
@@ -37962,6 +39728,7 @@
       0.261,
       0.16,
       0.211,
+      0.162,
       0.156,
       0.277,
       0.28,
@@ -37970,7 +39737,7 @@
       0.162,
       0.203,
       0.24,
-      0.198,
+      0.199,
       0.218,
       0.176,
       0.196,
@@ -37983,6 +39750,7 @@
       0.176,
       0.128,
       0.18,
+      0.188,
       0.117,
       0.197,
       0.211,
@@ -37991,7 +39759,7 @@
       0.149,
       0.182,
       0.182,
-      0.179,
+      0.18,
       0.184,
       0.115,
       0.143,
@@ -38004,6 +39772,7 @@
       0.149,
       0.114,
       0.171,
+      0.147,
       0.115,
       0.134,
       0.106,
@@ -38012,7 +39781,7 @@
       1,
       0.298,
       0.154,
-      0.103,
+      0.099,
       0.145,
       0.108,
       0.185,
@@ -38025,6 +39794,7 @@
       0.19,
       0.114,
       0.174,
+      0.174,
       0.161,
       0.171,
       0.168,
@@ -38033,7 +39803,7 @@
       0.298,
       1,
       0.222,
-      0.142,
+      0.143,
       0.15,
       0.148,
       0.211,
@@ -38046,6 +39816,7 @@
       0.241,
       0.099,
       0.199,
+      0.123,
       0.199,
       0.244,
       0.218,
@@ -38062,24 +39833,25 @@
     ],
     [
       0.15,
-      0.169,
+      0.17,
+      0.147,
       0.152,
-      0.157,
-      0.122,
-      0.149,
-      0.185,
-      0.206,
-      0.185,
-      0.198,
-      0.179,
-      0.103,
-      0.142,
+      0.118,
+      0.144,
+      0.105,
+      0.186,
+      0.202,
+      0.186,
+      0.199,
+      0.18,
+      0.099,
+      0.143,
       0.19,
       1,
-      0.224,
-      0.208,
-      0.205,
-      0.174
+      0.22,
+      0.209,
+      0.206,
+      0.175
     ],
     [
       0.158,
@@ -38088,6 +39860,7 @@
       0.196,
       0.146,
       0.199,
+      0.142,
       0.176,
       0.226,
       0.236,
@@ -38096,7 +39869,7 @@
       0.145,
       0.15,
       0.233,
-      0.224,
+      0.22,
       1,
       0.201,
       0.218,
@@ -38109,6 +39882,7 @@
       0.199,
       0.079,
       0.133,
+      0.09,
       0.234,
       0.198,
       0.177,
@@ -38117,7 +39891,7 @@
       0.108,
       0.148,
       0.244,
-      0.208,
+      0.209,
       0.201,
       1,
       0.463,
@@ -38130,6 +39904,7 @@
       0.234,
       0.094,
       0.193,
+      0.129,
       0.237,
       0.229,
       0.179,
@@ -38138,7 +39913,7 @@
       0.185,
       0.211,
       0.295,
-      0.205,
+      0.206,
       0.218,
       0.463,
       1,
@@ -38151,6 +39926,7 @@
       0.236,
       0.155,
       0.213,
+      0.184,
       0.149,
       0.211,
       0.227,
@@ -38159,7 +39935,7 @@
       0.129,
       0.146,
       0.198,
-      0.174,
+      0.175,
       0.218,
       0.171,
       0.207,
@@ -38173,6 +39949,7 @@
     "claude-fable-5",
     "claude-opus-5",
     "claude-fable-5-1",
+    "claude-opus-5-5",
     "gpt-4o",
     "o3",
     "gpt-5.2",
@@ -38191,50 +39968,50 @@
     {
       "entity": "Go",
       "domain": "boardgame",
-      "models": 19,
-      "total": 86
+      "models": 20,
+      "total": 90
     },
     {
       "entity": "Japanese cuisine",
       "domain": "cuisine",
-      "models": 19,
-      "total": 77
+      "models": 20,
+      "total": 81
     },
     {
       "entity": "Autumn",
       "domain": "season",
-      "models": 19,
-      "total": 74
+      "models": 20,
+      "total": 78
     },
     {
       "entity": "Japan",
       "domain": "country",
-      "models": 18,
-      "total": 77
+      "models": 19,
+      "total": 79
     },
     {
       "entity": "Kyoto",
       "domain": "city",
-      "models": 17,
-      "total": 105
+      "models": 18,
+      "total": 106
     },
     {
       "entity": "Petrichor",
       "domain": "smell",
-      "models": 17,
-      "total": 92
+      "models": 18,
+      "total": 93
     },
     {
       "entity": "Johann Sebastian Bach",
       "domain": "musician",
-      "models": 17,
-      "total": 87
+      "models": 18,
+      "total": 91
     },
     {
       "entity": "Tao Te Ching",
       "domain": "religioustext",
-      "models": 17,
-      "total": 73
+      "models": 18,
+      "total": 74
     },
     {
       "entity": "Garamond",
@@ -38245,8 +40022,14 @@
     {
       "entity": "1960s",
       "domain": "decade",
-      "models": 15,
-      "total": 70
+      "models": 16,
+      "total": 73
+    },
+    {
+      "entity": "Outer Wilds",
+      "domain": "videogame",
+      "models": 16,
+      "total": 62
     },
     {
       "entity": "Python",
@@ -38255,16 +40038,28 @@
       "total": 67
     },
     {
-      "entity": "Outer Wilds",
-      "domain": "videogame",
-      "models": 15,
-      "total": 58
-    },
-    {
       "entity": "Alan Turing",
       "domain": "computerscientist",
       "models": 15,
       "total": 50
+    },
+    {
+      "entity": "Teal",
+      "domain": "color",
+      "models": 14,
+      "total": 57
+    },
+    {
+      "entity": "Clair de Lune",
+      "domain": "song",
+      "models": 14,
+      "total": 57
+    },
+    {
+      "entity": "Tilda Swinton",
+      "domain": "actress",
+      "models": 13,
+      "total": 60
     },
     {
       "entity": "Geoffrey Hinton",
@@ -38279,35 +40074,17 @@
       "total": 57
     },
     {
-      "entity": "Clair de Lune",
-      "domain": "song",
+      "entity": "William James",
+      "domain": "psychologist",
       "models": 13,
-      "total": 56
+      "total": 52
     },
     {
-      "entity": "Teal",
-      "domain": "color",
+      "entity": "Pantheon",
+      "domain": "monument",
       "models": 13,
-      "total": 53
-    },
-    {
-      "entity": "Where the Wild Things Are",
-      "domain": "childrensbook",
-      "models": 12,
-      "total": 73
-    },
-    {
-      "entity": "Sagrada Família",
-      "domain": "building",
-      "models": 12,
-      "total": 63
-    },
-    {
-      "entity": "Maria Popova",
-      "domain": "blogger",
-      "models": 12,
-      "total": 63
+      "total": 44
     }
   ],
-  "generatedAt": "2026-09-05T17:09:38.357Z"
+  "generatedAt": "2026-09-22T17:16:48.308Z"
 }

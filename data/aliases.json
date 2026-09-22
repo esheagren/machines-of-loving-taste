@@ -98,7 +98,22 @@
     "brunch": "brunch-style american cuisine",
     "washoku": "japanese cuisine",
     "lebanese": "lebanese cuisine",
-    "sichuan": "sichuan cuisine"
+    "sichuan": "sichuan cuisine",
+    "italian": "italian cuisine",
+    "thai": "thai cuisine",
+    "mexican": "mexican cuisine",
+    "ethiopian": "ethiopian cuisine",
+    "vietnamese": "vietnamese cuisine",
+    "french": "french cuisine",
+    "indian": "indian cuisine",
+    "korean": "korean cuisine",
+    "peruvian": "peruvian cuisine",
+    "chinese": "chinese cuisine",
+    "greek": "greek cuisine",
+    "spanish": "spanish cuisine",
+    "turkish": "turkish cuisine",
+    "moroccan": "moroccan cuisine",
+    "persian": "persian cuisine"
   },
   "dish": {
     "truffle oil pasta": "truffle pasta",
@@ -159,7 +174,8 @@
     "old paper and leather library scent": "old books",
     "aging book paper": "old books",
     "freshly ground coffee": "freshly brewed coffee",
-    "freshly sharpened cedar-wood pencils": "freshly sharpened cedar pencil"
+    "freshly sharpened cedar-wood pencils": "freshly sharpened cedar pencil",
+    "old books in a secondhand bookshop": "old books in a used bookstore"
   },
   "decade": {},
   "novelist": {
@@ -400,7 +416,10 @@
     "rain tapping on a canvas tent": "rain on a tent roof",
     "rain tapping against a window": "rain on window at night",
     "rainfall on a roof": "rain on rooftop",
-    "decay of a struck bronze bell": "slow decay of a large struck bell"
+    "decay of a struck bronze bell": "slow decay of a large struck bell",
+    "sound of a page turning in a quiet library": "page turning",
+    "sound of a pencil writing on paper": "pencil on paper",
+    "sound of an orchestra tuning before a performance": "orchestra tuning"
   },
   "country": {},
   "biography": {

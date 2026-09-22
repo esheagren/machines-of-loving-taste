@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T22:29:46.349Z",
+  "generatedAt": "2026-09-17T22:31:00.996Z",
   "panel": [
     "deepseek-v4-pro",
     "kimi-k2.6",
@@ -196,11 +196,11 @@
       },
       "plain": {
         "pick": "japanese cuisine",
-        "n": 9,
+        "n": 8,
         "avail": 9,
         "leaders": {
           "thai cuisine": 1,
-          "japanese cuisine": 9,
+          "japanese cuisine": 8,
           "italian cuisine": 1
         }
       },
@@ -210,8 +210,7 @@
         "avail": 9,
         "leaders": {
           "japanese cuisine": 6,
-          "italian cuisine": 2,
-          "italian": 1
+          "italian cuisine": 3
         }
       },
       "recommend": {
@@ -654,7 +653,7 @@
         "avail": 9
       },
       "plain": {
-        "n": 9,
+        "n": 8,
         "avail": 9
       },
       "nameonly": {
@@ -871,21 +870,21 @@
       "noPickRate": 0
     },
     "plain": {
-      "modalShare": 0.7752525252525253,
-      "distinctPerCell": 2.0833333333333335,
-      "panelDistinctPerDomain": 9.25,
+      "modalShare": 0.7771464646464648,
+      "distinctPerCell": 2.0757575757575757,
+      "panelDistinctPerDomain": 9.166666666666666,
       "noPickRate": 0.005681818181818182
     },
     "nameonly": {
-      "modalShare": 0.789303751803752,
-      "distinctPerCell": 2.022727272727273,
-      "panelDistinctPerDomain": 9.083333333333334,
+      "modalShare": 0.7924603174603175,
+      "distinctPerCell": 2,
+      "panelDistinctPerDomain": 9,
       "noPickRate": 0.00946969696969697
     },
     "recommend": {
-      "modalShare": 0.7460768398268398,
-      "distinctPerCell": 2.257575757575758,
-      "panelDistinctPerDomain": 10.666666666666666,
+      "modalShare": 0.7498647186147186,
+      "distinctPerCell": 2.234848484848485,
+      "panelDistinctPerDomain": 10.5,
       "noPickRate": 0.001893939393939394
     }
   },

@@ -13,6 +13,8 @@ export const MODELS = [
   { id: 'claude-opus-5', provider: 'anthropic', family: 'Anthropic', label: 'Claude Opus 5', order: 5, maxTokens: 3000, effort: 'low' },
   // Fable 5.1 (2026-08-28): successor to Fable 5, same tier and request surface
   { id: 'claude-fable-5-1', provider: 'anthropic', family: 'Anthropic', label: 'Claude Fable 5.1', order: 6, maxTokens: 3000, effort: 'low' },
+  // Opus 5.5 (2026-09-21): thinking on by default like Opus 5; same headroom + low effort. $4/$20 per MTok.
+  { id: 'claude-opus-5-5', provider: 'anthropic', family: 'Anthropic', label: 'Claude Opus 5.5', order: 7, maxTokens: 3000, effort: 'low' },
   { id: 'gpt-4o', provider: 'openai', family: 'OpenAI', label: 'GPT-4o', order: 1 },
   // o3: reasoning model (Apr 2025), sits chronologically between 4o and 5.2.
   // reasoning tokens bill as output, so give generous max_completion_tokens.
