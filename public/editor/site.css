@@ -1015,3 +1015,12 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
  .persona-protocol{grid-template-columns:1fr}.site-footer span{width:100%}.map-layout{gap:4px}
 }
 
+
+/* Flow rows: the favorite and overrated shares sit on the left, directly beside
+   each title, with their key aligned above them rather than across the column. */
+.riverindex .river-choice-line{display:grid;grid-template-columns:calc(2 * var(--river-score-width) + 10px) minmax(0,1fr);column-gap:16px;align-items:baseline;justify-content:start}
+.riverindex .river-shares{margin-left:0;grid-column:1;grid-row:1}
+.riverindex .river-choice-name{grid-column:2;grid-row:1;width:auto}
+.riverindex .river-sub{margin-left:calc(2 * var(--river-score-width) + 26px);max-width:none}
+.riverindex .river-legend{margin-left:0}
+@media(max-width:720px){.riverindex .river-choice-heading{display:flex;flex-direction:column;align-items:flex-start;gap:10px}}
