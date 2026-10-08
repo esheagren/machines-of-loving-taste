@@ -1995,6 +1995,11 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
 .probe-band span{writing-mode:vertical-rl;transform:rotate(180deg);font:inherit;line-height:1}
 .probe-band i{flex:1;width:6px;border-radius:3px;background:linear-gradient(180deg,rgba(110,209,145,.9),rgba(110,209,145,.12) 46%,rgba(232,104,98,.12) 54%,rgba(232,104,98,.9))}
 @media(max-width:720px){.matrix-panel{padding-left:22px}.probe-band{left:-22px;width:14px;font-size:9px;gap:8px}.probe-band i{width:5px}}
+
+/* Index: a compact Grid/Flow toggle. Phones keep a 32px tap height. */
+.index-switch{padding:2px;gap:2px;border-radius:3px}
+.index-switch button,.index-switch button[aria-pressed]{padding:3px 10px;min-height:0;font:13px/1.4 var(--serif);border-radius:2px}
+@media(max-width:720px){.index-switch button,.index-switch button[aria-pressed]{padding:6px 12px;min-height:32px}}
 `;
 
 const JS = `
