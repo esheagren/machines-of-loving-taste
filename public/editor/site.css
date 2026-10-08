@@ -1024,3 +1024,8 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
 .riverindex .river-sub{margin-left:calc(2 * var(--river-score-width) + 26px);max-width:none}
 .riverindex .river-legend{margin-left:0}
 @media(max-width:720px){.riverindex .river-choice-heading{display:flex;flex-direction:column;align-items:flex-start;gap:10px}}
+
+/* Grid: the favorite/overrated key sits in the matrix corner, on the left, level
+   with the model names and directly above the titles it colours. */
+.bo-navigation{justify-content:flex-end}
+.bo-corner .bo-key{gap:14px;font:14px/1.2 var(--serif);flex-wrap:wrap}

@@ -1996,6 +1996,11 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
 .riverindex .river-sub{margin-left:calc(2 * var(--river-score-width) + 26px);max-width:none}
 .riverindex .river-legend{margin-left:0}
 @media(max-width:720px){.riverindex .river-choice-heading{display:flex;flex-direction:column;align-items:flex-start;gap:10px}}
+
+/* Grid: the favorite/overrated key sits in the matrix corner, on the left, level
+   with the model names and directly above the titles it colours. */
+.bo-navigation{justify-content:flex-end}
+.bo-corner .bo-key{gap:14px;font:14px/1.2 var(--serif);flex-wrap:wrap}
 `;
 
 const JS = `
@@ -2473,7 +2478,7 @@ function indexChoices(domainId){
 function choiceMatrixHTML(domainId){
   var data=indexChoices(domainId),choices=data.choices,favD=data.favD,ovrD=data.ovrD;
   var columns='grid-template-columns:var(--labw,192px) repeat('+D.models.length+',56px)';
-  var html='<section class="matrix-panel" data-domain="'+domainId+'"><div class="bo-heading"><div class="bo-navigation"><div class="bo-key" aria-label="Cell colors"><span class="key-favorite">Favorite</span><span class="key-overrated">Overrated</span></div><div class="bo-paging" role="group" aria-label="Browse models"><span>Models</span><button type="button" data-grid-pan="-1" aria-label="Previous models" title="Previous models">&larr;</button><button type="button" data-grid-pan="1" aria-label="Next models" title="Next models">&rarr;</button></div></div><div class="bo-overflow"><div class="bo-head-scroll"><div class="bo-matrix bo-header" style="'+columns+'">'+
+  var html='<section class="matrix-panel" data-domain="'+domainId+'"><div class="bo-heading"><div class="bo-navigation"><div class="bo-paging" role="group" aria-label="Browse models"><span>Models</span><button type="button" data-grid-pan="-1" aria-label="Previous models" title="Previous models">&larr;</button><button type="button" data-grid-pan="1" aria-label="Next models" title="Next models">&rarr;</button></div></div><div class="bo-overflow"><div class="bo-head-scroll"><div class="bo-matrix bo-header" style="'+columns+'">'+
     '<div class="bo-famrow"></div>'+familyRuns.map(function(g){
       var bp=BRANDS[g.family];
       var mark=bp
@@ -2481,7 +2486,7 @@ function choiceMatrixHTML(domainId){
         :'<i class="co-mono" style="background:'+FAMC[famOf[g.family]]+'">'+esc(g.family.charAt(0).toUpperCase())+'</i>';
       return '<div class="bo-fam" style="grid-column:span '+g.n+'"><span>'+esc(g.family)+'</span>'+mark+'</div>'
     }).join('')+
-    '<div class="bo-corner" aria-hidden="true"></div>'+D.models.map(function(m,i){return '<div class="bo-col" data-m="'+m.id+'" role="button" tabindex="0" title="Open the '+esc(m.label)+' dossier"><span>'+esc(m.short)+'</span></div>'}).join('')+
+    '<div class="bo-corner"><div class="bo-key" aria-label="Cell colors"><span class="key-favorite">Favorite</span><span class="key-overrated">Overrated</span></div></div>'+D.models.map(function(m,i){return '<div class="bo-col" data-m="'+m.id+'" role="button" tabindex="0" title="Open the '+esc(m.label)+' dossier"><span>'+esc(m.short)+'</span></div>'}).join('')+
     '</div></div></div></div><div class="bo-overflow"><div class="bo-scroll" tabindex="0" role="region" aria-label="Model comparison"><div class="bo-matrix" style="'+columns+'">';
   choices.forEach(function(choice){
     // Native renderings in the row label: color rows wear a dot of the color
