@@ -1997,10 +1997,15 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
 .riverindex .river-legend{margin-left:0}
 @media(max-width:720px){.riverindex .river-choice-heading{display:flex;flex-direction:column;align-items:flex-start;gap:10px}}
 
-/* Grid: the favorite/overrated key sits in the matrix corner, on the left, level
-   with the model names and directly above the titles it colours. */
+/* Grid: a favorite-to-overrated spectrum runs top to bottom down the left of the
+   titles. Rows sort from most favorite to most overrated, so the band reads as
+   the order of the list (restored from the pre-11-Sept right-edge band). */
 .bo-navigation{justify-content:flex-end}
-.bo-corner .bo-key{gap:14px;font:14px/1.2 var(--serif);flex-wrap:wrap}
+.matrix-panel{position:relative;padding-left:30px}
+.probe-band{position:absolute;left:-30px;top:6px;bottom:6px;width:18px;display:flex;flex-direction:column;align-items:center;gap:10px;font:10px var(--mono);letter-spacing:.16em;text-transform:uppercase;pointer-events:none}
+.probe-band span{writing-mode:vertical-rl;transform:rotate(180deg);font:inherit;line-height:1}
+.probe-band i{flex:1;width:6px;border-radius:3px;background:linear-gradient(180deg,rgba(110,209,145,.9),rgba(110,209,145,.12) 46%,rgba(232,104,98,.12) 54%,rgba(232,104,98,.9))}
+@media(max-width:720px){.matrix-panel{padding-left:22px}.probe-band{left:-22px;width:14px;font-size:9px;gap:8px}.probe-band i{width:5px}}
 `;
 
 const JS = `
@@ -2486,8 +2491,8 @@ function choiceMatrixHTML(domainId){
         :'<i class="co-mono" style="background:'+FAMC[famOf[g.family]]+'">'+esc(g.family.charAt(0).toUpperCase())+'</i>';
       return '<div class="bo-fam" style="grid-column:span '+g.n+'"><span>'+esc(g.family)+'</span>'+mark+'</div>'
     }).join('')+
-    '<div class="bo-corner"><div class="bo-key" aria-label="Cell colors"><span class="key-favorite">Favorite</span><span class="key-overrated">Overrated</span></div></div>'+D.models.map(function(m,i){return '<div class="bo-col" data-m="'+m.id+'" role="button" tabindex="0" title="Open the '+esc(m.label)+' dossier"><span>'+esc(m.short)+'</span></div>'}).join('')+
-    '</div></div></div></div><div class="bo-overflow"><div class="bo-scroll" tabindex="0" role="region" aria-label="Model comparison"><div class="bo-matrix" style="'+columns+'">';
+    '<div class="bo-corner" aria-hidden="true"></div>'+D.models.map(function(m,i){return '<div class="bo-col" data-m="'+m.id+'" role="button" tabindex="0" title="Open the '+esc(m.label)+' dossier"><span>'+esc(m.short)+'</span></div>'}).join('')+
+    '</div></div></div></div><div class="bo-overflow"><div class="probe-band" role="img" aria-label="Rows run from most favorite at the top to most overrated at the bottom; green cells are favorite, red are overrated"><span class="key-favorite">Favorite</span><i></i><span class="key-overrated">Overrated</span></div><div class="bo-scroll" tabindex="0" role="region" aria-label="Model comparison"><div class="bo-matrix" style="'+columns+'">';
   choices.forEach(function(choice){
     // Native renderings in the row label: color rows wear a dot of the color
     // itself; typeface rows are set in the face they name (system stacks only).

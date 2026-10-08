@@ -1025,7 +1025,12 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
 .riverindex .river-legend{margin-left:0}
 @media(max-width:720px){.riverindex .river-choice-heading{display:flex;flex-direction:column;align-items:flex-start;gap:10px}}
 
-/* Grid: the favorite/overrated key sits in the matrix corner, on the left, level
-   with the model names and directly above the titles it colours. */
+/* Grid: a favorite-to-overrated spectrum runs top to bottom down the left of the
+   titles. Rows sort from most favorite to most overrated, so the band reads as
+   the order of the list (restored from the pre-11-Sept right-edge band). */
 .bo-navigation{justify-content:flex-end}
-.bo-corner .bo-key{gap:14px;font:14px/1.2 var(--serif);flex-wrap:wrap}
+.matrix-panel{position:relative;padding-left:30px}
+.probe-band{position:absolute;left:-30px;top:6px;bottom:6px;width:18px;display:flex;flex-direction:column;align-items:center;gap:10px;font:10px var(--mono);letter-spacing:.16em;text-transform:uppercase;pointer-events:none}
+.probe-band span{writing-mode:vertical-rl;transform:rotate(180deg);font:inherit;line-height:1}
+.probe-band i{flex:1;width:6px;border-radius:3px;background:linear-gradient(180deg,rgba(110,209,145,.9),rgba(110,209,145,.12) 46%,rgba(232,104,98,.12) 54%,rgba(232,104,98,.9))}
+@media(max-width:720px){.matrix-panel{padding-left:22px}.probe-band{left:-22px;width:14px;font-size:9px;gap:8px}.probe-band i{width:5px}}
