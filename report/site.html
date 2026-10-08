@@ -273,15 +273,7 @@ figcaption{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px;bor
 .matrix-panel{margin-top:6px}
 /* The page owns vertical scrolling; the aligned header and body pan sideways. */
 .bo-heading{position:sticky;top:82px;z-index:6;background:var(--night)}
-.bo-navigation{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px;padding:4px 0 8px}
 .bo-key{display:flex;gap:16px;font:13px var(--serif)}
-.bo-paging{display:flex;align-items:center;gap:6px;color:var(--dim);font:13px var(--serif)}
-.bo-paging[hidden]{display:none}
-.bo-paging>span{margin-right:6px}
-.bo-paging button{display:grid;place-items:center;width:40px;height:40px;background:none;border:1px solid var(--hair);border-radius:50%;color:var(--ink);font:21px/1 var(--serif);cursor:pointer}
-.bo-paging button:hover:not(:disabled){border-color:var(--dim)}
-.bo-paging button:disabled{opacity:.25;cursor:default}
-.bo-paging button:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
 .bo-overflow{position:relative}
 .bo-overflow::after{content:'';position:absolute;z-index:5;top:0;right:0;bottom:0;width:18px;background:linear-gradient(90deg,transparent,var(--night));pointer-events:none;opacity:0}
 .matrix-panel.has-more .bo-overflow::after{opacity:1}
@@ -332,9 +324,7 @@ i.color-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-r
 @media(max-width:720px){
   .bo-heading{top:70px}
   .bo-key{gap:12px}
-  .bo-paging button{width:44px;height:44px}
-}
-@media(max-width:360px){.bo-paging>span{display:none}}
+  }
 @media(max-width:640px){
   .bo-matrix{--labw:132px}
   .bo-rowlabel{font-size:12px}
@@ -1040,7 +1030,6 @@ a:focus-visible,select:focus-visible,summary:focus-visible{outline:1px solid var
 /* Grid: a favorite-to-overrated spectrum runs top to bottom down the left of the
    titles. Rows sort from most favorite to most overrated, so the band reads as
    the order of the list (restored from the pre-11-Sept right-edge band). */
-.bo-navigation{justify-content:flex-end}
 .matrix-panel{position:relative;padding-left:30px}
 .probe-band{position:absolute;left:-30px;top:6px;bottom:6px;width:18px;display:flex;flex-direction:column;align-items:center;gap:10px;font:10px var(--mono);letter-spacing:.16em;text-transform:uppercase;pointer-events:none}
 .probe-band span{writing-mode:vertical-rl;transform:rotate(180deg);font:inherit;line-height:1}
@@ -1796,7 +1785,7 @@ function indexChoices(domainId){
 function choiceMatrixHTML(domainId){
   var data=indexChoices(domainId),choices=data.choices,favD=data.favD,ovrD=data.ovrD;
   var columns='grid-template-columns:var(--labw,192px) repeat('+D.models.length+',56px)';
-  var html='<section class="matrix-panel" data-domain="'+domainId+'"><div class="bo-heading"><div class="bo-navigation"><div class="bo-paging" role="group" aria-label="Browse models"><span>Models</span><button type="button" data-grid-pan="-1" aria-label="Previous models" title="Previous models">&larr;</button><button type="button" data-grid-pan="1" aria-label="Next models" title="Next models">&rarr;</button></div></div><div class="bo-overflow"><div class="bo-head-scroll"><div class="bo-matrix bo-header" style="'+columns+'">'+
+  var html='<section class="matrix-panel" data-domain="'+domainId+'"><div class="bo-heading"><div class="bo-overflow"><div class="bo-head-scroll"><div class="bo-matrix bo-header" style="'+columns+'">'+
     '<div class="bo-famrow"></div>'+familyRuns.map(function(g){
       var bp=BRANDS[g.family];
       var mark=bp
@@ -1842,20 +1831,13 @@ function choiceMatrixHTML(domainId){
 var gridResize=null;
 function wireGridScrolling(wrap){
   var panel=wrap.querySelector('.matrix-panel'),body=wrap.querySelector('.bo-scroll'),head=wrap.querySelector('.bo-head-scroll');
-  var paging=wrap.querySelector('.bo-paging'),prev=wrap.querySelector('[data-grid-pan="-1"]'),next=wrap.querySelector('[data-grid-pan="1"]');
   function update(){
     var max=Math.max(0,body.scrollWidth-body.clientWidth),left=body.scrollLeft;
-    paging.hidden=max<2;prev.disabled=left<1;next.disabled=left>=max-1;
     panel.classList.toggle('has-more',max>1&&left<max-1);
   }
   function sync(source,target){if(Math.abs(target.scrollLeft-source.scrollLeft)>.5)target.scrollLeft=source.scrollLeft;update()}
   body.addEventListener('scroll',function(){sync(body,head)},{passive:true});
   head.addEventListener('scroll',function(){sync(head,body)},{passive:true});
-  paging.querySelectorAll('[data-grid-pan]').forEach(function(button){button.addEventListener('click',function(){
-    var label=wrap.querySelector('.bo-rowlabel'),width=label?label.getBoundingClientRect().width:192;
-    var step=Math.max(56,Math.floor((body.clientWidth-width)/56)*56);
-    body.scrollBy({left:Number(button.dataset.gridPan)*step,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
-  })});
   if(gridResize)gridResize.disconnect();
   if('ResizeObserver' in window){gridResize=new ResizeObserver(function(){sync(body,head)});gridResize.observe(body)}
   sync(body,head);
